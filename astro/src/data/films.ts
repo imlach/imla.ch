@@ -1,17 +1,26 @@
-// Single source of truth for the cinematography reel + portfolio pages.
-// `span` drives the asymmetric reel mosaic (12-col grid). `stills`,
-// `credits`, and `tech` are only fully populated for SKIN so far — the
-// other films carry reel-level data only until their rosters are written.
+import type { ImageMetadata } from "astro";
+
+// Resolve film stills as Astro assets so <Image> can emit responsive WebP
+// at display size (the originals are multi-MB — far too heavy to ship raw).
+const assets = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/films/**/*.{jpg,jpeg,png}",
+  { eager: true },
+);
+const img = (p: string): ImageMetadata => {
+  const m = assets[`../assets/films/${p}`];
+  if (!m) throw new Error(`films.ts: missing image ../assets/films/${p}`);
+  return m.default;
+};
 
 export interface Film {
   slug: string;
   title: string;
   year: string;
-  hero: string;
+  hero: ImageMetadata;
   span: 4 | 5 | 6 | 7 | 8 | 12;
   kind?: string;
   director?: string;
-  stills?: string[];
+  stills?: ImageMetadata[];
   credits?: { role: string; name: string }[];
   tech?: { label: string; value: string }[];
   synopsis?: string;
@@ -22,19 +31,13 @@ export const films: Film[] = [
     slug: "skin",
     title: "SKIN",
     year: "2025",
-    hero: "/images/skin/3.jpg",
+    hero: img("skin/3.jpg"),
     span: 5,
     kind: "Short film",
     director: "Sarah Grant",
     synopsis:
       "A short film shot on Sony Venice with DZO Vespid primes and vintage glass — warm, honest about light direction, never decorative.",
-    stills: [
-      "/images/skin/1.jpg",
-      "/images/skin/2.jpg",
-      "/images/skin/4.jpg",
-      "/images/skin/5.jpg",
-      "/images/skin/6.jpg",
-    ],
+    stills: [img("skin/1.jpg"), img("skin/2.jpg"), img("skin/4.jpg"), img("skin/5.jpg"), img("skin/6.jpg")],
     credits: [
       { role: "Director", name: "Sarah Grant" },
       { role: "Director of photography", name: "Ross Imlach" },
@@ -47,14 +50,14 @@ export const films: Film[] = [
       { label: "Aspect", value: "2.39 : 1" },
     ],
   },
-  { slug: "downtown", title: "LUCIA & THE BEST BOYS: Downtown Lights", year: "2023", hero: "/images/downtown/1.hd.jpg", span: 7, kind: "Music video" },
-  { slug: "feeble", title: "Declan Welsh: FEEBLE", year: "2025", hero: "/images/feeble/1.jpg", span: 12, kind: "Music video" },
-  { slug: "healthandbeauty", title: "Health and Beauty: PIKTRED", year: "2024", hero: "/images/healthandbeauty/1.hd.jpg", span: 5, kind: "Music video" },
-  { slug: "bynow", title: "By Now", year: "2023", hero: "/images/bynow/1.hd.jpg", span: 7, kind: "Short film" },
-  { slug: "sneaker", title: "SNEAKER", year: "2024", hero: "/images/sneaker/1.hd.jpg", span: 12, kind: "Short film" },
-  { slug: "gemini", title: "GEMINI", year: "2022", hero: "/images/gemini/1.hd.jpg", span: 4, kind: "Short film" },
-  { slug: "blueheart", title: "LUCIA & THE BEST BOYS: BLUEHEART", year: "2019", hero: "/images/blueheart/1.jpg", span: 4, kind: "Music video" },
-  { slug: "thepartyline", title: "The Party Line", year: "2022", hero: "/images/thepartyline/1.jpg", span: 4, kind: "Short film" },
+  { slug: "downtown", title: "LUCIA & THE BEST BOYS: Downtown Lights", year: "2023", hero: img("downtown/1.hd.jpg"), span: 7, kind: "Music video" },
+  { slug: "feeble", title: "Declan Welsh: FEEBLE", year: "2025", hero: img("feeble/1.jpg"), span: 12, kind: "Music video" },
+  { slug: "healthandbeauty", title: "Health and Beauty: PIKTRED", year: "2024", hero: img("healthandbeauty/1.hd.jpg"), span: 5, kind: "Music video" },
+  { slug: "bynow", title: "By Now", year: "2023", hero: img("bynow/1.hd.jpg"), span: 7, kind: "Short film" },
+  { slug: "sneaker", title: "SNEAKER", year: "2024", hero: img("sneaker/1.hd.jpg"), span: 12, kind: "Short film" },
+  { slug: "gemini", title: "GEMINI", year: "2022", hero: img("gemini/1.hd.jpg"), span: 4, kind: "Short film" },
+  { slug: "blueheart", title: "LUCIA & THE BEST BOYS: BLUEHEART", year: "2019", hero: img("blueheart/1.jpg"), span: 4, kind: "Music video" },
+  { slug: "thepartyline", title: "The Party Line", year: "2022", hero: img("thepartyline/1.jpg"), span: 4, kind: "Short film" },
 ];
 
 export const getFilm = (slug: string) => films.find((f) => f.slug === slug);

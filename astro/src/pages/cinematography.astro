@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import { Image } from "astro:assets";
 import { films } from "../data/films.ts";
 ---
 
@@ -29,8 +30,8 @@ import { films } from "../data/films.ts";
     <section class="reel">
       {
         films.map((f) => (
-          <a href={`/portfolio/${f.slug}`} class={`item span-${f.span}`}>
-            <img class="fill" src={f.hero} alt="" loading="lazy" />
+          <a href={`/portfolio/${f.slug}/`} class={`item span-${f.span}`}>
+            <Image class="fill" src={f.hero} alt={f.title} widths={[480, 960, 1440]} sizes="(max-width: 1100px) 100vw, 50vw" loading="lazy" />
             <div class="label">
               <span class="title-line">{f.title}</span>
               <span class="year">{f.year}</span>

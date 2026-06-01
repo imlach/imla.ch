@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { films, getFilm } from "../../data/films.ts";
+import { Image, getImage } from "astro:assets";
+import { films } from "../../data/films.ts";
 
 export async function getStaticPaths() {
   return films.map((f) => ({ params: { slug: f.slug }, props: { film: f } }));
@@ -12,6 +13,14 @@ const next = films[(idx + 1) % films.length];
 const creditsLine = [film.kind, film.year, film.director && `dir. ${film.director}`]
   .filter(Boolean)
   .join(" · ");
+
+// Lightbox needs plain URLs; serve a large WebP variant rather than the
+// multi-MB original.
+const lbUrls = film.stills
+  ? await Promise.all(
+      film.stills.map(async (s) => (await getImage({ src: s, width: 1600, format: "webp" })).src),
+    )
+  : [];
 ---
 
 <Base title={`${film.title} — Ross Imlach`} description={film.synopsis ?? `${film.title} (${film.year}) — cinematography by Ross Imlach.`}>
@@ -38,7 +47,7 @@ const creditsLine = [film.kind, film.year, film.director && `dir. ${film.directo
     </header>
 
     <div class="hero">
-      <img src={film.hero} alt={film.title} />
+      <Image src={film.hero} alt={film.title} widths={[800, 1440, 1920]} sizes="100vw" />
     </div>
 
     {
@@ -46,7 +55,7 @@ const creditsLine = [film.kind, film.year, film.director && `dir. ${film.directo
         <section class="stills">
           {film.stills.map((s, i) => (
             <button class="still" data-index={i} aria-label="Open still">
-              <img src={s} alt="" loading="lazy" />
+              <Image src={s} alt="" widths={[600, 1200]} sizes="(max-width: 900px) 100vw, 50vw" loading="lazy" />
             </button>
           ))}
         </section>
@@ -98,7 +107,7 @@ const creditsLine = [film.kind, film.year, film.director && `dir. ${film.directo
         <img id="lb-img" src="" alt="" />
         <button class="lb-next" aria-label="Next">→</button>
       </div>
-      <script is:inline define:vars={{ stills: film.stills }}>
+      <script is:inline define:vars={{ stills: lbUrls }}>
         const box = document.getElementById("lightbox");
         const img = document.getElementById("lb-img");
         let cur = 0;
