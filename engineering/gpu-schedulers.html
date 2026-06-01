@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lorem ipsum dolor sit amet — Ross Imlach</title>
+  <link rel="icon" type="image/svg+xml" href="../favicons/04-r-period-dark.svg" media="(prefers-color-scheme: light)" />
+  <link rel="icon" type="image/svg+xml" href="../favicons/04-r-period-light.svg" media="(prefers-color-scheme: dark)" />
+  <link rel="apple-touch-icon" href="../favicons/04-r-period-dark.svg" />
+  <meta name="description" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f1ebdd;
+      --bg-2: #e8e1cf;
+      --bg-3: #ddd5bf;
+      --ink: #15130f;
+      --ink-dim: #5a4f3e;
+      --ink-faint: #8a7c63;
+      --rule: #c4b698;
+      --rule-soft: #d6c9a8;
+      --signal: #7a4a2e;
+
+      --font: 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 17px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 40px;
+      font-size: 14px;
+      background: linear-gradient(to bottom, rgba(241,235,221,0.92), transparent);
+      backdrop-filter: blur(6px);
+    }
+    .nav-wordmark { display: flex; align-items: baseline; gap: 16px; }
+    .nav-wordmark .name { font-weight: 700; color: var(--ink); white-space: nowrap; }
+    .nav-wordmark .crumb { color: var(--ink-faint); }
+    .nav-wordmark .crumb a { color: var(--ink-faint); transition: color 0.2s; }
+    .nav-wordmark .crumb a:hover { color: var(--ink); }
+    .nav-wordmark .crumb .here { color: var(--ink); }
+    .nav-wordmark .sep { margin: 0 4px; opacity: 0.5; }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { color: var(--ink-dim); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+
+    main.stage {
+      position: relative; z-index: 2;
+      padding: 120px 40px 0;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    /* ============================================================
+       POST HEADER
+       ============================================================ */
+    .post-header {
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 56px;
+    }
+    .post-meta {
+      font-size: 14px;
+      color: var(--ink-faint);
+      display: flex;
+      gap: 12px;
+      align-items: baseline;
+      margin-bottom: 32px;
+    }
+    .post-meta .dot { opacity: 0.5; }
+    .post-meta .tag { color: var(--ink-dim); }
+    .post-header h1 {
+      font-family: var(--font);
+      font-weight: 800;
+      font-size: clamp(36px, 4.6vw, 56px);
+      letter-spacing: -0.03em;
+      line-height: 1.02;
+      margin: 0 0 24px;
+      color: var(--ink);
+      text-wrap: balance;
+    }
+    .post-header .lede {
+      font-size: 21px;
+      line-height: 1.45;
+      color: var(--ink-dim);
+      margin: 0;
+      text-wrap: balance;
+    }
+
+    /* ============================================================
+       PROSE
+       ============================================================ */
+    .prose {
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+    .prose > * + * { margin-top: 22px; }
+    .prose p { margin: 0; }
+    .prose h2 {
+      font-family: var(--font);
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin: 56px 0 -2px;
+      color: var(--ink);
+    }
+    .prose h3 {
+      font-family: var(--font);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin: 40px 0 -2px;
+    }
+    .prose blockquote {
+      border-left: 2px solid var(--signal);
+      margin: 28px 0;
+      padding: 6px 0 6px 24px;
+      color: var(--ink-dim);
+      font-size: 19px;
+      line-height: 1.5;
+      font-style: italic;
+    }
+    .prose blockquote p { margin: 0; }
+    .prose blockquote cite {
+      display: block;
+      margin-top: 8px;
+      font-style: normal;
+      font-size: 14px;
+      color: var(--ink-faint);
+    }
+    .prose a {
+      color: var(--ink);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    .prose a:hover { border-color: var(--ink); }
+    .prose code {
+      font-family: var(--font-mono);
+      font-size: 0.9em;
+      background: var(--bg-2);
+      padding: 1px 6px;
+      border-radius: 2px;
+      border: 1px solid var(--rule-soft);
+    }
+    .prose pre {
+      background: var(--bg-2);
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.65;
+      border: 1px solid var(--rule);
+      margin: 28px 0;
+    }
+    .prose pre code { background: none; padding: 0; border: none; font-size: inherit; }
+    .prose ul, .prose ol { padding-left: 22px; margin: 18px 0; }
+    .prose li { margin-bottom: 6px; }
+    .prose li::marker { color: var(--ink-faint); }
+    .prose strong { font-weight: 700; }
+    .prose em { font-style: italic; color: var(--ink-dim); }
+    .prose hr {
+      border: 0;
+      border-top: 1px solid var(--rule);
+      margin: 48px 0;
+    }
+
+    /* ============================================================
+       FOOTNOTES
+       ============================================================ */
+    .footnotes {
+      margin-top: 80px;
+      padding-top: 32px;
+      border-top: 1px solid var(--rule-soft);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink-dim);
+    }
+    .footnotes h4 {
+      font-size: 14px;
+      color: var(--ink-faint);
+      margin: 0 0 14px;
+      font-weight: 500;
+    }
+    .footnotes ol { padding-left: 18px; margin: 0; }
+    .footnotes li { margin-bottom: 8px; }
+
+    /* ============================================================
+       POST NAV
+       ============================================================ */
+    .post-nav {
+      margin-top: 80px;
+      padding: 36px 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .post-nav a { display: flex; flex-direction: column; gap: 6px; }
+    .post-nav .dir { font-size: 14px; color: var(--ink-faint); }
+    .post-nav .t {
+      font-family: var(--font);
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      color: var(--ink-dim);
+      transition: color 0.2s;
+    }
+    .post-nav a:hover .t { color: var(--ink); }
+    .post-nav .next { text-align: right; }
+
+    .folio {
+      margin-top: 60px;
+      padding: 32px 0 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 14px;
+      color: var(--ink-faint);
+    }
+    .folio a { color: var(--ink); border-bottom: 1px solid var(--rule); padding-bottom: 1px; transition: border-color 0.2s; }
+    .folio a:hover { border-color: var(--ink); }
+
+    @media (max-width: 800px) {
+      main.stage { padding: 100px 24px 0; }
+      .post-nav { grid-template-columns: 1fr; }
+      .post-nav .next { text-align: left; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body data-screen-label="Engineering post · lorem ipsum">
+
+<nav class="nav">
+  <div class="nav-wordmark">
+    <a href="/" class="name">Ross Imlach</a>
+    <span class="crumb">
+      <a href="../engineering.html">Engineering</a>
+      <span class="sep">/</span>
+      <span class="here">Lorem ipsum</span>
+    </span>
+  </div>
+  <div class="nav-links">
+    <a href="../engineering.html">← Back to index</a>
+    <a href="mailto:eng@imla.ch">eng@imla.ch</a>
+  </div>
+</nav>
+
+<main class="stage">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <span>07 May 2026</span>
+      <span class="dot">·</span>
+      <span class="tag">lorem, ipsum, dolor</span>
+      <span class="dot">·</span>
+      <span>14 min read</span>
+    </div>
+    <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit</h1>
+    <p class="lede">
+      Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+      enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+    </p>
+  </header>
+
+  <article class="prose">
+
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur.
+    </p>
+
+    <p>
+      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+      officia deserunt mollit anim id est laborum.
+    </p>
+
+    <h2>Sed ut perspiciatis unde omnis</h2>
+
+    <p>
+      Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut
+      fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem:
+    </p>
+
+    <ol>
+      <li><strong>Neque porro quisquam est.</strong> Qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</li>
+      <li><strong>Ut enim ad minima veniam.</strong> Quis nostrum exercitationem ullam corporis suscipit.</li>
+      <li><strong>Quis autem vel eum iure.</strong> Reprehenderit qui in ea voluptate velit esse quam nihil molestiae.</li>
+    </ol>
+
+    <p>
+      Et harum quidem rerum facilis est et expedita distinctio. Nam libero
+      tempore, cum soluta nobis est eligendi optio cumque nihil impedit.
+    </p>
+
+    <blockquote>
+      Temporibus autem quibusdam et aut officiis debitis aut rerum
+      necessitatibus saepe eveniet ut et voluptates repudiandae sint.
+      <cite>— Lorem ipsum dolor sit, 2025</cite>
+    </blockquote>
+
+    <h2>At vero eos et accusamus</h2>
+
+    <p>
+      Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis
+      voluptatibus maiores alias consequatur aut perferendis doloribus
+      asperiores repellat. Sed ut <code>perspiciatis</code> unde omnis iste
+      natus error sit voluptatem accusantium doloremque laudantium, totam rem
+      aperiam eaque ipsa quae ab illo inventore veritatis.
+    </p>
+
+    <p>
+      Quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
+      voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
+      consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+    </p>
+
+    <h3>Neque porro quisquam est</h3>
+
+    <pre><code>for item in collection.sorted_by(priority):
+    result = handler.process(item)   # lorem ipsum
+    if result is None:
+        continue                     # dolor sit amet
+    if not policy.allow(item.owner, result):
+        collection.reject(item, "consectetur")
+        continue
+    writer.commit(result)
+    collection.accept(item)
+    break                            # adipiscing elit</code></pre>
+
+    <p>
+      Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse
+      quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
+      voluptas nulla pariatur. At vero eos et accusamus et iusto odio.
+    </p>
+
+    <h2>Temporibus autem quibusdam</h2>
+
+    <p>Et aut officiis debitis. Si nihil aliud:</p>
+
+    <h3>1. Nam libero tempore cum soluta nobis</h3>
+
+    <p>
+      Est eligendi optio cumque nihil impedit quo minus id quod maxime placeat
+      facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.
+      Temporibus autem quibusdam et aut officiis debitis aut rerum.
+    </p>
+
+    <h3>2. Itaque earum rerum hic tenetur</h3>
+
+    <p>
+      A sapiente delectus, ut aut reiciendis voluptatibus maiores alias
+      consequatur aut perferendis doloribus asperiores repellat. <em>Nam</em>
+      libero tempore cum soluta nobis est eligendi optio cumque nihil impedit
+      quo minus id quod maxime placeat facere possimus.
+    </p>
+
+    <h3>3. Omnis voluptas assumenda est</h3>
+
+    <p>
+      Omnis dolor repellendus. Temporibus autem quibusdam et aut officiis
+      debitis aut rerum necessitatibus saepe eveniet:
+    </p>
+
+    <ul>
+      <li>Lorem ipsum — dolor sit amet at 80%.</li>
+      <li>Consectetur adipiscing — elit sed do eiusmod tempor at 100%.</li>
+      <li>Incididunt ut labore — et dolore magna aliqua.</li>
+    </ul>
+
+    <h3>4. Ut enim ad minima veniam</h3>
+
+    <p>
+      Quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut
+      aliquid ex ea commodi consequatur. Quis autem vel eum iure
+      reprehenderit qui in ea <em>voluptate</em> velit esse quam nihil
+      molestiae consequatur.
+    </p>
+
+    <hr/>
+
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat duis aute irure.
+    </p>
+
+  </article>
+
+  <aside class="footnotes">
+    <h4>Notes</h4>
+    <ol>
+      <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</li>
+      <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</li>
+    </ol>
+  </aside>
+
+  <nav class="post-nav" aria-label="Post navigation">
+    <a href="#" class="prev">
+      <span class="dir">← Previous</span>
+      <span class="t">Duis aute irure dolor in reprehenderit in voluptate</span>
+    </a>
+    <a href="#" class="next">
+      <span class="dir">Next →</span>
+      <span class="t">Excepteur sint occaecat cupidatat non proident</span>
+    </a>
+  </nav>
+
+  <footer class="folio">
+    <span><a href="../engineering.html">← Back to the index</a></span>
+    <span>Write — <a href="mailto:eng@imla.ch">eng@imla.ch</a> · <a href="../about.html">About</a></span>
+  </footer>
+
+</main>
+
+</body>
+</html>

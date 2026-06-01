@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Ross Imlach</title>
+  <link rel="icon" type="image/svg+xml" href="favicons/04-r-period-dark.svg" media="(prefers-color-scheme: light)" />
+  <link rel="icon" type="image/svg+xml" href="favicons/04-r-period-light.svg" media="(prefers-color-scheme: dark)" />
+  <link rel="apple-touch-icon" href="favicons/04-r-period-dark.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f1ebdd;
+      --bg-2: #e8e1cf;
+      --bg-3: #ddd5bf;
+      --ink: #15130f;
+      --ink-dim: #5a4f3e;
+      --ink-faint: #8a7c63;
+      --rule: #c4b698;
+      --rule-soft: #d6c9a8;
+
+      --font: 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 17px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 40px;
+      font-size: 14px;
+      background: linear-gradient(to bottom, rgba(241,235,221,0.92), transparent);
+      backdrop-filter: blur(6px);
+    }
+    .nav-wordmark { display: flex; align-items: baseline; gap: 16px; }
+    .nav-wordmark .name { font-weight: 700; color: var(--ink); white-space: nowrap; }
+    .nav-wordmark .crumb { color: var(--ink-faint); }
+    .nav-wordmark .crumb .here { color: var(--ink); }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { color: var(--ink-dim); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+
+    main.stage {
+      position: relative; z-index: 2;
+      padding: 120px 40px 0;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .masthead {
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .masthead h1 {
+      font-family: var(--font);
+      font-weight: 800;
+      font-size: clamp(56px, 8vw, 120px);
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      margin: 0;
+      color: var(--ink);
+    }
+
+    section.entry {
+      padding: 44px 0;
+      border-bottom: 1px solid var(--rule-soft);
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    section.entry .label {
+      font-size: 14px;
+      color: var(--ink-faint);
+      padding-top: 4px;
+    }
+    section.entry .body {
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--ink);
+    }
+    section.entry .body p { margin: 0 0 14px; }
+    section.entry .body p:last-child { margin-bottom: 0; }
+    section.entry .body em { font-style: italic; color: var(--ink-dim); }
+    section.entry .body a {
+      color: var(--ink);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    section.entry .body a:hover { border-color: var(--ink); }
+
+    .availability-note {
+      font-size: 19px;
+      line-height: 1.5;
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .elsewhere-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 40px;
+      font-size: 16px;
+    }
+    .elsewhere-list a {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--rule-soft);
+      transition: border-color 0.2s;
+    }
+    .elsewhere-list a .arrow { color: var(--ink-faint); }
+    .elsewhere-list a:hover { border-color: var(--ink); }
+    .elsewhere-list a:hover .arrow { color: var(--ink); }
+
+    .site-table {
+      font-size: 15px;
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 8px 24px;
+    }
+    .site-table .k { color: var(--ink-faint); }
+    .site-table .v { color: var(--ink); }
+
+    .folio {
+      margin-top: 28px;
+      padding: 28px 0 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 14px;
+      color: var(--ink-faint);
+    }
+    .folio a { color: var(--ink); border-bottom: 1px solid var(--rule); padding-bottom: 1px; }
+    .folio a:hover { border-color: var(--ink); }
+
+    @media (max-width: 800px) {
+      section.entry { grid-template-columns: 1fr; gap: 12px; }
+      .elsewhere-list { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body data-screen-label="About page">
+
+<nav class="nav">
+  <div class="nav-wordmark">
+    <a href="/" class="name">Ross Imlach</a>
+    <span class="crumb">
+      <span class="here">About</span>
+    </span>
+  </div>
+  <div class="nav-links">
+    <a href="cinematography.html">Cinematography</a>
+    <a href="engineering.html">Engineering</a>
+    <a href="mailto:ross@imla.ch">ross@imla.ch</a>
+  </div>
+</nav>
+
+<main class="stage">
+
+  <section class="masthead">
+    <h1>About</h1>
+  </section>
+
+  <section class="entry">
+    <div class="label">Who</div>
+    <div class="body">
+      <p>
+        Ross Imlach. Born and raised in Scotland.
+      </p>
+      <p>
+        I do two kinds of work. By day I'm a staff platform engineer — thirteen
+        years across SaaS, distributed systems, and (more recently) ML
+        infrastructure. On nights, weekends, and increasingly the days in
+        between, I'm a director of photography on features, commercials,
+        short films and music videos.
+      </p>
+      <p>
+        The two halves are starting to talk to each other. The most interesting
+        work I can imagine doing next is at the seam — tooling that augments
+        creative craft without flattening it.
+      </p>
+    </div>
+  </section>
+
+  <section class="entry">
+    <div class="label">Availability</div>
+    <div class="body">
+      <p class="availability-note">
+        Booking DP work from Q3 2026 onward. Considering new staff platform
+        &amp; ML platform roles, UK-remote.
+      </p>
+      <p style="font-size: 15px; color: var(--ink-dim); margin-top: 18px;">
+        For cinematography enquiries — <a href="mailto:dp@imla.ch">dp@imla.ch</a>.<br/>
+        For engineering &amp; everything else — <a href="mailto:ross@imla.ch">ross@imla.ch</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="entry">
+    <div class="label">Elsewhere</div>
+    <div class="body">
+      <div class="elsewhere-list">
+        <a href="https://www.imdb.com/name/nm11700036/" target="_blank" rel="noopener"><span>IMDb</span><span class="arrow">↗</span></a>
+        <a href="#" target="_blank" rel="noopener"><span>GitHub</span><span class="arrow">↗</span></a>
+        <a href="https://imla.ch/ig.html" target="_blank" rel="noopener"><span>Instagram</span><span class="arrow">↗</span></a>
+        <a href="#" target="_blank" rel="noopener"><span>LinkedIn</span><span class="arrow">↗</span></a>
+        <a href="https://imla.ch/yt.html" target="_blank" rel="noopener"><span>YouTube</span><span class="arrow">↗</span></a>
+        <a href="#" target="_blank" rel="noopener"><span>RSS</span><span class="arrow">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="entry">
+    <div class="label">This site</div>
+    <div class="body">
+      <div class="site-table">
+        <span class="k">Built with</span>
+        <span class="v">Astro · static SSG</span>
+        <span class="k">Typeface</span>
+        <span class="v">Schibsted Grotesk</span>
+        <span class="k">Palettes</span>
+        <span class="v">Cream on near-black, per section</span>
+        <span class="k">Source</span>
+        <span class="v"><a href="#" style="border-bottom: 1px solid var(--rule); padding-bottom: 1px;">github.com/imlach/imla.ch</a></span>
+      </div>
+      <p style="font-size: 14px; color: var(--ink-dim); margin-top: 20px;">
+        No tracking. No cookies. No analytics beyond aggregate logs from the host.
+      </p>
+    </div>
+  </section>
+
+  <footer class="folio">
+    <span>imla.ch / about</span>
+    <span>Ross Imlach · 2026</span>
+  </footer>
+
+</main>
+
+</body>
+</html>

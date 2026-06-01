@@ -1,242 +1,579 @@
-<!DOCTYPE HTML>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SKIN &mdash; Ross Imlach &mdash; Director of Photography</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="SKIN - Short Film - Ross Imlach - Scottish Director of Photography" />
-	<meta name="keywords"
-		content="Director of Photography, DOP, DP, Cinematographer, Camera, Cinema, Ross Imlach, Imlach, Blackmagic, Ursa, Ursa Mini, Sony Venice, Alexa Mini, DZO, Arri, Komodo, Glasgow, Edinburgh, Stirling, Aberdeen, Perth," />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SKIN — Ross Imlach</title>
+  <link rel="icon" type="image/svg+xml" href="../favicons/04-r-period-dark.svg" media="(prefers-color-scheme: light)" />
+  <link rel="icon" type="image/svg+xml" href="../favicons/04-r-period-light.svg" media="(prefers-color-scheme: dark)" />
+  <link rel="apple-touch-icon" href="../favicons/04-r-period-dark.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0b;
+      --bg-2: #131314;
+      --bg-3: #18181b;
+      --ink: #ede8dd;
+      --ink-dim: #8e8a82;
+      --ink-faint: #4a4844;
+      --rule: #1f1f22;
+
+      --font: 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 15px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ============================================================
+       NAV — same chrome as cinematography page
+       ============================================================ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 40px;
+      font-family: var(--font);
+      font-size: 14px;
+      background: linear-gradient(to bottom, rgba(10,10,11,0.85), transparent);
+      backdrop-filter: blur(6px);
+    }
+    .nav-wordmark { display: flex; align-items: baseline; gap: 14px; }
+    .nav-wordmark .name { font-weight: 700; color: var(--ink); white-space: nowrap; }
+.nav-wordmark .crumb { color: var(--ink-faint); }
+    .nav-wordmark .crumb .sep { margin: 0 8px; opacity: 0.5; }
+    .nav-wordmark .crumb .here { color: var(--ink); }
+    .nav-wordmark .crumb a { color: var(--ink-faint); transition: color 0.2s; }
+    .nav-wordmark .crumb a:hover { color: var(--ink); }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { color: var(--ink-dim); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+
+    main.stage {
+      position: relative; z-index: 2;
+      padding: 120px 40px 0;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .stage-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 36px;
+      font-family: var(--font);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      gap: 40px;
+    }
+    .stage-header .lhs { display: flex; gap: 36px; align-items: baseline; }
+    .stage-header .index { color: var(--ink); font-variant-numeric: tabular-nums; }
+    .stage-header .lede {
+      color: var(--ink-dim);
+      text-transform: none;
+      letter-spacing: 0.02em;
+      font-size: 12px;
+    }
+    .stage-header .rhs { font-variant-numeric: tabular-nums; text-align: right; }
+
+    /* ============================================================
+       MASTHEAD — title + minimal credits
+       ============================================================ */
+    .masthead {
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--rule);
+      max-width: 920px;
+    }
+    .masthead h1 {
+      font-family: var(--font);
+      font-size: clamp(56px, 8vw, 132px);
+      font-weight: 800;
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      margin: 0;
+      color: var(--ink);
+    }
+    .masthead .credits-line {
+      font-size: 17px;
+      line-height: 1.45;
+      color: var(--ink-dim);
+      margin: 24px 0 0;
+      max-width: 56ch;
+    }
+
+    /* ============================================================
+       HERO — full-bleed lead still
+       ============================================================ */
+    .hero {
+      margin-top: 36px;
+      position: relative;
+      width: 100%;
+      background: var(--bg-2);
+      border: 1px solid var(--rule);
+      overflow: hidden;
+    }
+    .hero .fill {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* ============================================================
+       STILLS — asymmetric mosaic
+       Author the grid by tagging each tile with a layout class.
+       ============================================================ */
+    .stills {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+    .stills .frame {
+      position: relative;
+      background: var(--bg-2);
+      border: 1px solid var(--rule);
+      overflow: hidden;
+    }
+    .stills .frame .fill {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .stills .frame.w7 { grid-column: span 7; }
+    .stills .frame.w5 { grid-column: span 5; }
+    .stills .frame.w6 { grid-column: span 6; }
+    .stills .frame.w8 { grid-column: span 8; }
+    .stills .frame.w4 { grid-column: span 4; }
+    .stills .frame.w12 { grid-column: span 12; }
+    
+    
+
+    /* ============================================================
+       NOTE — small writeup, optional
+       ============================================================ */
+    .note {
+      margin-top: 80px;
+      padding-top: 48px;
+      border-top: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 120px 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .note .label {
+      font-family: var(--font);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      padding-top: 6px;
+    }
+    .note h2 {
+      font-family: var(--font);
+      font-size: clamp(24px, 2vw, 32px);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin: 0;
+      color: var(--ink);
+      text-wrap: balance;
+    }
+    .note h2 em { font-style: normal; color: var(--ink-dim); }
+    .note .body {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--ink-dim);
+    }
+    .note .body p { margin: 0 0 14px; }
+    .note .body p:last-child { margin-bottom: 0; }
+
+    /* ============================================================
+       NEXT-UP — sibling project pointer
+       ============================================================ */
+    .next-up {
+      margin-top: 80px;
+      padding: 48px 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 40px;
+    }
+    .next-up .label {
+      font-size: 14px;
+      color: var(--ink-faint);
+    }
+    .next-up .titles {
+      display: flex;
+      gap: 40px;
+      align-items: baseline;
+    }
+    .next-up .titles a {
+      font-family: var(--font);
+      font-size: clamp(24px, 2.4vw, 40px);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--ink-dim);
+      transition: color 0.2s;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .next-up .titles a:hover { color: var(--ink); }
+    .next-up .titles .arrow {
+      font-family: var(--font);
+      font-size: 14px;
+      color: var(--ink-faint);
+    }
+
+    .folio {
+      margin-top: 60px;
+      padding: 32px 0 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-family: var(--font);
+      font-size: 14px;
+      color: var(--ink-faint);
+    }
+    .folio a {
+      color: var(--ink);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    .folio a:hover { border-color: var(--ink); }
+
+    @media (max-width: 1100px) {
+      main.stage { padding: 100px 24px 0; }
+      .masthead { grid-template-columns: 1fr; gap: 32px; }
+      .note { grid-template-columns: 1fr; gap: 16px; }
+      .next-up { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .nav-links { display: none; }
+      .stills .frame { grid-column: span 12 !important; }
+    }
+    /* ============================================================
+       LIGHTBOX MODAL — click any real still
+       ============================================================ */
+    .still-modal {
+      position: fixed; inset: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: center;
+      padding: 80px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .still-modal.active { opacity: 1; pointer-events: auto; }
+    .still-modal__backdrop {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.94);
+      backdrop-filter: blur(6px);
+    }
+    .still-modal__chrome {
+      position: absolute; top: 24px; left: 40px; right: 40px;
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-family: var(--font);
+      font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--ink-dim);
+      z-index: 2;
+    }
+    .still-modal__counter { color: var(--ink); font-variant-numeric: tabular-nums; }
+    .still-modal__title { color: var(--ink-faint); }
+    .still-modal__close {
+      background: none; border: none; cursor: pointer;
+      font: inherit; color: var(--ink-dim);
+      padding: 6px 0;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .still-modal__close:hover { color: var(--ink); }
+    .still-modal__img {
+      position: relative; z-index: 1;
+      max-width: 100%; max-height: 100%;
+      object-fit: contain;
+      box-shadow: 0 0 80px rgba(0,0,0,0.4);
+    }
+    .still-modal__nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: none; border: 1px solid var(--rule);
+      cursor: pointer; color: var(--ink-faint);
+      font-family: var(--font); font-size: 18px;
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .still-modal__nav:hover { color: var(--ink); border-color: var(--ink-faint); background: rgba(255,255,255,0.04); }
+    .still-modal__nav--prev { left: 24px; }
+    .still-modal__nav--next { right: 24px; }
+    .hero, .stills .frame:not(.placeholder) { cursor: zoom-in; }
+
+    @media (max-width: 800px) {
+      .still-modal { padding: 80px 16px; }
+      .still-modal__chrome { left: 16px; right: 16px; }
+      .still-modal__nav--prev { left: 8px; }
+      .still-modal__nav--next { right: 8px; }
+    }
+
+    /* ============================================================
+       CREDITS / TECH — production metadata
+       ============================================================ */
+    .credits {
+      margin-top: 64px;
+      padding-top: 36px;
+      border-top: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .credits + .credits {
+      margin-top: 36px;
+      padding-top: 36px;
+    }
+    .credits .label {
+      font-family: var(--font);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      padding-top: 6px;
+    }
+    .roster {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 56px;
+      row-gap: 10px;
+      font-size: 14.5px;
+      line-height: 1.5;
+    }
+    .roster .row {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 18px;
+      align-items: baseline;
+      border-bottom: 1px dashed var(--rule);
+      padding-bottom: 8px;
+    }
+    .roster .row dt {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 10.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin: 0;
+      padding-top: 2px;
+    }
+    .roster .row dd {
+      margin: 0;
+      color: var(--ink);
+      text-wrap: pretty;
+    }
+    .roster.tech .row {
+      grid-template-columns: 150px 1fr;
+    }
+    .watch-link {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-top: 18px;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 4px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .watch-link:hover { border-color: var(--ink); }
+    .watch-link .arrow { color: var(--ink-faint); }
+
+    @media (max-width: 900px) {
+      .credits { grid-template-columns: 1fr; gap: 18px; }
+      .roster { grid-template-columns: 1fr; column-gap: 0; }
+      .roster .row { grid-template-columns: 130px 1fr; }
+    }
 
 
-	<!-- Facebook and Twitter integration -->
-	<meta property="og:title" content="" />
-	<meta property="og:image" content="" />
-	<meta property="og:url" content="" />
-	<meta property="og:site_name" content="" />
-	<meta property="og:description" content="" />
-	<meta name="twitter:title" content="" />
-	<meta name="twitter:image" content="" />
-	<meta name="twitter:url" content="" />
-	<meta name="twitter:card" content="" />
-
-	<!-- <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet"> -->
-
-	<!-- Animate.css -->
-	<link rel="stylesheet" href="/css/animate.css">
-	<!-- Icomoon Icon Fonts-->
-	<link rel="stylesheet" href="/css/icomoon.css">
-	<!-- Bootstrap  -->
-	<link rel="stylesheet" href="/css/bootstrap.css">
-	<!-- Theme style  -->
-	<link rel="stylesheet" href="/css/style.css">
-	<!-- Lightbox  -->
-	<link rel="stylesheet" href="/css/lightbox.css">
-
-	<!-- Modernizr JS -->
-	<script src="/js/modernizr-2.6.2.min.js"></script>
-	<!-- FOR IE9 below -->
-	<!--[if lt IE 9]>
-	<script src="js/respond.min.js"></script>
-	<![endif]-->
-
+  </style>
 </head>
+<body data-screen-label="Portfolio · SKIN">
 
-<body>
+<nav class="nav">
+  <div class="nav-wordmark">
+      <a href="/" class="name">Ross Imlach</a>
+      <span class="crumb">
+        <a href="../cinematography.html">Cinematography</a>
+        <span class="sep">/</span>
+        <span class="here">SKIN</span>
+      </span>
+    </div>
+  <div class="nav-links">
+    <a href="../cinematography.html">← All work</a>
+    <a href="mailto:dp@imla.ch">dp@imla.ch</a>
+  </div>
+</nav>
 
-	<div class="fh5co-loader"></div>
+<main class="stage">
 
-	<div id="page">
-		<nav class="fh5co-nav" role="navigation">
-			<div class="container">
-				<div class="fh5co-top-logo">
-					<div id="fh5co-logo"><a href="/index.html">Ross Imlach <br> <small style="color:#6c6c6c">Director of
-						Photography</small></a></div>
-			</div>
-				<div class="fh5co-top-menu menu-1 text-center">
-				</div>
-				<div class="fh5co-top-social menu-1 text-right">
-					<ul class="fh5co-social-icons">
-						<li><a href="/ig.html"><i class="icon-instagram"></i></a></li>
-						<li><a href="mailto:contactross@imla.ch"><i class="icon-email"></i></a></li>
-						<li><a href="/index.html"><i class="icon-back"></i></a>
-					</ul>
-				</div>
-			</div>
-		</nav>
-		<div id="fh5co-work">
-			<div class="container">
-				<div class="row top-line">
-					<div class="col-md-12 col-md-push-0 text-left intro">
-						<br>
-						<h2>SKIN</h2>
-						<p>
-							<span class="fh5co-highlight"> Short Film  &mdash; 2025</span>
-							<br>
-							Written & Directed by: Sarah Grant 
-							<br>
-							<!--a href="YT Link"><i class="icon-youtube"></i> YT Link</a-->
-						</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6 text-center animate-box">
-						<a class="work" href="/images/skin/1.jpg">
-							<div class="work-grid" style="background-image:url(/images/skin/1.thumb.jpg);">
-							</div>
-						</a>
-					</div>
-					<div class="col-md-6 text-center animate-box">
-						<a class="work" href="/images/skin/2.jpg">
-							<div class="work-grid" style="background-image:url(/images/skin/2.thumb.jpg);">
-							</div>
-						</a>
-					</div>
-					<div class="col-md-6 text-center animate-box">
-						<a class="work" href="/images/skin/3.jpg">
-							<div class="work-grid" style="background-image:url(/images/skin/3.thumb.jpg);">
-							</div>
-						</a>
-					</div>
-					<div class="col-md-6 text-center animate-box">
-						<a class="work" href="/images/skin/4.jpg">
-							<div class="work-grid" style="background-image:url(/images/skin/4.thumb.jpg);">
-							</div>
-						</a>
-					</div>
-					<div class="col-md-6 text-center animate-box">
-						<a class="work" href="/images/skin/5.jpg">
-							<div class="work-grid" style="background-image:url(/images/skin/5.thumb.jpg);">
-							</div>
-						</a>
-					</div>
-					<div class="col-md-6 text-center animate-box">
-						<a class="work" href="/images/skin/6.jpg">
-							<div class="work-grid" style="background-image:url(/images/skin/6.thumb.jpg);">
-							</div>
-						</a>
-					</div>
-					<div class="col-md-6 text-center animate-box">
-						<a class="work" href="/images/skin/7.jpg">
-							<div class="work-grid" style="background-image:url(/images/skin/7.thumb.jpg);">
-							</div>
-						</a>
-					</div>
-					<div class="col-md-6 text-center animate-box">
-						<a class="work" href="/images/skin/8.jpg">
-							<div class="work-grid" style="background-image:url(/images/skin/8.thumb.jpg);">
-							</div>
-						</a>
-					</div>
-					<div class="col-md-6 text-center animate-box">
-						<a class="work" href="/images/skin/9.jpg">
-							<div class="work-grid" style="background-image:url(/images/skin/9.thumb.jpg);">
-							</div>
-						</a>
-					</div>
+  <section class="masthead">
+    <h1>SKIN</h1>
+    <p class="credits-line">Short film · Written &amp; directed by Sarah Grant · 2025</p>
+  </section>
 
-					<div class="col-md-6 text-center animate-box">
-						<a class="work" href="/images/skin/10.jpg">
-							<div class="work-grid" style="background-image:url(/images/skin/10.thumb.jpg);">
-							</div>
-						</a>
-					</div>
+  <div class="hero">
+    <img class="fill" src="../images/skin/3.jpg" alt="" loading="lazy" />
+  </div>
 
-				</div>
-				<div class="row">
-					<div class="col-md-12 text-left col-md-push-0">
-						<br>
-						<p>
-							Written & Directed by: Sarah Grant
-							<br>
-							Director of Photography: Ross Imlach
-							<br>
-							Focus Puller: Mark Peberdy
-							<br>
-							Clapper/Loader: Sarina Vlaytchev
-							<br>
-							Grip: Joel Rock
-							<br>
-							Camera Trainee: Demi Sutherland
-							<br>
-							Gaffer: Stephen D. Grant
-							<br>
-							Spark Trainee: Cameron Burns
-							<br>
-							Script Supervisor: Nicola Docherty
-							<br>
-							Production Designer: Rhiannone Stone
-							<br>
-							Production Manager: Bex Sherwood
-							<br>
-							1st AD: Michael Roddy
-							<br>
-							2nd AD: Jay Newton
-							<br>
-							3rd AD: Kate Hammer
-							<br>
-							Sound Recordist: Ryan Kerr
-							<br>
-							Composer: Amber Devereux
-							<br>
-							Starring: Katrina Allen, Megan Channell, Laura Lovemore, Ian Laing, Louise Oliver
-							<br>
-						</p>
-						<p>
-							Cameras: Sony Venice
-							<br>
-							Lenses: DZO Vespid Primes, Mir-1V 37mm, Jupiter-9 85mm
-						</p>
-					</div>
-				</div>
+  <section class="stills" data-screen-label="Stills mosaic">
+    <div class="frame w6">
+      <img class="fill" src="../images/skin/1.jpg" alt="" loading="lazy" />
+    </div>
+    <div class="frame w6">
+      <img class="fill" src="../images/skin/2.jpg" alt="" loading="lazy" />
+    </div>
+    <div class="frame w6">
+      <img class="fill" src="../images/skin/4.jpg" alt="" loading="lazy" />
+    </div>
+    <div class="frame w6">
+      <img class="fill" src="../images/skin/5.jpg" alt="" loading="lazy" />
+    </div>
+    <div class="frame w12">
+      <img class="fill" src="../images/skin/6.jpg" alt="" loading="lazy" />
+    </div>
+  </section>
 
-			</div>
-		</div>
-		<footer id="fh5co-footer" role="contentinfo">
-			<div class="container">
-				<div class="row copyright">
-					<div class="col-md-12 text-center">
-						<p>
-							<small class="block">Ross Imlach &mdash; Director of Photography &mdash; Based in Scotland</small>
-						</p>
-						<p>
-							<small class="block">All enquires: <a href="mailto:contactross@imla.ch">ross@imla.ch</a> or
-								<a href="tel:+44 7837310819"> +44 7837310819</a></small>
-						</p>
+  <section class="credits" data-screen-label="Credits">
+    <div class="label">Credits</div>
+    <div class="roster">
+      <div class="row"><dt>Director</dt><dd>Sarah Grant</dd></div>
+      <div class="row"><dt>Writer</dt><dd>Sarah Grant</dd></div>
+      <div class="row"><dt>DP</dt><dd>Ross Imlach</dd></div>
+      <div class="row"><dt>Focus Puller</dt><dd>Mark Peberdy</dd></div>
+      <div class="row"><dt>Clapper / Loader</dt><dd>Sarina Vlaytchev</dd></div>
+      <div class="row"><dt>Grip</dt><dd>Joel Rock</dd></div>
+      <div class="row"><dt>Camera Trainee</dt><dd>Demi Sutherland</dd></div>
+      <div class="row"><dt>Gaffer</dt><dd>Stephen D. Grant</dd></div>
+      <div class="row"><dt>Spark Trainee</dt><dd>Cameron Burns</dd></div>
+      <div class="row"><dt>Script Supervisor</dt><dd>Nicola Docherty</dd></div>
+      <div class="row"><dt>Production Designer</dt><dd>Rhiannone Stone</dd></div>
+      <div class="row"><dt>Production Manager</dt><dd>Bex Sherwood</dd></div>
+      <div class="row"><dt>1st AD</dt><dd>Michael Roddy</dd></div>
+      <div class="row"><dt>2nd AD</dt><dd>Jay Newton</dd></div>
+      <div class="row"><dt>3rd AD</dt><dd>Kate Hammer</dd></div>
+      <div class="row"><dt>Sound Recordist</dt><dd>Ryan Kerr</dd></div>
+      <div class="row"><dt>Composer</dt><dd>Amber Devereux</dd></div>
+      <div class="row"><dt>Starring</dt><dd>Katrina Allen, Megan Channell, Laura Lovemore, Ian Laing, Louise Oliver</dd></div>
+    </div>
+  </section>
 
-						<ul class="fh5co-social-icons">
-							<li><a href="/ig.html"><i class="icon-instagram"></i></a></li>
-							<li><a href="/yt.html"><i class="icon-youtube"></i></a></li>
-							<li><a href="https://www.imdb.com/name/nm11700036/"><b>IMDb</b></a></li>
-							<li><a href="mailto:contactross@imla.ch"><i class="icon-email"></i></a></li>
-						</ul>
+  <section class="credits" data-screen-label="Tech">
+    <div class="label">Tech</div>
+    <div class="roster tech">
+      <div class="row"><dt>Camera</dt><dd>Sony Venice</dd></div>
+      <div class="row"><dt>Lenses</dt><dd>DZO Vespid Primes, Mir-1V 37mm, Jupiter-9 85mm</dd></div>
+    </div>
+  </section>
 
-						</div>
-					</div>
+  <section class="next-up">
+    <div class="label">Next</div>
+    <div class="titles">
+      <a href="healthandbeauty.html">
+        <span>Health and Beauty: PIKTRED</span>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </section>
 
-				</div>
-		</footer>
-	</div>
+  <footer class="folio">
+    <span>imla.ch / cinematography / skin</span>
+    <span><a href="../cinematography.html">← Back to all work</a> · <a href="mailto:dp@imla.ch">Enquiries — dp@imla.ch</a></span>
+  </footer>
 
-	<div class="gototop js-top">
-		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
-	</div>
+</main>
 
-	<!-- jQuery -->
-	<script src="/js/jquery.min.js"></script>
-	<!-- jQuery Easing -->
-	<script src="/js/jquery.easing.1.3.js"></script>
-	<!-- Bootstrap -->
-	<script src="/js/bootstrap.min.js"></script>
-	<!-- Waypoints -->
-	<script src="/js/jquery.waypoints.min.js"></script>
-	<!-- Main -->
-	<script src="/js/main.js"></script>
-	<!-- Lightbox -->
-	<script src="/js/lightbox.js"></script>
+<div class="still-modal" id="still-modal" aria-hidden="true">
+  <div class="still-modal__backdrop"></div>
+  <div class="still-modal__chrome">
+    <div>
+      <span class="still-modal__counter">01 / 01</span>
+      <span class="still-modal__title" style="margin-left: 14px;"></span>
+    </div>
+    <button class="still-modal__close" type="button" aria-label="Close">Close · Esc</button>
+  </div>
+  <button class="still-modal__nav still-modal__nav--prev" type="button" aria-label="Previous">←</button>
+  <img class="still-modal__img" alt="" />
+  <button class="still-modal__nav still-modal__nav--next" type="button" aria-label="Next">→</button>
+</div>
+
+<script>
+(() => {
+  const frames = [...document.querySelectorAll('.hero, .stills .frame:not(.placeholder)')];
+  const urls = frames.map(f => {
+    const fill = f.querySelector('.fill');
+    return fill ? fill.getAttribute('src') : null;
+  }).filter(Boolean);
+  if (urls.length === 0) return;
+
+  const title = document.querySelector('.masthead h1')?.textContent?.trim() || '';
+  const modal = document.getElementById('still-modal');
+  const img = modal.querySelector('.still-modal__img');
+  const counter = modal.querySelector('.still-modal__counter');
+  const titleEl = modal.querySelector('.still-modal__title');
+  titleEl.textContent = title;
+  let current = 0;
+
+  const show = (i) => {
+    current = (i + urls.length) % urls.length;
+    img.src = urls[current];
+    counter.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(urls.length).padStart(2, '0');
+  };
+  const open = (i) => {
+    show(i);
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+  const close = () => {
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+
+  frames.forEach((f, i) => {
+    f.addEventListener('click', (e) => { e.preventDefault(); open(i); });
+  });
+
+  modal.querySelector('.still-modal__close').addEventListener('click', close);
+  modal.querySelector('.still-modal__backdrop').addEventListener('click', close);
+  modal.querySelector('.still-modal__nav--prev').addEventListener('click', (e) => { e.stopPropagation(); show(current - 1); });
+  modal.querySelector('.still-modal__nav--next').addEventListener('click', (e) => { e.stopPropagation(); show(current + 1); });
+
+  document.addEventListener('keydown', (e) => {
+    if (!modal.classList.contains('active')) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowLeft') show(current - 1);
+    else if (e.key === 'ArrowRight') show(current + 1);
+  });
+})();
+</script>
+
 
 </body>
-
 </html>
