@@ -1,0 +1,139 @@
+---
+import Base from "../layouts/Base.astro";
+
+const elsewhere = [
+  { label: "IMDb", href: "https://www.imdb.com/name/nm11700036/" },
+  { label: "GitHub", href: "#" },
+  { label: "Instagram", href: "https://imla.ch/ig.html" },
+  { label: "LinkedIn", href: "#" },
+  { label: "YouTube", href: "https://imla.ch/yt.html" },
+  { label: "RSS", href: "#" },
+];
+---
+
+<Base title="About — Ross Imlach" palette="cream">
+  <nav class="nav">
+    <div class="nav-wordmark">
+      <a href="/" class="name">Ross Imlach</a>
+      <span class="crumb"><span class="here">About</span></span>
+    </div>
+    <div class="nav-links">
+      <a href="/cinematography">Cinematography</a>
+      <a href="/engineering">Engineering</a>
+      <a href="mailto:ross@imla.ch">ross@imla.ch</a>
+    </div>
+  </nav>
+
+  <main class="stage">
+    <section class="masthead"><h1>About</h1></section>
+
+    <section class="entry">
+      <div class="label">Who</div>
+      <div class="body">
+        <p>Ross Imlach. Born and raised in Scotland.</p>
+        <p>
+          I do two kinds of work. By day I'm a staff platform engineer — thirteen
+          years across SaaS, distributed systems, and (more recently) ML
+          infrastructure. On nights, weekends, and increasingly the days in
+          between, I'm a director of photography on features, commercials, short
+          films and music videos.
+        </p>
+        <p>
+          The two halves are starting to talk to each other. The most interesting
+          work I can imagine doing next is at the seam — tooling that augments
+          creative craft without flattening it.
+        </p>
+      </div>
+    </section>
+
+    <section class="entry">
+      <div class="label">Availability</div>
+      <div class="body">
+        <p class="availability-note">
+          Booking DP work from Q3 2026 onward. Considering new staff platform &amp;
+          ML platform roles, UK-remote.
+        </p>
+        <p class="contacts">
+          For cinematography enquiries — <a href="mailto:dp@imla.ch">dp@imla.ch</a>.<br />
+          For engineering &amp; everything else — <a href="mailto:ross@imla.ch">ross@imla.ch</a>.
+        </p>
+      </div>
+    </section>
+
+    <section class="entry">
+      <div class="label">Elsewhere</div>
+      <div class="body">
+        <div class="elsewhere-list">
+          {
+            elsewhere.map((e) => (
+              <a href={e.href} target="_blank" rel="noopener">
+                <span>{e.label}</span><span class="arrow">↗</span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="entry">
+      <div class="label">This site</div>
+      <div class="body">
+        <div class="site-table">
+          <span class="k">Built with</span><span class="v">Astro · static SSG</span>
+          <span class="k">Typeface</span><span class="v">Schibsted Grotesk</span>
+          <span class="k">Palettes</span><span class="v">Cream on near-black, per section</span>
+          <span class="k">Source</span><span class="v"><a class="src" href="https://github.com/imlach/imla.ch">github.com/imlach/imla.ch</a></span>
+        </div>
+        <p class="privacy">No tracking. No cookies. No analytics beyond aggregate logs from the host.</p>
+      </div>
+    </section>
+
+    <footer class="folio">
+      <span>imla.ch / about</span>
+      <span>Ross Imlach · 2026</span>
+    </footer>
+  </main>
+</Base>
+
+<style>
+  main.stage { max-width: 880px; }
+  .masthead { padding-bottom: 40px; border-bottom: 1px solid var(--rule); }
+  .masthead h1 {
+    font-weight: 800; font-size: clamp(56px, 8vw, 120px);
+    line-height: 0.9; letter-spacing: -0.04em; margin: 0;
+  }
+
+  section.entry {
+    padding: 44px 0;
+    border-bottom: 1px solid var(--rule);
+    display: grid; grid-template-columns: 140px 1fr; gap: 40px;
+    align-items: start;
+  }
+  section.entry .label { font-size: 14px; color: var(--ink-faint); padding-top: 4px; }
+  section.entry .body { font-size: 17px; line-height: 1.65; color: var(--ink); }
+  section.entry .body p { margin: 0 0 14px; }
+  section.entry .body p:last-child { margin-bottom: 0; }
+  section.entry .body a { color: var(--ink); border-bottom: 1px solid var(--rule); padding-bottom: 1px; transition: border-color 0.2s; }
+  section.entry .body a:hover { border-color: var(--accent); }
+
+  .availability-note { font-size: 19px; line-height: 1.5; color: var(--ink); font-weight: 500; }
+  .contacts { font-size: 15px; color: var(--ink-dim); margin-top: 18px !important; }
+
+  .elsewhere-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 40px; font-size: 16px; }
+  .elsewhere-list a { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--rule); }
+  .elsewhere-list a .arrow { color: var(--ink-faint); }
+  .elsewhere-list a:hover .arrow { color: var(--accent); }
+
+  .site-table { font-size: 15px; display: grid; grid-template-columns: 110px 1fr; gap: 8px 24px; }
+  .site-table .k { color: var(--ink-faint); }
+  .site-table .v { color: var(--ink); }
+  .site-table .v .src { border-bottom: 1px solid var(--rule); padding-bottom: 1px; }
+  .privacy { font-size: 14px; color: var(--ink-dim); margin-top: 20px; }
+
+  .folio { margin-top: 28px; border-top: none; }
+
+  @media (max-width: 800px) {
+    section.entry { grid-template-columns: 1fr; gap: 12px; }
+    .elsewhere-list { grid-template-columns: 1fr; }
+  }
+</style>

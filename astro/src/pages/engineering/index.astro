@@ -1,0 +1,135 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("engineering", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+
+// "Currently" rail — placeholder copy, lorem like the rest of engineering.
+const currently = [
+  { verb: "Lorem", title: "Lorem ipsum dolor sit amet consectetur adipiscing", hook: "Sed do eiusmod tempor. Incididunt, labore, dolore, aliqua.", meta: "Lorem · ipsum dolor", href: `/engineering/${posts[0]?.id ?? ""}` },
+  { verb: "Ipsum", title: "Consectetur adipiscing elit sed do eiusmod", hook: "Lorem ipsum dolor sit amet, eiusmod tempor incididunt ut labore.", meta: "Dolor · 11 min", href: "#" },
+  { verb: "Dolor", title: "Ut enim ad minim veniam quis nostrud", hook: "Exercitation ullamco laboris nisi ut aliquip ex ea commodo.", meta: "Sit · amet", href: "#" },
+];
+---
+
+<Base title="Engineering — Ross Imlach" description="Notes from a platform engineer — platform, distributed systems, ML infrastructure." palette="cream">
+  <nav class="nav">
+    <div class="nav-wordmark">
+      <a href="/" class="name">Ross Imlach</a>
+      <span class="crumb"><span class="here">Engineering</span></span>
+    </div>
+    <div class="nav-links">
+      <a href="/cinematography">Cinematography</a>
+      <a href="/about">About</a>
+      <a href="mailto:eng@imla.ch">eng@imla.ch</a>
+    </div>
+  </nav>
+
+  <main class="stage">
+    <section class="masthead">
+      <h1>Engineering</h1>
+      <p class="intro">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco. <a href="/about">Lorem ipsum dolor</a>.
+      </p>
+    </section>
+
+    <section class="currently">
+      <h2>Currently</h2>
+      <div class="cards">
+        {
+          currently.map((c) => (
+            <a href={c.href} class="card">
+              <div>
+                <div class="verb">{c.verb}</div>
+                <h3 class="title">{c.title}</h3>
+                <p class="hook">{c.hook}</p>
+              </div>
+              <div class="foot"><span>{c.meta}</span><span class="arrow">→</span></div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="index">
+      <div class="heading">
+        <h2>Writing</h2>
+        <div class="rhs">{posts.length} entries</div>
+      </div>
+      {
+        posts.map((p) => (
+          <a href={`/engineering/${p.id}`} class="post">
+            <div>
+              <div class="title-main">{p.data.title}</div>
+              <div class="sub">{p.data.summary}</div>
+            </div>
+            <div class="right-meta">
+              <span class="date">{fmt(p.data.date)}</span>
+              <span class="read">{p.data.readingTime}</span>
+            </div>
+          </a>
+        ))
+      }
+    </section>
+
+    <footer class="folio">
+      <span>imla.ch / engineering</span>
+      <span>Write — <a href="mailto:eng@imla.ch">eng@imla.ch</a> · <a href="/about">About</a></span>
+    </footer>
+  </main>
+</Base>
+
+<style>
+  .masthead { padding-bottom: 40px; border-bottom: 1px solid var(--rule); max-width: 920px; }
+  .masthead h1 {
+    font-weight: 800; font-size: clamp(56px, 8vw, 128px);
+    line-height: 0.9; letter-spacing: -0.04em; margin: 0 0 28px;
+  }
+  .masthead .intro { font-size: 20px; line-height: 1.5; color: var(--ink-dim); max-width: 56ch; margin: 0; text-wrap: balance; }
+  .masthead .intro a { color: var(--ink); border-bottom: 1px solid var(--rule); padding-bottom: 1px; }
+  .masthead .intro a:hover { border-color: var(--accent); color: var(--accent); }
+
+  section.currently, section.index { margin-top: 64px; }
+  h2 { font-weight: 500; font-size: 22px; letter-spacing: -0.01em; margin: 0 0 28px; color: var(--ink-dim); }
+
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .card {
+    display: flex; flex-direction: column; justify-content: space-between;
+    min-height: 240px; padding: 28px 26px;
+    background: var(--bg-2); border: 1px solid var(--rule);
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--ink-faint); }
+  .card .verb { font-size: 12px; letter-spacing: 0.04em; color: var(--ink-faint); margin-bottom: 16px; }
+  .card .title { font-weight: 500; font-size: 22px; line-height: 1.15; letter-spacing: -0.015em; margin: 0 0 12px; color: var(--ink); }
+  .card .hook { font-size: 15px; line-height: 1.5; color: var(--ink-dim); margin: 0; }
+  .card .foot { display: flex; justify-content: space-between; align-items: baseline; margin-top: 24px; font-size: 13px; color: var(--ink-faint); }
+  .card:hover .foot .arrow { color: var(--accent); }
+
+  .index .heading { display: flex; justify-content: space-between; align-items: baseline; }
+  .index .heading .rhs { font-size: 13px; color: var(--ink-faint); }
+  .post {
+    display: grid; grid-template-columns: 1fr auto; gap: 32px;
+    padding: 24px 0; border-top: 1px solid var(--rule);
+    align-items: baseline;
+  }
+  .post:hover .title-main { color: var(--accent); }
+  .post .title-main { font-size: 21px; font-weight: 500; letter-spacing: -0.01em; color: var(--ink); transition: color 0.2s; }
+  .post .sub { font-size: 15px; color: var(--ink-dim); line-height: 1.5; margin-top: 6px; max-width: 64ch; }
+  .post .right-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; font-size: 13px; color: var(--ink-faint); white-space: nowrap; }
+
+  .folio { margin-top: 80px; }
+
+  @media (max-width: 900px) {
+    .cards { grid-template-columns: 1fr; }
+    .post { grid-template-columns: 1fr; gap: 8px; }
+    .post .right-meta { flex-direction: row; gap: 16px; }
+  }
+</style>

@@ -1,0 +1,135 @@
+---
+import Base from "../layouts/Base.astro";
+import { films } from "../data/films.ts";
+---
+
+<Base title="Cinematography — Ross Imlach" description="Ross Imlach — director of photography on features, commercials, music videos and shorts. Based in Scotland, working UK-wide.">
+  <nav class="nav">
+    <div class="nav-wordmark">
+      <a href="/" class="name">Ross Imlach</a>
+      <span class="crumb"><span class="here">Cinematography</span></span>
+    </div>
+    <div class="nav-links">
+      <a href="/engineering">Engineering</a>
+      <a href="https://www.imdb.com/name/nm11700036/" target="_blank" rel="noopener">IMDb</a>
+      <a href="mailto:dp@imla.ch">dp@imla.ch</a>
+    </div>
+  </nav>
+
+  <main class="stage">
+    <section class="masthead">
+      <h1>Cinematography</h1>
+      <p class="intro">
+        Director of photography on features, commercials, music videos and shorts.
+        Based in Scotland, working UK-wide. Booking from Q3 2026 onward —
+        <a href="mailto:dp@imla.ch">dp@imla.ch</a>.
+      </p>
+    </section>
+
+    <section class="reel">
+      {
+        films.map((f) => (
+          <a href={`/portfolio/${f.slug}`} class={`item span-${f.span}`}>
+            <img class="fill" src={f.hero} alt="" loading="lazy" />
+            <div class="label">
+              <span class="title-line">{f.title}</span>
+              <span class="year">{f.year}</span>
+            </div>
+          </a>
+        ))
+      }
+    </section>
+
+    <footer class="folio">
+      <span>imla.ch / cinematography</span>
+      <span>Write — <a href="mailto:dp@imla.ch">dp@imla.ch</a> · <a href="/about">About</a></span>
+    </footer>
+  </main>
+</Base>
+
+<style>
+  .masthead {
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--rule);
+    max-width: 920px;
+  }
+  .masthead h1 {
+    font-weight: 800;
+    font-size: clamp(64px, 9vw, 160px);
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+    margin: 0 0 32px;
+    color: var(--ink);
+  }
+  .masthead .intro {
+    font-size: 22px;
+    line-height: 1.45;
+    color: var(--ink-dim);
+    max-width: 56ch;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .masthead .intro a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1px;
+    transition: border-color 0.2s;
+  }
+  .masthead .intro a:hover { border-color: var(--accent); }
+
+  .reel {
+    margin-top: 56px;
+    display: grid;
+    align-items: start;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 12px;
+  }
+  .reel .item {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-2);
+    border: 1px solid var(--rule);
+    transition: border-color 0.3s;
+    align-self: start;
+  }
+  .reel .item:hover { border-color: var(--ink-faint); }
+  .reel .item.span-4 { grid-column: span 4; }
+  .reel .item.span-5 { grid-column: span 5; }
+  .reel .item.span-6 { grid-column: span 6; }
+  .reel .item.span-7 { grid-column: span 7; }
+  .reel .item.span-8 { grid-column: span 8; }
+  .reel .item.span-12 { grid-column: span 12; }
+  .reel .item .fill {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* Greyscale at rest; blooms to colour on hover. */
+    filter: brightness(0.78) saturate(0);
+    transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.6s;
+  }
+  .reel .item:hover .fill { transform: scale(1.04); filter: brightness(0.95) saturate(1); }
+  .reel .item::after {
+    content: ""; position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(to top, rgba(10,10,11,0.95) 0%, rgba(10,10,11,0.2) 50%, transparent 100%);
+  }
+  .reel .item .label {
+    position: absolute; bottom: 20px; left: 24px; right: 24px;
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 16px; z-index: 2;
+  }
+  .reel .item .label .title-line {
+    font-weight: 500; font-size: 22px;
+    letter-spacing: -0.015em; line-height: 1.1;
+    color: var(--ink);
+  }
+  .reel .item .label .year {
+    font-size: 14px; color: var(--ink-dim);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .folio { margin-top: 100px; }
+
+  @media (max-width: 1100px) {
+    .reel .item { grid-column: span 12 !important; }
+  }
+</style>
