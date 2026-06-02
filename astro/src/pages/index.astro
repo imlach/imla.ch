@@ -12,9 +12,9 @@ const opt = (src: ImageMetadata) => getImage({ src, width: 900, format: "webp" }
 const [cine, studio, eng] = await Promise.all([opt(cineImg), opt(studioImg), opt(engImg)]);
 
 const cards = [
-  { cls: "cine", href: "/cinematography/", bg: cine.src, pos: "center", title: "Cinematography", hook: "Features. Commercials, music videos, shorts. Booking from Q3.", role: "Director of photography", cta: "See the work" },
-  { cls: "studio", href: "https://studio.imla.ch/", bg: studio.src, pos: "center", title: "The Studio", hook: "Post-production for filmmakers. Colour, sound, and the tools we build for the work.", role: "Dunkeld · sibling project", cta: "Step inside" },
-  { cls: "eng", href: "/engineering/", bg: eng.src, pos: "center 30%", title: "Engineering", hook: "Notes from a platform engineer who'd rather write boring infrastructure than clever code.", role: "Staff platform engineer", cta: "Read & dig in" },
+  { cls: "cine", href: "/cinematography/", bg: cine.src, pos: "center", title: "Cinematography.", hook: "Features. Commercials, music videos, shorts. Booking from Q3.", role: "Director of photography", cta: "See the work" },
+  { cls: "studio", href: "https://studio.imla.ch/", bg: studio.src, pos: "center", title: "The Studio.", hook: "Post-production for filmmakers. Colour, sound, and the tools we build for the work.", role: "Dunkeld · sibling project", cta: "Step inside" },
+  { cls: "eng", href: "/engineering/", bg: eng.src, pos: "center 30%", title: "Engineering.", hook: "Notes from a platform engineer who'd rather write boring infrastructure than clever code.", role: "Staff platform engineer", cta: "Read & dig in" },
 ];
 ---
 
