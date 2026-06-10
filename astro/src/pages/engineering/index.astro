@@ -9,11 +9,11 @@ const posts = (await getCollection("engineering", ({ data }) => !data.draft)).so
 const fmt = (d: Date) =>
   d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
 
-// "Currently" rail — placeholder copy, lorem like the rest of engineering.
+// "Currently" rail — what's live, what's cooking, what's open.
 const currently = [
-  { verb: "Lorem", title: "Lorem ipsum dolor sit amet consectetur adipiscing", hook: "Sed do eiusmod tempor. Incididunt, labore, dolore, aliqua.", meta: "Lorem · ipsum dolor", href: `/engineering/${posts[0]?.id ?? ""}` },
-  { verb: "Ipsum", title: "Consectetur adipiscing elit sed do eiusmod", hook: "Lorem ipsum dolor sit amet, eiusmod tempor incididunt ut labore.", meta: "Dolor · 11 min", href: "#" },
-  { verb: "Dolor", title: "Ut enim ad minim veniam quis nostrud", hook: "Exercitation ullamco laboris nisi ut aliquip ex ea commodo.", meta: "Sit · amet", href: "#" },
+  { verb: "Running", title: "An agentic PR reviewer in production", hook: "Tiered local models review every PR on the cluster's IaC repo — read-only, audited, escalating when out of their depth.", meta: "Agentic · live", href: "/engineering/agent-safety-fabric" },
+  { verb: "Building", title: "Evals for the reviewer — outcome as label", hook: "Replaying 2,000+ historical PRs through the reviewer; the merge/revert record is the ground truth. A leaderboard, not vibes.", meta: "ML platform · in progress", href: "https://github.com/imlach" },
+  { verb: "Open to", title: "Staff platform & ML platform roles", hook: "Thirteen years across SaaS, distributed systems, and ML infrastructure. UK-remote.", meta: "Availability · about", href: "/about" },
 ];
 ---
 
@@ -34,9 +34,10 @@ const currently = [
     <section class="masthead">
       <h1>Engineering</h1>
       <p class="intro">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco. <a href="/about">Lorem ipsum dolor</a>.
+        Notes from building and running a small ML platform — a heterogeneous
+        GPU cluster doing real work: inference serving, agentic tooling,
+        Kubernetes operations, and the occasional honest post-mortem.
+        <a href="/about">More about me</a>.
       </p>
     </section>
 
