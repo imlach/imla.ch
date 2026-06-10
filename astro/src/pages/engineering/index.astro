@@ -9,10 +9,10 @@ const posts = (await getCollection("engineering", ({ data }) => !data.draft)).so
 const fmt = (d: Date) =>
   d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
 
-// "Currently" rail — what's live, what's cooking, what's open.
+// "Currently" rail — minimal until the first proper posts land.
 const currently = [
-  { verb: "Running", title: "An agentic PR reviewer in production", hook: "Tiered local models review every PR on the cluster's IaC repo — read-only, audited, escalating when out of their depth.", meta: "Agentic · live", href: "/engineering/agent-safety-fabric" },
-  { verb: "Building", title: "Evals for the reviewer — outcome as label", hook: "Replaying 2,000+ historical PRs through the reviewer; the merge/revert record is the ground truth. A leaderboard, not vibes.", meta: "ML platform · in progress", href: "https://github.com/imlach" },
+  { verb: "Now", title: "This section is new", hook: "The first proper write-ups are drafted and being knocked into shape — they'll land here shortly.", meta: "Writing · soon", href: "/engineering/hello" },
+  { verb: "Elsewhere", title: "Code and tools on GitHub", hook: "Projects and open-source work live at github.com/imlach.", meta: "GitHub ↗", href: "https://github.com/imlach" },
   { verb: "Open to", title: "Staff platform & ML platform roles", hook: "Thirteen years across SaaS, distributed systems, and ML infrastructure. UK-remote.", meta: "Availability · about", href: "/about" },
 ];
 ---
