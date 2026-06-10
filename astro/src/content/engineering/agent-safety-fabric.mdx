@@ -144,7 +144,10 @@ out which of these survive contact with production traffic, and which are
 manifesto material.
 
 The honest status report: the read rung and the propose rung are in
-production; the narrow-mutation rung is designed, policy-modelled, and
-deliberately not deployed — it lands when an actual workflow needs it and
-not before. Capability that exists ahead of need is attack surface with
-good intentions.
+production. The narrow-mutation rung is deployed **observe-only** — it
+evaluates its full deny→allow→label→rate-limit policy chain and logs the
+mutation it *would* have made, without making it. Weeks of would-apply logs
+are the evidence on which real write access gets granted, scope by scope —
+or doesn't. That's the graduation ladder doing its job: write-intent before
+write-access, capability earned by demonstrated judgement rather than
+switched on by optimism.
