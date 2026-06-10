@@ -1,7 +1,7 @@
 import type { ImageMetadata } from "astro";
 
 // Resolve film stills as Astro assets so <Image> can emit responsive WebP
-// at display size (the originals are multi-MB — far too heavy to ship raw).
+// at display size (the originals are multi-MB - far too heavy to ship raw).
 const assets = import.meta.glob<{ default: ImageMetadata }>(
   "../assets/films/**/*.{jpg,jpeg,png}",
   { eager: true },
@@ -36,13 +36,13 @@ export const films: Film[] = [
     kind: "Short film",
     director: "Sarah Grant",
     synopsis:
-      "A short film shot on Sony Venice with DZO Vespid primes and vintage glass — warm, honest about light direction, never decorative.",
+      "A short film shot on Sony Venice with DZO Vespid primes and vintage glass - warm, honest about light direction, never decorative.",
     stills: [img("skin/1.jpg"), img("skin/2.jpg"), img("skin/4.jpg"), img("skin/5.jpg"), img("skin/6.jpg")],
     credits: [
       { role: "Director", name: "Sarah Grant" },
       { role: "Director of photography", name: "Ross Imlach" },
-      { role: "Focus puller", name: "—" },
-      { role: "Gaffer", name: "—" },
+      { role: "Focus puller", name: "-" },
+      { role: "Gaffer", name: "-" },
     ],
     tech: [
       { label: "Camera", value: "Sony Venice" },

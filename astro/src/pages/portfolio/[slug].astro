@@ -23,7 +23,7 @@ const lbUrls = film.stills
   : [];
 ---
 
-<Base title={`${film.title} — Ross Imlach`} description={film.synopsis ?? `${film.title} (${film.year}) — cinematography by Ross Imlach.`}>
+<Base title={`${film.title} - Ross Imlach`} description={film.synopsis ?? `${film.title} (${film.year}) - cinematography by Ross Imlach.`}>
   <nav class="nav">
     <div class="nav-wordmark">
       <a href="/" class="name">Ross Imlach</a>
@@ -60,7 +60,7 @@ const lbUrls = film.stills
           ))}
         </section>
       ) : (
-        <p class="pending">Full case study in progress — get in touch for the reel and stills.</p>
+        <p class="pending">Full case study in progress - get in touch for the reel and stills.</p>
       )
     }
 
@@ -91,7 +91,7 @@ const lbUrls = film.stills
       <Image src={next.hero} alt="" widths={[800, 1600]} sizes="100vw" class="next-bg" />
       <div class="next-gradient"></div>
       <div class="next-body">
-        <span class="next-label">Next case study —</span>
+        <span class="next-label">Next case study -</span>
         <div class="next-row">
           <span class="next-title">{next.title}</span>
           <span class="next-open"><span>Open</span><span class="arrow">→</span></span>
