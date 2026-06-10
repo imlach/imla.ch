@@ -104,14 +104,13 @@ import { films } from "../data/films.ts";
     display: block;
     width: 100%;
     height: auto;
-    /* Greyscale at rest; blooms to colour on hover. */
-    filter: brightness(0.78) saturate(0);
-    transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.6s;
+    /* Full colour at rest - the grade is the point. */
+    transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
-  .reel .item:hover .fill { transform: scale(1.04); filter: brightness(0.95) saturate(1); }
+  .reel .item:hover .fill { transform: scale(1.04); }
   .reel .item::after {
     content: ""; position: absolute; inset: 0; z-index: 1;
-    background: linear-gradient(to top, rgba(10,10,11,0.95) 0%, rgba(10,10,11,0.2) 50%, transparent 100%);
+    background: linear-gradient(to top, rgba(10,10,11,0.82) 0%, transparent 38%);
   }
   .reel .item .label {
     position: absolute; bottom: 20px; left: 24px; right: 24px;
