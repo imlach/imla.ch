@@ -1,0 +1,210 @@
+---
+import Base from "../layouts/Base.astro";
+import type { ImageMetadata } from "astro";
+import { getImage } from "astro:assets";
+import cineImg from "../assets/films/skin/3.jpg";
+import studioImg from "../assets/landing/sound-room.png";
+import engImg from "../assets/landing/rack-still.jpeg";
+
+// Card backgrounds are CSS background-images, so optimise via getImage()
+// (a ~900px WebP) rather than shipping the multi-MB originals.
+const opt = (src: ImageMetadata) => getImage({ src, width: 900, format: "webp" });
+const [cine, studio, eng] = await Promise.all([opt(cineImg), opt(studioImg), opt(engImg)]);
+
+const cards = [
+  { cls: "cine", href: "/cinematography/", bg: cine.src, pos: "center", title: "Cinematography.", hook: "Features. Commercials, music videos, shorts. Booking from Q3.", role: "Director of photography", cta: "See the work" },
+  { cls: "studio", href: "https://studio.imla.ch/", bg: studio.src, pos: "center", title: "The Studio.", hook: "Post-production for filmmakers. Colour, sound, and the tools we build for the work.", role: "Dunkeld · sibling project", cta: "Step inside", preview: true },
+  { cls: "eng", href: "/engineering/", bg: eng.src, pos: "center 30%", title: "Engineering.", hook: "Notes from a platform engineer who'd rather write boring infrastructure than clever code.", role: "Staff platform engineer", cta: "Read & dig in" },
+];
+---
+
+<Base title="Ross Imlach — imla.ch">
+  <nav class="nav">
+    <span class="name">Ross Imlach</span>
+    <div class="nav-links">
+      <a href="/cinematography">Cinematography</a>
+      <a href="/engineering">Engineering</a>
+      <a href="/about">About</a>
+    </div>
+  </nav>
+
+  <main class="stage">
+    <section class="grid">
+      {
+        cards.map((c) => (
+          <a href={c.href} class={`card ${c.cls}`}>
+            <div class="media">
+              <div class="media-fill" style={`background-image: url('${c.bg}'); background-position: ${c.pos};`} />
+            </div>
+            {c.preview && <span class="preview-chip">In development</span>}
+            <div class="body">
+              <h2 class="title">{c.title}</h2>
+              <p class="hook">{c.hook}</p>
+              <div class="foot">
+                <span class="role">{c.role}</span>
+                <span class="href"><span>{c.cta}</span><span class="arrow">→</span></span>
+              </div>
+            </div>
+          </a>
+        ))
+      }
+    </section>
+
+    <section class="intro">
+      <h2>A director of photography, a platform engineer, and a small studio.</h2>
+      <div class="body">
+        <p>
+          They share a person, occasionally a project, and this website. Pick whichever
+          of the three's most useful to you, in whatever order.
+        </p>
+        <p>
+          If you came to hire a DP, <a href="/cinematography">cinematography</a> is the
+          place. If you came for technical writing — platform, infrastructure, ML — that
+          lives under <a href="/engineering">engineering</a>. There's also a quiet
+          <a href="/about">about</a> page.
+        </p>
+      </div>
+    </section>
+
+    <footer class="folio">
+      <span>imla.ch · Ross Imlach</span>
+      <span>Booking DP work, open to platform &amp; ML platform roles · UK-remote</span>
+    </footer>
+  </main>
+</Base>
+
+<style>
+  /* The wordmark dot — the site's quiet tungsten through-line. */
+  .nav .name::after {
+    content: "·";
+    color: var(--accent);
+    margin-left: 6px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    min-height: 580px;
+  }
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    background: var(--bg-2);
+    cursor: pointer;
+    isolation: isolate;
+  }
+  .card.studio { background: var(--bg); }
+
+  .media {
+    position: absolute; inset: 0; z-index: 0; overflow: hidden;
+    background: var(--bg-3);
+  }
+  .media-fill {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    /* Greyscale by design; colour is reserved for the deeper pages. */
+    filter: brightness(0.55) contrast(1.05) saturate(0);
+    transform: scale(1.04);
+    transition: transform 6s cubic-bezier(0.4, 0, 0.6, 1), filter 0.6s;
+  }
+  .card:hover .media-fill {
+    transform: scale(1.18) translate(-1.5%, -1%);
+    filter: brightness(0.7) contrast(1.1) saturate(0);
+  }
+  .media::after {
+    content: ""; position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(to top,
+      rgba(10,10,11,0.95) 0%,
+      rgba(10,10,11,0.7) 35%,
+      rgba(10,10,11,0.25) 70%,
+      rgba(10,10,11,0.5) 100%);
+  }
+
+  .body {
+    position: relative; z-index: 2;
+    padding: 40px 36px 32px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    height: 100%;
+  }
+  .title {
+    font-weight: 500;
+    font-size: clamp(32px, 2.8vw, 44px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin: 0 0 18px;
+    color: var(--ink);
+  }
+  .hook {
+    font-size: 17px; line-height: 1.5;
+    color: var(--ink-dim);
+    max-width: 34ch;
+    margin: 0 0 28px;
+  }
+  .foot {
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 16px; padding-top: 18px;
+    border-top: 1px solid var(--rule);
+    font-size: 14px; color: var(--ink-faint);
+  }
+  .foot .role {
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
+  }
+  .foot .href {
+    color: var(--ink);
+    display: inline-flex; align-items: center; gap: 8px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .foot .href .arrow { transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .card:hover .foot .href { color: var(--accent); }
+  .card:hover .foot .href .arrow { transform: translateX(4px); }
+
+  /* Honest label for cards whose destination is still iterating. */
+  .preview-chip {
+    position: absolute; top: 20px; right: 20px; z-index: 3;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-dim);
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    padding: 5px 10px;
+    border: 1px solid var(--rule);
+    pointer-events: none;
+  }
+
+  .intro {
+    margin-top: 160px;
+    padding-top: 36px;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    max-width: 1100px;
+  }
+  .intro h2 {
+    font-weight: 500;
+    font-size: clamp(24px, 2.4vw, 36px);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .intro .body { font-size: 17px; line-height: 1.65; color: var(--ink-dim); }
+  .intro .body p { margin: 0 0 14px; }
+  .intro .body p:last-child { margin-bottom: 0; }
+  .intro .body a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .intro .body a:hover { border-color: var(--accent); color: var(--accent); }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; min-height: auto; }
+    .card { min-height: 360px; }
+    .intro { grid-template-columns: 1fr; gap: 24px; }
+  }
+</style>

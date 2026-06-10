@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Engineering — Ross Imlach</title>
+  <link rel="icon" type="image/svg+xml" href="favicons/04-r-period-dark.svg" media="(prefers-color-scheme: light)" />
+  <link rel="icon" type="image/svg+xml" href="favicons/04-r-period-light.svg" media="(prefers-color-scheme: dark)" />
+  <link rel="apple-touch-icon" href="favicons/04-r-period-dark.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       PALETTE — themed via body[data-theme]. Toggle in bottom-right
+       (hidden by default — press 'c' to reveal).
+
+         01 · paper      (current cream — neutral oat)
+         02 · tungsten   (warmer paper — like newsprint under 3200K)
+         03 · darkroom   (dark, deep warm brown — references the studio room)
+         04 · slate      (cooler neutral — for comparison)
+       ============================================================ */
+    :root,
+    body[data-theme="paper"] {
+      --bg: #f1ebdd;
+      --bg-2: #e8e1cf;
+      --bg-3: #ddd5bf;
+      --ink: #15130f;
+      --ink-dim: #5a4f3e;
+      --ink-faint: #8a7c63;
+      --rule: #c4b698;
+      --rule-soft: #d6c9a8;
+      --signal: #7a4a2e;
+      --nav-grad: rgba(241,235,221,0.92);
+    }
+
+    /* Warmer paper, very gently tungsten-leaning. A barely-amber
+       lift on the cream — not orange, just warm. */
+    body[data-theme="tungsten"] {
+      --bg: #ede4cb;
+      --bg-2: #e3d8b9;
+      --bg-3: #d6c9a3;
+      --ink: #17130c;
+      --ink-dim: #564a35;
+      --ink-faint: #8e7e5e;
+      --rule: #c2b289;
+      --rule-soft: #d4c69d;
+      --signal: #b06a30;
+      --nav-grad: rgba(237,228,203,0.92);
+    }
+
+    /* Middle ground between paper and slate — a soft greige,
+       neither yellow nor grey. Settled, neutral, library-like. */
+    body[data-theme="greige"] {
+      --bg: #ebe6d6;
+      --bg-2: #e1dbc8;
+      --bg-3: #d4ceb9;
+      --ink: #14130e;
+      --ink-dim: #524e3f;
+      --ink-faint: #898470;
+      --rule: #bdb59c;
+      --rule-soft: #cfc8b1;
+      --signal: #6b6650;
+      --nav-grad: rgba(235,230,214,0.92);
+    }
+
+    /* Deep dark-room. Black-brown ground with warm cream type and
+       tungsten accent — pulls directly from the studio hero image. */
+    body[data-theme="darkroom"] {
+      --bg: #15110a;
+      --bg-2: #1f1810;
+      --bg-3: #2a2014;
+      --ink: #ede0c5;
+      --ink-dim: #a3957a;
+      --ink-faint: #6e6452;
+      --rule: #3a2f1e;
+      --rule-soft: #2a2014;
+      --signal: #c87a3a;
+      --nav-grad: rgba(21,17,10,0.92);
+    }
+
+    /* Cooler neutral paper — strips out the warmth as a control. */
+    body[data-theme="slate"] {
+      --bg: #e8e6df;
+      --bg-2: #ddd9cd;
+      --bg-3: #cec9b8;
+      --ink: #14140f;
+      --ink-dim: #4f4d44;
+      --ink-faint: #87847a;
+      --rule: #b6b1a3;
+      --rule-soft: #c8c4b6;
+      --signal: #4a5a52;
+      --nav-grad: rgba(232,230,223,0.92);
+    }
+    :root {
+      --font: 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    }
+    /* ============================================================
+       THEME TOGGLE — bottom-right pill. Hidden by default.
+       Press 'c' or visit with ?compare to reveal. State persists
+       in localStorage.
+       ============================================================ */
+    .theme-toggle {
+      position: fixed; bottom: 24px; right: 24px; z-index: 100;
+      display: none; flex-direction: column; gap: 6px;
+      padding: 12px 14px;
+      background: var(--bg-2);
+      border: 1px solid var(--rule);
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 10.5px; letter-spacing: 0.08em;
+      color: var(--ink-dim);
+      min-width: 220px;
+    }
+    body.compare .theme-toggle { display: flex; }
+    .theme-toggle .label {
+      font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--ink-faint); margin-bottom: 4px;
+    }
+    .theme-toggle .row { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+    .theme-toggle button {
+      padding: 8px 10px;
+      border: 1px solid var(--rule);
+      background: transparent;
+      color: var(--ink-dim);
+      font: inherit; letter-spacing: inherit;
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s, border-color 0.2s;
+      text-align: left;
+    }
+    .theme-toggle button .name { display: block; color: var(--ink-faint); font-size: 9px; letter-spacing: 0.18em; margin-bottom: 4px; }
+    .theme-toggle button .title { color: var(--ink-dim); font-size: 12px; letter-spacing: 0.02em; }
+    .theme-toggle button:hover { color: var(--ink); border-color: var(--ink-dim); }
+    .theme-toggle button:hover .title { color: var(--ink); }
+    .theme-toggle button.on {
+      background: var(--bg-3);
+      border-color: var(--ink-dim);
+    }
+    .theme-toggle button.on .title { color: var(--ink); }
+    .theme-toggle .hint { font-size: 9px; color: var(--ink-faint); letter-spacing: 0.06em; margin-top: 4px; }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 17px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ============================================================
+       NAV — slimmer, single typeface
+       ============================================================ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 40px;
+      font-family: var(--font);
+      font-size: 14px;
+      background: linear-gradient(to bottom, var(--nav-grad), transparent);
+      backdrop-filter: blur(6px);
+    }
+    .nav-wordmark { display: flex; align-items: baseline; gap: 16px; }
+    .nav-wordmark .name { font-weight: 700; }
+    .nav-wordmark .crumb { color: var(--ink-faint); }
+    .nav-wordmark .crumb a { color: var(--ink-faint); transition: color 0.2s; }
+    .nav-wordmark .crumb a:hover { color: var(--ink); }
+    .nav-wordmark .crumb .here { color: var(--ink); }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { color: var(--ink-dim); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+
+    main.stage {
+      position: relative; z-index: 2;
+      padding: 120px 40px 0;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ============================================================
+       MASTHEAD — H1 alone, no subtitle, no labelled imprint card
+       ============================================================ */
+    .masthead {
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--rule);
+      max-width: 920px;
+    }
+    .masthead h1 {
+      font-family: var(--font);
+      font-weight: 800;
+      font-size: clamp(64px, 9vw, 160px);
+      line-height: 0.88;
+      letter-spacing: -0.04em;
+      margin: 0 0 32px;
+      color: var(--ink);
+    }
+    .masthead .intro {
+      font-size: 22px;
+      line-height: 1.45;
+      color: var(--ink-dim);
+      max-width: 56ch;
+      margin: 0;
+      font-weight: 400;
+      text-wrap: balance;
+    }
+    .masthead .intro a {
+      color: var(--ink);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    .masthead .intro a:hover { border-color: var(--ink); }
+
+    /* ============================================================
+       CURRENTLY — three cards, no kicker, no subtitle, no mono num
+       ============================================================ */
+    .currently {
+      margin-top: 56px;
+    }
+    .currently h2 {
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      color: var(--ink-faint);
+      margin: 0 0 20px;
+    }
+    .currently .grid {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px;
+    }
+    .currently .card {
+      position: relative;
+      background: var(--bg-2);
+      border: 1px solid var(--rule);
+      padding: 28px 30px;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .currently .card:hover {
+      border-color: var(--ink-dim);
+      background: var(--bg-3);
+    }
+    .currently .card .verb {
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--ink-faint);
+      margin-bottom: 14px;
+    }
+    .currently .card .title {
+      font-family: var(--font);
+      font-weight: 500;
+      font-size: 26px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin: 0 0 10px;
+      text-wrap: balance;
+    }
+    .currently .card .hook {
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--ink-dim);
+      margin: 0;
+    }
+    .currently .card .foot {
+      font-size: 13px;
+      color: var(--ink-faint);
+      padding-top: 14px;
+      border-top: 1px solid var(--rule-soft);
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .currently .card:hover .foot .arrow {
+      transform: translateX(3px);
+      color: var(--ink);
+    }
+    .currently .card .foot .arrow {
+      color: var(--ink-faint);
+      transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.2s;
+    }
+
+    /* ============================================================
+       INDEX — just title, date, length. No mono. No uppercase tags.
+       No page numbers.
+       ============================================================ */
+    .index { margin-top: 96px; }
+    .index .heading {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 8px;
+    }
+    .index .heading h2 {
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: -0.02em;
+      margin: 0;
+      color: var(--ink);
+    }
+    .index .heading .rhs {
+      font-size: 14px;
+      color: var(--ink-faint);
+    }
+    .index .post {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: baseline;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--rule-soft);
+      transition: padding 0.2s ease, background 0.2s ease;
+    }
+    .index .post:hover {
+      background: var(--bg-2);
+      padding-left: 16px; padding-right: 16px;
+    }
+    .index .post .title-main {
+      font-family: var(--font);
+      font-weight: 500;
+      font-size: clamp(22px, 2.2vw, 32px);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--ink);
+      text-wrap: balance;
+    }
+    .index .post .sub {
+      font-size: 16px;
+      color: var(--ink-dim);
+      margin-top: 8px;
+      line-height: 1.5;
+      max-width: 62ch;
+    }
+    .index .post .right-meta {
+      font-size: 14px;
+      color: var(--ink-faint);
+      text-align: right;
+      white-space: nowrap;
+      padding-top: 8px;
+    }
+    .index .post .right-meta .date { display: block; }
+    .index .post .right-meta .read { display: block; margin-top: 4px; }
+
+    .index .archive-link {
+      display: flex; justify-content: flex-end; padding-top: 28px;
+    }
+    .index .archive-link a {
+      font-size: 15px;
+      color: var(--ink);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 4px;
+      transition: border-color 0.2s;
+    }
+    .index .archive-link a:hover { border-color: var(--ink); }
+
+    /* ============================================================
+       FOLIO
+       ============================================================ */
+    .folio {
+      margin-top: 96px;
+      padding: 28px 0 60px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 14px;
+      color: var(--ink-faint);
+    }
+    .folio a {
+      color: var(--ink);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    .folio a:hover { border-color: var(--ink); }
+
+    @media (max-width: 1000px) {
+      main.stage { padding: 100px 24px 0; }
+      .currently .grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .index .post { grid-template-columns: 1fr; gap: 8px; }
+      .index .post .right-meta { text-align: left; padding-top: 0; }
+      .index .post .right-meta .date,
+      .index .post .right-meta .read { display: inline; }
+      .index .post .right-meta .read::before { content: " · "; }
+    }
+  </style>
+</head>
+<body data-theme="paper" data-screen-label="Engineering page (v2)">
+
+<nav class="nav">
+  <div class="nav-wordmark">
+    <a href="/" class="name">Ross Imlach</a>
+    <span class="crumb">
+      <span class="here">Engineering</span>
+    </span>
+  </div>
+  <div class="nav-links">
+    <a href="cinematography.html">Cinematography</a>
+    <a href="#studio">Studio</a>
+    <a href="mailto:eng@imla.ch">eng@imla.ch</a>
+  </div>
+</nav>
+
+<main class="stage">
+
+  <section class="masthead">
+    <h1>Engineering</h1>
+    <p class="intro">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco. <a href="about.html">Lorem ipsum dolor</a>.
+    </p>
+  </section>
+
+  <section class="currently">
+    <h2>Currently</h2>
+    <div class="grid">
+      <a href="engineering/gpu-schedulers.html" class="card">
+        <div>
+          <div class="verb">Lorem</div>
+          <h3 class="title">Lorem ipsum dolor sit amet consectetur adipiscing</h3>
+          <p class="hook">Sed do eiusmod tempor. Incididunt, labore, dolore, aliqua.</p>
+        </div>
+        <div class="foot">
+          <span>Lorem · ipsum dolor</span>
+          <span class="arrow">→</span>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div>
+          <div class="verb">Ipsum</div>
+          <h3 class="title">Consectetur adipiscing elit sed do eiusmod</h3>
+          <p class="hook">Lorem ipsum dolor sit amet, eiusmod tempor incididunt ut labore.</p>
+        </div>
+        <div class="foot">
+          <span>Dolor · 11 min</span>
+          <span class="arrow">→</span>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div>
+          <div class="verb">Dolor</div>
+          <h3 class="title">Ut enim ad minim veniam quis nostrud</h3>
+          <p class="hook">Exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+        </div>
+        <div class="foot">
+          <span>Sit · amet</span>
+          <span class="arrow">→</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="index">
+    <div class="heading">
+      <h2>Writing</h2>
+      <div class="rhs">Twelve entries</div>
+    </div>
+
+    <a href="engineering/gpu-schedulers.html" class="post">
+      <div>
+        <div class="title-main">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+        <div class="sub">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud.</div>
+      </div>
+      <div class="right-meta">
+        <span class="date">07 May 2026</span>
+        <span class="read">14 min</span>
+      </div>
+    </a>
+
+    <a href="#" class="post">
+      <div>
+        <div class="title-main">Duis aute irure dolor in reprehenderit in voluptate</div>
+        <div class="sub">Velit esse cillum dolore eu fugiat nulla pariatur, sunt in culpa qui officia.</div>
+      </div>
+      <div class="right-meta">
+        <span class="date">22 Apr 2026</span>
+        <span class="read">9 min</span>
+      </div>
+    </a>
+
+    <a href="#" class="post">
+      <div>
+        <div class="title-main">Excepteur sint occaecat cupidatat non proident</div>
+        <div class="sub">Sunt in culpa qui officia deserunt mollit anim id est laborum, sed ut perspiciatis.</div>
+      </div>
+      <div class="right-meta">
+        <span class="date">14 Mar 2026</span>
+        <span class="read">7 min</span>
+      </div>
+    </a>
+
+    <a href="#" class="post">
+      <div>
+        <div class="title-main">Unde omnis iste natus error sit voluptatem</div>
+        <div class="sub">Accusantium doloremque laudantium, totam rem aperiam eaque ipsa quae ab illo.</div>
+      </div>
+      <div class="right-meta">
+        <span class="date">02 Feb 2026</span>
+        <span class="read">11 min</span>
+      </div>
+    </a>
+
+    <a href="#" class="post">
+      <div>
+        <div class="title-main">Nemo enim ipsam voluptatem quia voluptas sit</div>
+        <div class="sub">Aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione.</div>
+      </div>
+      <div class="right-meta">
+        <span class="date">19 Jan 2026</span>
+        <span class="read">18 min</span>
+      </div>
+    </a>
+
+    <a href="#" class="post">
+      <div>
+        <div class="title-main">Neque porro quisquam est qui dolorem ipsum</div>
+        <div class="sub">Quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi.</div>
+      </div>
+      <div class="right-meta">
+        <span class="date">04 Dec 2025</span>
+        <span class="read">8 min</span>
+      </div>
+    </a>
+
+    <div class="archive-link">
+      <a href="#">Full archive →</a>
+    </div>
+  </section>
+
+  <footer class="folio">
+    <span>imla.ch / engineering</span>
+    <span>Write — <a href="mailto:eng@imla.ch">eng@imla.ch</a> · <a href="about.html">About</a></span>
+  </footer>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cinematography — Ross Imlach</title>
+  <link rel="icon" type="image/svg+xml" href="favicons/04-r-period-dark.svg" media="(prefers-color-scheme: light)" />
+  <link rel="icon" type="image/svg+xml" href="favicons/04-r-period-light.svg" media="(prefers-color-scheme: dark)" />
+  <link rel="apple-touch-icon" href="favicons/04-r-period-dark.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0b;
+      --bg-2: #131314;
+      --bg-3: #18181b;
+      --ink: #ede8dd;
+      --ink-dim: #8e8a82;
+      --ink-faint: #4a4844;
+      --rule: #1f1f22;
+
+      --font: 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 17px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 40px;
+      font-size: 14px;
+      background: linear-gradient(to bottom, rgba(10,10,11,0.85), transparent);
+      backdrop-filter: blur(6px);
+    }
+    .nav-wordmark { display: flex; align-items: baseline; gap: 16px; }
+    .nav-wordmark .name { font-weight: 700; color: var(--ink); }
+    .nav-wordmark .crumb { color: var(--ink-faint); }
+    .nav-wordmark .crumb a { color: var(--ink-faint); transition: color 0.2s; }
+    .nav-wordmark .crumb a:hover { color: var(--ink); }
+    .nav-wordmark .crumb .here { color: var(--ink); }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { color: var(--ink-dim); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+
+    main.stage {
+      position: relative; z-index: 2;
+      padding: 120px 40px 0;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    /* ============================================================
+       MASTHEAD — H1 alone, plain intro paragraph
+       ============================================================ */
+    .masthead {
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--rule);
+      max-width: 920px;
+    }
+    .masthead h1 {
+      font-family: var(--font);
+      font-weight: 800;
+      font-size: clamp(64px, 9vw, 160px);
+      line-height: 0.88;
+      letter-spacing: -0.04em;
+      margin: 0 0 32px;
+      color: var(--ink);
+    }
+    .masthead .intro {
+      font-size: 22px;
+      line-height: 1.45;
+      color: var(--ink-dim);
+      max-width: 56ch;
+      margin: 0;
+      text-wrap: balance;
+    }
+    .masthead .intro a {
+      color: var(--ink);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    .masthead .intro a:hover { border-color: var(--ink); }
+
+    /* ============================================================
+       REEL — asymmetric mosaic
+       ============================================================ */
+    .reel {
+      margin-top: 56px;
+      display: grid;
+      align-items: start;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+    .reel .item {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-2);
+      border: 1px solid var(--rule);
+      transition: border-color 0.3s;
+      align-self: start;
+    }
+    .reel .item:hover { border-color: var(--ink-faint); }
+    .reel .item.span-7 { grid-column: span 7; }
+    .reel .item.span-5 { grid-column: span 5; }
+    .reel .item.span-4 { grid-column: span 4; }
+    .reel .item.span-6 { grid-column: span 6; }
+    .reel .item.span-8 { grid-column: span 8; }
+    .reel .item.span-12 { grid-column: span 12; }
+    .reel .item .fill {
+      display: block;
+      width: 100%;
+      height: auto;
+      transition: transform 1s cubic-bezier(0.2,0.8,0.2,1), filter 0.6s;
+    }
+    .reel .item:hover .fill { transform: scale(1.04); filter: brightness(0.9) contrast(1.1); }
+    .reel .item::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,10,11,0.95) 0%, rgba(10,10,11,0.2) 50%, transparent 100%);
+      z-index: 1;
+    }
+    .reel .item .label {
+      position: absolute; bottom: 20px; left: 24px; right: 24px;
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 16px; z-index: 2;
+    }
+    .reel .item .label .title-line {
+      font-family: var(--font);
+      font-weight: 500;
+      font-size: 22px;
+      letter-spacing: -0.015em;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+    .reel .item .label .year {
+      font-size: 14px;
+      color: var(--ink-dim);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ============================================================
+       FOLIO
+       ============================================================ */
+    .folio {
+      margin-top: 100px;
+      padding: 28px 0 60px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 14px;
+      color: var(--ink-faint);
+    }
+    .folio a {
+      color: var(--ink);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    .folio a:hover { border-color: var(--ink); }
+
+    @media (max-width: 1100px) {
+      main.stage { padding: 100px 24px 0; }
+      .reel .item { grid-column: span 12 !important; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body data-screen-label="Cinematography page">
+
+<nav class="nav">
+  <div class="nav-wordmark">
+    <a href="/" class="name">Ross Imlach</a>
+    <span class="crumb">
+      <span class="here">Cinematography</span>
+    </span>
+  </div>
+  <div class="nav-links">
+    <a href="engineering.html">Engineering</a>
+    <a href="https://www.imdb.com/name/nm11700036/" target="_blank" rel="noopener">IMDb</a>
+    <a href="mailto:dp@imla.ch">dp@imla.ch</a>
+  </div>
+</nav>
+
+<main class="stage">
+
+  <section class="masthead">
+    <h1>Cinematography</h1>
+    <p class="intro">
+      Director of photography on features, commercials, music videos and shorts.
+      Based in Scotland, working UK-wide. Booking from Q3 2026 onward —
+      <a href="mailto:dp@imla.ch">dp@imla.ch</a>.
+    </p>
+  </section>
+
+  <section class="reel" data-screen-label="Reel">
+    <a href="portfolio/skin.html" class="item span-5">
+      <img class="fill" src="images/skin/3.jpg" alt="" loading="lazy" />
+      <div class="label">
+        <span class="title-line">SKIN</span>
+        <span class="year">2025</span>
+      </div>
+    </a>
+    <a href="portfolio/downtown.html" class="item span-7">
+      <img class="fill" src="images/downtown/1.hd.jpg" alt="" loading="lazy" />
+      <div class="label">
+        <span class="title-line">LUCIA & THE BEST BOYS: Downtown Lights</span>
+        <span class="year">2023</span>
+      </div>
+    </a>
+    <a href="portfolio/feeble.html" class="item span-12">
+      <img class="fill" src="images/feeble/1.jpg" alt="" loading="lazy" />
+      <div class="label">
+        <span class="title-line">Declan Welsh: FEEBLE</span>
+        <span class="year">2025</span>
+      </div>
+    </a>
+    <a href="portfolio/healthandbeauty.html" class="item span-5">
+      <img class="fill" src="images/healthandbeauty/1.hd.jpg" alt="" loading="lazy" />
+      <div class="label">
+        <span class="title-line">Health and Beauty: PIKTRED</span>
+        <span class="year">2024</span>
+      </div>
+    </a>
+    <a href="portfolio/bynow.html" class="item span-7">
+      <img class="fill" src="images/bynow/1.hd.jpg" alt="" loading="lazy" />
+      <div class="label">
+        <span class="title-line">By Now</span>
+        <span class="year">2023</span>
+      </div>
+    </a>
+    <a href="portfolio/sneaker.html" class="item span-12">
+      <img class="fill" src="images/sneaker/1.hd.jpg" alt="" loading="lazy" />
+      <div class="label">
+        <span class="title-line">SNEAKER</span>
+        <span class="year">2024</span>
+      </div>
+    </a>
+    <a href="portfolio/gemini.html" class="item span-4">
+      <img class="fill" src="images/gemini/1.hd.jpg" alt="" loading="lazy" />
+      <div class="label">
+        <span class="title-line">GEMINI</span>
+        <span class="year">2022</span>
+      </div>
+    </a>
+    <a href="portfolio/blueheart.html" class="item span-4">
+      <img class="fill" src="images/blueheart/1.jpg" alt="" loading="lazy" />
+      <div class="label">
+        <span class="title-line">LUCIA & THE BEST BOYS: BLUEHEART</span>
+        <span class="year">2019</span>
+      </div>
+    </a>
+    <a href="portfolio/thepartyline.html" class="item span-4">
+      <img class="fill" src="images/thepartyline/1.jpg" alt="" loading="lazy" />
+      <div class="label">
+        <span class="title-line">The Party Line</span>
+        <span class="year">2022</span>
+      </div>
+    </a>
+  </section>
+
+  <footer class="folio">
+    <span>imla.ch / cinematography</span>
+    <span>Write — <a href="mailto:dp@imla.ch">dp@imla.ch</a> · <a href="about.html">About</a></span>
+  </footer>
+
+</main>
+
+</body>
+</html>

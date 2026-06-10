@@ -1,0 +1,150 @@
+---
+title: "A safety fabric for autonomous infra agents"
+date: 2026-06-10
+readingTime: "8 min"
+summary: "My cluster is reviewed, triaged, and increasingly operated by LLM agents. Here's the safety architecture that makes that tolerable: read-only by default, graduation by evidence, and a gate in front of everything."
+---
+
+My homelab Kubernetes cluster runs an agentic PR reviewer in production. It
+reviews every pull request against the infrastructure repo, escalates
+through tiers of locally-hosted models when it's out of its depth, and posts
+its findings as review comments. A sibling agent triages monitoring alerts.
+Both have been running for weeks, and both can read anything in the cluster.
+
+Neither can change anything. That asymmetry is deliberate, and the
+architecture that maintains it — while still leaving a road to real
+autonomy — is the most transferable thing I've built this year. Not because
+the components are novel, but because they compose into a posture I haven't
+seen written down often: **agents graduate capability the way employees do,
+by demonstrating judgement under observation, one narrow scope at a time.**
+
+## The ladder
+
+Every agent capability on the cluster sits on an explicit ladder:
+
+1. **Read** — `get`/`list`/`watch`, full stop.
+2. **Propose** — create artefacts a human reviews: draft PRs, issues, patches.
+3. **Narrow mutation** — a small enumerated set of runtime actions, policy-gated.
+4. **Broad mutation** — doesn't exist, and the design assumes it never will.
+
+The read layer is an MCP server with a deliberately minimal ClusterRole —
+verbs `get`, `list`, `watch`, end to end. Each consumer (the reviewer, the
+alert triager) authenticates with its own bearer token and identity, so the
+audit trail says *which agent* read *what*, not just "the bot did
+something". The entire substrate above it trusts that server precisely
+because it cannot write; that property is load-bearing.
+
+Which is why write capability does **not** get bolted onto it. The next rung
+is a *separate* deployment — separate identity space, separate service
+account, separate network policy — whose tool surface at launch is
+intentionally boring: restart a deployment, delete a pod, cordon a node,
+annotate an event. The interesting part is the policy engine in front of it.
+
+## Deny, then allow, then label
+
+Per-(identity, tool) policy evaluates server-side, in a fixed order:
+
+- **Deny first.** A canonical, server-global denylist that identities cannot
+  weaken — the server refuses at startup to load a token map that tries.
+  Infrastructure namespaces are denied to everyone. And some things are
+  never mutable by any agent, ever: Helm releases, GitOps `Application`
+  resources, Secrets, RBAC, network policies, CRDs, admission webhooks.
+- **Allow second.** Per-identity allowlists, narrow by default. The triage
+  agent gets the namespaces it triages; the reviewer gets less.
+- **Label gate third.** Even inside a fully-allowed namespace, the *target
+  resource* must opt in: `can-delete=true`, `restartable=true`. Resources
+  enrol in agent management deliberately — nothing is implicitly subject to
+  it, and nothing gets the label by default in a Helm chart.
+- **Rate limits last.** Per-identity, per-class buckets, with mutation
+  concurrency pinned to 1.
+
+There is no `kubectl exec` analogue anywhere on the ladder. If an agent
+needs to see inside a pod, the correct move is a PR adding that information
+to the pod's normal logging — which is itself a *propose*-rung action. The
+ladder feeds itself.
+
+One rule sits above all of this: **no auto-merge, ever.** Agents propose;
+GitOps applies what a human merged. The reconciler remains the only thing
+that mutates the cluster from git.
+
+## Identity is half the problem
+
+An under-discussed failure mode of agent automation is that it quietly acts
+*as you*. My cluster's PR-label classifier originally authenticated with a
+personal access token under my own account — the one place automation wore
+my identity. That's now collapsed into a dedicated GitHub App: one
+machine identity, short-lived per-job installation tokens, scoped to a
+single repo, with every automated write attributed to the bot in the audit
+trail. Boring, well-trodden engineering — and exactly the kind that tends
+to get skipped while the demo works.
+
+The same instinct drives the per-agent bearer tokens on the read layer.
+When something surprising happens, "which identity did this, with which
+tool, on which resource" must be a log query, not a forensic project.
+
+## Untrusted text is the other half
+
+The reviewer wants web context — vendor docs, changelogs, upstream issues.
+Giving CI runners general HTTPS egress widens exfiltration risk if a runner
+is compromised; letting fetched text flow straight into an agent's context
+is a prompt-injection front door. The posture here is three thin layers
+rather than one thick one:
+
+1. **A forward proxy** with a domain allowlist, so runners can't reach
+   arbitrary hosts and every fetch lands in an access log.
+2. **A version-pinned RAG corpus** of vendor docs, ingested from URLs derived
+   from the versions the cluster actually runs, with per-chunk freshness
+   metadata — so most lookups never touch the live web at all.
+3. **A content classifier in front of every external fetch** — a cheap,
+   narrow model making a structured `clean | suspicious | malicious` call.
+   Clean text is wrapped in tags the agent's system prompt treats as
+   data-not-instructions; suspicious text is stripped or quarantined;
+   malicious text is refused and audited loudly.
+
+The principle underneath: **allowlisted is not trusted.** A compromised
+README on a legitimate docs domain is still on the allowlist — its text is
+still data, not instruction.
+
+This classifier-as-gate shape repeats across the fabric: the same pattern
+labels PR complexity before review, and the same pattern will sit in front
+of the write path (pre-mutation classification) when that rung activates.
+A focused gate doing one job catches more injection shapes than a
+generalist model reasoning about its own prompt mid-task — the same logic
+as putting a cheap gate in front of an expensive deliberator anywhere else
+in systems design.
+
+## Primitives, standardised early
+
+The fabric's parts are deliberately reusable across agents that don't share
+a runtime — a CI-driven reviewer, a long-running triage loop, an
+interactive coding agent:
+
+- four capability classes for every tool call (`read`, `propose`,
+  `mutate-narrow`, `mutate-broad`);
+- one refuse-list (force-push to main, recursive deletes, piping curl to a
+  shell from non-interactive agents…) enforced from a single
+  source-of-truth file in every agent's harness *and* server-side;
+- a structured per-identity audit log with one "agent activity" dashboard;
+- content sanitisation at every trust boundary — web text, PR bodies,
+  comments from non-trusted authors, alert payloads.
+
+Standardising these *before* most of them are load-bearing is the point.
+Every future agent speaks the same safety vocabulary instead of re-deriving
+its own, and the graduation ladder has rails before anything walks up it.
+
+## Why bother, at homelab scale
+
+Because the failure modes aren't homelab-scale. The blast radius of an agent
+with cluster write access is bounded by the policy layer, not by the size of
+the cluster — and the *patterns* (deny-allow-label ordering, opt-in resource
+enrolment, classifier gates at trust boundaries, identity-per-agent,
+propose-don't-mutate) are exactly the ones that matter at any scale. A
+small cluster that runs real workloads is the cheapest place I know to find
+out which of these survive contact with production traffic, and which are
+manifesto material.
+
+The honest status report: the read rung and the propose rung are in
+production; the narrow-mutation rung is designed, policy-modelled, and
+deliberately not deployed — it lands when an actual workflow needs it and
+not before. Capability that exists ahead of need is attack surface with
+good intentions.

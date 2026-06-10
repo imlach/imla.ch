@@ -1,82 +1,529 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Ross Imlach </title>
-	<meta name="description" content="Ross Imlach - Scottish Director of Photography">
-	<meta name="keywords" content="Director of Photography, DOP, DP, Cinematographer, Camera, Cinema, Ross Imlach, Imlach, Blackmagic, Ursa, Ursa Mini, Sony Venice, Alexa Mini, DZO, Arri, Komodo, Glasgow, Edinburgh, Stirling, Aberdeen, Perth">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ross Imlach — imla.ch</title>
+  <link rel="icon" type="image/svg+xml" href="favicons/04-r-period-dark.svg" media="(prefers-color-scheme: light)" />
+  <link rel="icon" type="image/svg+xml" href="favicons/04-r-period-light.svg" media="(prefers-color-scheme: dark)" />
+  <link rel="apple-touch-icon" href="favicons/04-r-period-dark.svg" />
+  <meta name="description" content="Ross Imlach — director of photography & platform engineer, based in Scotland." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0b;
+      --bg-2: #131314;
+      --bg-3: #18181b;
+      --ink: #ede8dd;
+      --ink-dim: #8e8a82;
+      --ink-faint: #4a4844;
+      --rule: #1f1f22;
 
-	<link rel="icon" href="/favicon.ico">
-	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+      --font: 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 17px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: inherit; text-decoration: none; }
 
-	<meta property="og:title" content="Ross Imlach — Director of Photography">
-	<meta property="og:description" content="Scottish Director of Photography specializing in film and live events">
-	<meta property="og:type" content="website">
+    /* ============================================================
+       NAV
+       ============================================================ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 40px;
+      font-size: 14px;
+      background: linear-gradient(to bottom, rgba(10,10,11,0.85), transparent);
+      backdrop-filter: blur(6px);
+    }
+    .nav .name { font-weight: 700; color: var(--ink); white-space: nowrap; }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a { color: var(--ink-dim); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
 
-	<link rel="stylesheet" href="/css/tailwind.css">
+    /* ============================================================
+       STAGE
+       ============================================================ */
+    main.stage {
+      position: relative; z-index: 2;
+      padding: 110px 40px 0;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    /* ============================================================
+       GRID — three cards
+       ============================================================ */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      min-height: 580px;
+    }
+    .card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      background: var(--bg-2);
+      cursor: pointer;
+      isolation: isolate;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* image layer */
+    .card .media {
+      position: absolute; inset: 0; z-index: 0; overflow: hidden;
+      background: var(--bg-3);
+    }
+    .card .media-fill {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      filter: brightness(0.55) contrast(1.05);
+      transform: scale(1.04);
+      transition: transform 6s cubic-bezier(0.4, 0, 0.6, 1), filter 0.6s;
+    }
+    .card:hover .media-fill {
+      transform: scale(1.18) translate(-1.5%, -1%);
+      filter: brightness(0.7) contrast(1.1);
+    }
+
+    /* ============================================================
+       MODE — greyscale + tungsten accent.
+       Default. Card imagery desaturated; tungsten amber (~3200K)
+       carries through CTAs, hovers, and the wordmark dot. The
+       lamp-glow accent ties the landing to the studio's identity.
+
+       Toggleable for comparison via the pill in the bottom-right
+       (press 'c' to reveal). Persists in localStorage.
+       ============================================================ */
+    :root {
+      --accent: #c87a3a; /* tungsten 3200K — warm orange, lamp-glow */
+    }
+    body[data-mode="colour"] {
+      /* opt-out — keep imagery in colour, drop accents */
+      --accent: var(--ink);
+    }
+    .card .media-fill {
+      filter: brightness(0.55) contrast(1.05) saturate(0);
+    }
+    .card:hover .media-fill {
+      filter: brightness(0.7) contrast(1.1) saturate(0);
+    }
+    body[data-mode="colour"] .card .media-fill {
+      filter: brightness(0.55) contrast(1.05);
+    }
+    body[data-mode="colour"] .card:hover .media-fill {
+      filter: brightness(0.7) contrast(1.1);
+    }
+    .card .foot .href .arrow,
+    .card:hover .foot .href {
+      color: var(--accent);
+    }
+    body[data-mode="colour"] .card:hover .foot .href {
+      color: var(--ink);
+    }
+    body[data-mode="colour"] .card .foot .href .arrow {
+      color: var(--ink);
+    }
+    .nav .name::after {
+      content: "·";
+      color: var(--accent);
+      margin-left: 6px;
+    }
+    body[data-mode="colour"] .nav .name::after { display: none; }
+    .intro .body a:hover,
+    .folio a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .card.studio .pill {
+      color: var(--accent);
+    }
+
+    /* ============================================================
+       MODE TOGGLE — bottom-right pill, comparison aid.
+       Hidden by default; show with ?compare or press 'c'.
+       ============================================================ */
+    .mode-toggle {
+      position: fixed; bottom: 24px; right: 24px; z-index: 100;
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      padding: 12px 14px;
+      background: rgba(19, 19, 20, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--rule);
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 10.5px;
+      letter-spacing: 0.08em;
+      color: var(--ink-dim);
+      min-width: 200px;
+    }
+    body.compare .mode-toggle { display: flex; }
+    .mode-toggle .label {
+      font-size: 9.5px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 4px;
+    }
+    .mode-toggle .row {
+      display: flex; gap: 4px;
+    }
+    .mode-toggle button {
+      flex: 1;
+      padding: 6px 8px;
+      border: 1px solid var(--rule);
+      background: transparent;
+      color: var(--ink-dim);
+      font: inherit;
+      letter-spacing: inherit;
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s, border-color 0.2s;
+    }
+    .mode-toggle button:hover { color: var(--ink); border-color: var(--ink-faint); }
+    .mode-toggle button.on {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--ink-faint);
+    }
+    .mode-toggle .swatches {
+      display: flex; gap: 6px; margin-top: 2px;
+    }
+    .mode-toggle .swatch {
+      width: 22px; height: 22px; border-radius: 50%;
+      border: 1px solid var(--rule);
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .mode-toggle .swatch:hover { transform: scale(1.08); }
+    .mode-toggle .swatch.on { border-color: var(--ink); }
+    .mode-toggle .swatch[disabled] { opacity: 0.35; cursor: not-allowed; }
+    .mode-toggle .hint {
+      font-size: 9.5px;
+      color: var(--ink-faint);
+      letter-spacing: 0.06em;
+      margin-top: 2px;
+    }
+    .card .media::after {
+      content: ""; position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to top,
+        rgba(10,10,11,0.95) 0%,
+        rgba(10,10,11,0.7) 35%,
+        rgba(10,10,11,0.25) 70%,
+        rgba(10,10,11,0.5) 100%);
+    }
+
+    .card .body {
+      position: relative;
+      z-index: 2;
+      padding: 40px 36px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      height: 100%;
+    }
+    .card .title {
+      font-family: var(--font);
+      font-weight: 500;
+      font-size: clamp(32px, 2.8vw, 44px);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      margin: 0 0 18px;
+      color: var(--ink);
+    }
+    .card .hook {
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--ink-dim);
+      max-width: 34ch;
+      margin: 0 0 28px;
+    }
+    .card .foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      padding-top: 18px;
+      border-top: 1px solid var(--rule);
+      font-size: 14px;
+      color: var(--ink-faint);
+    }
+    .card .foot .role {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+    .card .foot .href {
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .card .foot .href .arrow { transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); }
+    .card:hover .foot .href .arrow { transform: translateX(4px); }
+
+    /* studio card — now active, image-led like the others */
+    .card.studio { background: var(--bg); }
+    .card.studio .title { color: var(--ink); }
+    .card.studio .pill {
+      position: absolute; top: 32px; right: 36px; z-index: 3;
+      font-family: var(--font);
+      font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+      padding: 5px 10px;
+      color: var(--ink);
+      background: rgba(10, 10, 11, 0.55);
+      backdrop-filter: blur(6px);
+    }
+
+    /* ============================================================
+       INTRO — quiet paragraph below the cards
+       ============================================================ */
+    .intro {
+      margin-top: 160px;
+      padding-top: 36px;
+      border-top: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      max-width: 1100px;
+    }
+    .intro h2 {
+      font-family: var(--font);
+      font-weight: 500;
+      font-size: clamp(24px, 2.4vw, 36px);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin: 0;
+      text-wrap: balance;
+    }
+    .intro .body {
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--ink-dim);
+    }
+    .intro .body p { margin: 0 0 14px; }
+    .intro .body p:last-child { margin-bottom: 0; }
+    .intro .body a {
+      color: var(--ink);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    .intro .body a:hover { border-color: var(--ink); }
+
+    /* ============================================================
+       FOLIO
+       ============================================================ */
+    .folio {
+      margin-top: 80px;
+      padding: 28px 0 60px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 14px;
+      color: var(--ink-faint);
+    }
+    .folio a {
+      color: var(--ink);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+    .folio a:hover { border-color: var(--ink); }
+
+    @media (max-width: 900px) {
+      main.stage { padding: 100px 24px 0; }
+      .grid { grid-template-columns: 1fr; min-height: auto; }
+      .card { min-height: 360px; }
+      .intro { grid-template-columns: 1fr; gap: 24px; }
+      .nav-links { display: none; }
+    }
+  </style>
 </head>
-<body>
-	<header class="fixed top-0 left-0 right-0 z-50 bg-brand-dark/90 backdrop-blur-sm">
-		<nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-			<div class="text-lg font-bold">
-				<a href="/" class="hover:text-gray-300 transition-colors">
-					Ross Imlach<br>
-				</a>
-			</div>
-			<div class="flex gap-6 items-center">
-				<a href="https://www.imdb.com/name/nm11700036/" class="hover:text-gray-300 transition-colors text-sm font-bold">IMDb</a>
-				<a href="/ig.html" class="hover:text-gray-300 transition-colors">
-					<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-						<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-					</svg>
-				</a>
-				<a href="mailto:contactross@imla.ch" class="hover:text-gray-300 transition-colors">
-					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-					</svg>
-				</a>
-			</div>
-		</nav>
-	</header>
+<body data-screen-label="Landing">
 
-	<main>
-		<section class="hero-section pt-20">
-			<div class="flex flex-col md:flex-row w-full">
-				<a href="/film.html" class="hero-half bg-gradient-to-br from-brand-dark via-brand-gray to-brand-dark relative group">
-					<div class="absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-500" style="background-image: url('/images/skin/1.thumb.jpg');"></div>
-					<div class="relative z-10 text-center">
-						<h1 class="text-6xl md:text-8xl font-bold tracking-wider opacity-90 group-hover:opacity-100 transition-opacity duration-300">FILM</h1>
-						<p class="text-gray-400 mt-4 text-sm tracking-widest">CINEMATOGRAPHY & POST PRODUCTION</p>
-					</div>
-				</a>
-				
-				<a href="/live.html" class="hero-half bg-gradient-to-bl from-brand-dark via-brand-gray to-brand-dark relative group">
-					<div class="absolute inset-0 bg-cover bg-center opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-500" style="background-image: url('/images/liveevents.jpg');"></div>
-					<div class="relative z-10 text-center">
-						<h1 class="text-6xl md:text-8xl font-bold tracking-wider opacity-90 group-hover:opacity-100 transition-opacity duration-300">LIVE</h1>
-						<p class="text-gray-400 mt-4 text-sm tracking-widest">EVENTS & PERFORMANCES</p>
-					</div>
-				</a>
-			</div>
-		</section>
-	</main>
+<nav class="nav">
+  <span class="name">Ross Imlach</span>
+  <div class="nav-links">
+    <a href="cinematography.html">Cinematography</a>
+    <a href="engineering.html">Engineering</a>
+    <a href="about.html">About</a>
+  </div>
+</nav>
 
-	<footer class="bg-brand-dark border-t border-gray-800 py-12 mt-20">
-		<div class="container mx-auto px-6 text-center">
-			<p class="text-sm mb-2">Ross Imlach — Director of Photography — Based in Scotland</p>
-			<p class="text-sm text-gray-500 mb-6">
-				All enquiries: <a href="mailto:contactross@imla.ch" class="hover:text-white transition-colors">ross@imla.ch</a> or
-				<a href="tel:+447837310819" class="hover:text-white transition-colors">+44 7837310819</a>
-			</p>
-			<div class="flex justify-center gap-6">
-				<a href="/ig.html" class="hover:text-gray-300 transition-colors">Instagram</a>
-				<a href="/yt.html" class="hover:text-gray-300 transition-colors">YouTube</a>
-				<a href="https://www.imdb.com/name/nm11700036/" class="hover:text-gray-300 transition-colors">IMDb</a>
-			</div>
-		</div>
-	</footer>
+<main class="stage">
+
+  <section class="grid" data-screen-label="Three cards">
+    <a href="cinematography.html" class="card cine">
+      <div class="media">
+        <div class="media-fill" style="background-image: url('images/skin/3.jpg');"></div>
+      </div>
+      <div class="body">
+        <h2 class="title">Cinematography</h2>
+        <p class="hook">Features. Commercials, music videos, shorts. Booking from Q3.</p>
+        <div class="foot">
+          <span class="role">Director of photography</span>
+          <span class="href"><span>See the work</span><span class="arrow">→</span></span>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://studio.imla.ch/" class="card studio">
+      <div class="media">
+        <div class="media-fill" style="background-image: url('studio/assets/sound-room.png'); background-position: center;"></div>
+      </div>
+      <div class="body">
+        <h2 class="title">The Studio</h2>
+        <p class="hook">Post-production for filmmakers. Colour, sound, and the tools we build for the work.</p>
+        <div class="foot">
+          <span class="role">Dunkeld · sibling project</span>
+          <span class="href"><span>Step inside</span><span class="arrow">→</span></span>
+        </div>
+      </div>
+    </a>
+
+    <a href="engineering.html" class="card eng">
+      <div class="media">
+        <div class="media-fill" style="background-image: url('assets/rack-still.jpeg'); background-position: center 30%;"></div>
+      </div>
+      <div class="body">
+        <h2 class="title">Engineering</h2>
+        <p class="hook">Notes from a platform engineer who'd rather write boring infrastructure than clever code.</p>
+        <div class="foot">
+          <span class="role">Staff platform engineer</span>
+          <span class="href"><span>Read & dig in</span><span class="arrow">→</span></span>
+        </div>
+      </div>
+    </a>
+  </section>
+
+  <section class="intro">
+    <h2>A director of photography, a platform engineer, and a small studio.</h2>
+    <div class="body">
+      <p>
+        They share a person, occasionally a project, and this website. Pick whichever
+        of the three's most useful to you, in whatever order.
+      </p>
+      <p>
+        If you came to hire a DP, <a href="cinematography.html">cinematography</a>
+        is the place. If you came for technical writing — platform, infrastructure,
+        ML — that lives under <a href="engineering.html">engineering</a>. There's
+        also a quiet <a href="about.html">about</a> page.
+      </p>
+    </div>
+  </section>
+
+  <footer class="folio">
+    <span>imla.ch · Ross Imlach</span>
+    <span>Booking DP work, open to platform & ML platform roles · UK-remote</span>
+  </footer>
+
+</main>
+
+<!-- Compare toggle — flip between colour-imagery and greyscale+accent.
+     Hidden by default. Show with ?compare in the URL, or press 'c'. -->
+<aside class="mode-toggle" aria-hidden="true">
+  <div class="label">Treatment</div>
+  <div class="row">
+    <button data-mode-set="greyscale-accent" class="on">Mono + tungsten</button>
+    <button data-mode-set="colour">Full colour</button>
+  </div>
+  <div class="label" style="margin-top:8px">Tungsten</div>
+  <div class="swatches">
+    <span class="swatch" data-accent="#c87a3a" style="background:#c87a3a" title="Tungsten 3200K (default)"></span>
+    <span class="swatch" data-accent="#c89858" style="background:#c89858" title="Ochre"></span>
+    <span class="swatch" data-accent="#b04a2b" style="background:#b04a2b" title="Rust"></span>
+    <span class="swatch" data-accent="#d94b3a" style="background:#d94b3a" title="Signal red"></span>
+    <span class="swatch" data-accent="#e0a04a" style="background:#e0a04a" title="Amber (4300K)"></span>
+  </div>
+  <div class="hint">press · c · to hide</div>
+</aside>
+
+<script>
+(() => {
+  const body = document.body;
+  const aside = document.querySelector('.mode-toggle');
+
+  // Show toggle if URL has ?compare, otherwise also offer keyboard reveal.
+  const params = new URLSearchParams(location.search);
+  if (params.has('compare') || localStorage.getItem('imla.compare') === '1') {
+    body.classList.add('compare');
+  }
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'c' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      // Don't fire if user is typing in a field
+      if (e.target.matches('input, textarea, [contenteditable]')) return;
+      body.classList.toggle('compare');
+      localStorage.setItem('imla.compare', body.classList.contains('compare') ? '1' : '0');
+    }
+  });
+
+  // Restore prior selection — default is greyscale-accent (mono + tungsten)
+  const savedMode = localStorage.getItem('imla.mode');
+  const savedAccent = localStorage.getItem('imla.accent');
+  if (savedMode === 'colour') {
+    body.dataset.mode = 'colour';
+    document.querySelectorAll('[data-mode-set]').forEach(b => b.classList.toggle('on', b.dataset.modeSet === 'colour'));
+  } else {
+    // default: leave dataset off, body uses :root tungsten
+    document.querySelectorAll('[data-mode-set]').forEach(b => b.classList.toggle('on', b.dataset.modeSet === 'greyscale-accent'));
+  }
+  // Highlight the matching swatch (default = first one)
+  const defaultAccent = '#c87a3a';
+  const accent = savedAccent || defaultAccent;
+  body.style.setProperty('--accent', accent);
+  document.querySelectorAll('.swatch').forEach(s => s.classList.toggle('on', s.dataset.accent === accent));
+
+  // Mode buttons
+  aside.querySelectorAll('[data-mode-set]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mode = btn.dataset.modeSet;
+      if (mode === 'colour') {
+        body.dataset.mode = 'colour';
+      } else {
+        delete body.dataset.mode;
+      }
+      localStorage.setItem('imla.mode', mode);
+      aside.querySelectorAll('[data-mode-set]').forEach(b => b.classList.toggle('on', b === btn));
+    });
+  });
+
+  // Tungsten swatches
+  aside.querySelectorAll('.swatch').forEach(sw => {
+    sw.addEventListener('click', () => {
+      const c = sw.dataset.accent;
+      body.style.setProperty('--accent', c);
+      localStorage.setItem('imla.accent', c);
+      aside.querySelectorAll('.swatch').forEach(s => s.classList.toggle('on', s === sw));
+      // Picking a swatch implies mono mode
+      if (body.dataset.mode === 'colour') {
+        document.querySelector('[data-mode-set="greyscale-accent"]').click();
+      }
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
