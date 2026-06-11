@@ -105,9 +105,9 @@ import { films } from "../data/films.ts";
     width: 100%;
     height: auto;
     /* Full colour at rest - the grade is the point. */
-    transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.6s;
   }
-  .reel .item:hover .fill { transform: scale(1.04); }
+  .reel .item:hover .fill { transform: scale(1.04); filter: brightness(1.07); }
   .reel .item::after {
     content: ""; position: absolute; inset: 0; z-index: 1;
     background: linear-gradient(to top, rgba(10,10,11,0.82) 0%, transparent 38%);
@@ -125,9 +125,26 @@ import { films } from "../data/films.ts";
   .reel .item .label .year {
     font-size: 14px; color: var(--ink-dim);
     font-variant-numeric: tabular-nums;
+    transition: color 0.3s;
   }
+  .reel .item:hover .label .year { color: var(--accent); }
 
   .folio { margin-top: 100px; }
+
+  /* Same entrance choreography as the landing page. */
+  @media (prefers-reduced-motion: no-preference) {
+    .masthead h1,
+    .masthead .intro,
+    .reel {
+      animation: rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+    .masthead .intro { animation-delay: 0.12s; }
+    .reel { animation-delay: 0.24s; animation-duration: 1.1s; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: none; }
+    }
+  }
 
   @media (max-width: 1100px) {
     .reel .item { grid-column: span 12 !important; }
