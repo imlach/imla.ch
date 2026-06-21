@@ -62,7 +62,7 @@ const currently = [
     <section class="index">
       <div class="heading">
         <h2>Writing</h2>
-        <div class="rhs">{posts.length} entries</div>
+        <div class="rhs">{posts.length} {posts.length === 1 ? "entry" : "entries"}</div>
       </div>
       {
         posts.map((p) => (
