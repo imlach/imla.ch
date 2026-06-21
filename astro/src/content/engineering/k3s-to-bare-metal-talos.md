@@ -6,8 +6,6 @@ summary: "Wiped a 7-node heterogeneous GPU cluster and rebuilt it from k3s-on-Pr
 draft: false
 ---
 
-I wiped a mixed workload GPU cluster to install Talos.
-
 It's a small cluster, 7 nodes, with a mixed fleet of various GPUs for a few different workloads - definitely the sort of thing you'd call heterogeneous. A collection of HP Elitedesk SFFs, Dell R740s, and a Dell workstation. This was running a few VMs for a real mix of workloads, some Davinci Resolve remote render VMs for film work (see https://studio.imla.ch/tools/dailies-pipeline/), a k3s cluster, Postgres primary & replicas, DNS, remote claude workbench, utilities for managing BMCs, and so on.
 
 Now it's purely a Talos (v1.13.3) K8s (v1.36.1) cluster, with everything running as pods natively in kubernetes. It runs a real variety of workloads across a mix of Ampere and Blackwell GPUs, RDMA between the heavy GPU workers, immutable, and self-provisions all from PXE.
