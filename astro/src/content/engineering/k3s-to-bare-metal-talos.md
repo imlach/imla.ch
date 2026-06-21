@@ -2,7 +2,7 @@
 title: "Losing the hypervisor for Talos on bare metal"
 date: 2026-06-21
 readingTime: "5 min"
-summary: "I wiped a 7-node heterogeneous GPU cluster and rebuilt it from k3s-on-Proxmox to bare-metal Talos — the bootstrap chicken-and-egg, big-bang vs rolling, and the Talos gotchas that bit."
+summary: "Wiped a 7-node heterogeneous GPU cluster and rebuilt it from k3s-on-Proxmox to bare-metal Talos. How to do a full rebuild without a cloud provider."
 draft: false
 ---
 
