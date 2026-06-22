@@ -9,7 +9,7 @@ export async function GET(context: APIContext) {
   return rss({
     title: "Ross Imlach - Engineering",
     description:
-      "Notes from building and running a small ML platform - inference serving, agentic tooling, Kubernetes operations, and the occasional honest post-mortem.",
+      "Notes from building and running a small ML platform - inference serving, agentic tooling, Kubernetes operations, and the occasional post-mortem.",
     site: context.site!,
     items: posts.map((p) => ({
       title: p.data.title,
