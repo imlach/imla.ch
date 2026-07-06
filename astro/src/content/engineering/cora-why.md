@@ -2,7 +2,7 @@
 title: "Breadcrumbs for the human in the loop"
 date: 2026-07-07
 readingTime: "3 min"
-summary: "Coding agents have made it easier than ever to ship changes, and harder than ever to keep an honest eye on them all. cora is the review agent I built and run on my own GPUs, leaving breadcrumbs for the human in the loop."
+summary: "Coding agents have made it easier than ever to ship changes, and harder than ever to keep an eye on them all. cora is the review agent I built and run on my own GPUs, leaving breadcrumbs for the human in the loop."
 draft: false
 ---
 
