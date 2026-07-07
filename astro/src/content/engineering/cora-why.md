@@ -18,6 +18,12 @@ being pushed regularly, and trying to catch every potential issue in these huge
 diffs isn't getting any easier. cora was built with this in mind, so as the human in
 the loop there are at least some breadcrumbs to follow.
 
+It wasn't a reflex build either — I ran a build-vs-buy pass over the field first
+(CodeRabbit, PR-Agent, Kodus, and friends). Almost everything treats the reviewer
+as a commentator that fires once when the PR opens; nothing I evaluated would fold
+failing CI back into a re-review, gate automerge on its own verdict, or treat
+self-hosted models as a first-class backend. So it stayed a build.
+
 ## The details
 
 It's a Pydantic-based agentic loop that runs either natively in GitHub Actions or in
@@ -45,9 +51,10 @@ across the GPUs during quiet times — automated with KubeRay and KEDA, with the
 power lifecycles handled by nightwatch (https://github.com/imlach/nightwatch).
 
 There's an outcome-graded eval harness in the loop too: reviews get scored after
-the fact against what actually happened — whether flagged issues were fixed, or
-something slipped through to a postmortem. Those scores steer the regular
-fine-tunes, so the model improves against real outcomes rather than vibes.
+the fact against what actually happened — whether flagged issues got fixed, or
+slipped through into the same postmortems it queries during review. Those scores
+steer the regular fine-tunes, so the model improves against real outcomes rather
+than vibes.
 
 ## How's it going?
 
