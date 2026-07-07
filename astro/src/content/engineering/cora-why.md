@@ -20,9 +20,10 @@ the loop there are at least some breadcrumbs to follow.
 
 It wasn't a reflex build either — I ran a build-vs-buy pass over the field first
 (CodeRabbit, PR-Agent, Kodus, and friends). Almost everything treats the reviewer
-as a commentator that fires once when the PR opens; nothing I evaluated would fold
-failing CI back into a re-review, gate automerge on its own verdict, or treat
-self-hosted models as a first-class backend. So it stayed a build.
+as a commentator that fires once when the PR opens; nothing I evaluated at the
+time would fold failing CI back into a re-review, gate automerge on its own
+verdict, or treat self-hosted models as a first-class backend. So it stayed a
+build.
 
 ## The details
 
