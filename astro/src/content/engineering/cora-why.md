@@ -13,12 +13,12 @@ high velocity of changes, driven by the adoption of coding agents.
 
 When working solo or in small teams, I really feel the conflict between velocity
 and maintaining a high level of code quality. This has become even rougher
-with coding agents (Claude, Codex, etc.) — we've gotten used to massive changes
+with coding agents (Claude, Codex, etc.). We've gotten used to massive changes
 being pushed regularly, and trying to catch every potential issue in these huge
 diffs isn't getting any easier. cora was built with this in mind, so as the human in
 the loop there are at least some breadcrumbs to follow.
 
-It wasn't a reflex build either — I ran a build-vs-buy pass over the field first
+It wasn't a reflex build either. I ran a build-vs-buy pass over the field first
 (CodeRabbit, PR-Agent, Kodus, and friends). Almost everything treats the reviewer
 as a commentator that fires once when the PR opens; nothing I evaluated at the
 time would fold failing CI back into a re-review, gate automerge on its own
@@ -34,6 +34,11 @@ more via RAG endpoints. Each repository it runs on can have a tailored system
 prompt, pointing to project conventions and allowing the review config to be
 tracked alongside the code it's reviewing.
 
+It doesn't just comment, either. A propose_patch directive routes each suggested
+edit to the right place: an inline suggestion with one-click apply when the line
+is inside the PR's diff hunks, or a separate draft PR when the fix lands outside
+them, so a human still reviews it properly.
+
 The WebFetch tool chunks the response and passes it through a classifier to check
 for prompt injection. I started with a QLoRA-tuned lightweight LLM, but trained on
 the same dataset, a BERT classifier on CPU is actually 10x faster than the tuned
@@ -48,11 +53,11 @@ vLLM/KubeRay.
 This primarily means I can have it run on every PR (peak is probably over 100/day
 at the moment) without having to worry about per-token costs (albeit the capex and
 running costs aren't free either). It also means I can regularly run fine-tunes
-across the GPUs during quiet times — automated with KubeRay and KEDA, with the
+across the GPUs during quiet times, automated with KubeRay and KEDA, with the
 power lifecycles handled by nightwatch (https://github.com/imlach/nightwatch).
 
-There's an outcome-graded eval harness in the loop too: reviews get scored after
-the fact against what actually happened — whether flagged issues got fixed, or
+There's an outcome-graded eval harness in the loop too. Reviews get scored after
+the fact against what actually happened: whether flagged issues got fixed, or
 slipped through into the same postmortems it queries during review. Those scores
 steer the regular fine-tunes, so the model improves against real outcomes rather
 than vibes.
