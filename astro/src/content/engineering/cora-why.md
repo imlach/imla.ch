@@ -44,6 +44,11 @@ running costs aren't free either). It also means I can regularly run fine-tunes
 across the GPUs during quiet times — automated with KubeRay and KEDA, with the
 power lifecycles handled by nightwatch (https://github.com/imlach/nightwatch).
 
+There's an outcome-graded eval harness in the loop too: reviews get scored after
+the fact against what actually happened — whether flagged issues were fixed, or
+something slipped through to a postmortem. Those scores steer the regular
+fine-tunes, so the model improves against real outcomes rather than vibes.
+
 ## How's it going?
 
 Since it's easier than ever to ship changes, we now all have the burden of never-ending
