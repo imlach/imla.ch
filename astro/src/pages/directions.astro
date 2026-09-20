@@ -137,17 +137,13 @@ const references = [
         <div class="mockup feature-mockup">
           <nav class="mock-nav" aria-label="Featured landing study"><strong>Ross Imlach</strong><div><a href="/about/">About</a><a href="/engineering/">In the weeds</a><a href="mailto:ross@imla.ch">Contact</a></div></nav>
           <div class="perspective-switch">
-            <p id="perspective-label">Choose a perspective</p>
+            <p id="perspective-label">Perspective</p>
             <div class="frame-picker" role="group" aria-labelledby="perspective-label">
               <button type="button" data-frame={live.src} data-position="50% 55%" data-href="/live/" data-label="Explore live work" data-description="Lighting, video & live performance." data-perspective="Live" aria-label="Show Live perspective" aria-controls="featured-perspective" aria-pressed="true">
-                <img src={live.src} alt="" width="100" height="70" />
-                <span class="perspective-copy"><strong>Live</strong><small>Lighting, video &amp; production</small></span>
-                <span class="perspective-action">Viewing</span>
+                Live
               </button>
               <button type="button" data-frame={film.src} data-position="60% center" data-href="/cinematography/" data-label="Explore cinematography" data-description="Cinematography. Light, framing & story." data-perspective="Film" aria-label="Show Film perspective" aria-controls="featured-perspective" aria-pressed="false">
-                <img src={film.src} alt="" width="100" height="70" />
-                <span class="perspective-copy"><strong>Film</strong><small>Cinematography</small></span>
-                <span class="perspective-action">Switch to Film</span>
+                Film
               </button>
             </div>
           </div>
@@ -219,7 +215,6 @@ const references = [
     frameButtons.forEach(item => {
       const selected = item === button;
       item.setAttribute("aria-pressed", String(selected));
-      item.querySelector<HTMLElement>(".perspective-action")!.textContent = selected ? "Viewing" : `Switch to ${item.dataset.perspective}`;
     });
   }));
 
@@ -240,7 +235,6 @@ const references = [
     const position = reset ? suggested.position : option.dataset.position!;
     liveButton.dataset.frame = src;
     liveButton.dataset.position = position;
-    liveButton.querySelector<HTMLImageElement>("img")!.src = src;
     liveButton.click();
     pairLive.style.backgroundImage = reset ? suggested.pair : `url('${src}')`;
     pairLive.style.backgroundPosition = reset ? suggested.pairPosition : position;
@@ -319,22 +313,12 @@ const references = [
   .feature-heading p { margin: 0 0 18px; font-size: 17px; }
   .feature-heading h2 { font-size: clamp(48px, 7vw, 96px); line-height: .95; letter-spacing: -.055em; font-weight: 500; margin: 0 0 28px; }
   .feature-heading a { font-size: 16px; border-bottom: 1px solid #ede8dd; padding-bottom: 4px; }
-  .perspective-switch { padding: 8px 32px 24px; }
-  .perspective-switch > p { margin: 0 0 12px; font-size: 14px; color: #c5ccda; }
-  .frame-picker { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
-  .frame-picker button { display: flex; align-items: center; gap: 16px; text-align: left; background: #202124; border: 1px solid #66686d; color: #ede8dd; padding: 12px; font: inherit; cursor: pointer; min-width: 0; }
-  .frame-picker button:hover { border-color: #ede8dd; background: #2a2c30; }
-  .frame-picker button[aria-pressed="true"] { border-color: #ede8dd; box-shadow: inset 0 -3px #ede8dd; }
-  .frame-picker img { display: block; width: 92px; height: 64px; object-fit: cover; flex-shrink: 0; }
-  .perspective-copy { min-width: 0; }
-  .perspective-copy strong { display: block; font-size: 26px; line-height: 1.1; font-weight: 500; letter-spacing: -.03em; }
-  .perspective-copy small { display: block; font-size: 13px; color: #c5ccda; margin-top: 5px; }
-  .perspective-action { margin-left: auto; font-size: 13px; white-space: nowrap; padding: 7px 10px; background: #ede8dd; color: #101112; }
-  [aria-pressed="true"] .perspective-action { background: transparent; color: #c5ccda; }
-  @media (min-width: 701px) and (max-width: 1100px) {
-    .frame-picker button { flex-wrap: wrap; }
-    .perspective-action { margin-left: 108px; }
-  }
+  .perspective-switch { display: flex; align-items: center; gap: 24px; padding: 0 32px 22px; }
+  .perspective-switch > p { margin: 0; font-size: 13px; color: #aaa69f; }
+  .frame-picker { display: inline-flex; border-bottom: 1px solid #55545a; }
+  .frame-picker button { min-height: 44px; padding: 10px 20px; margin-bottom: -1px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: #aaa69f; font: inherit; font-size: 17px; cursor: pointer; }
+  .frame-picker button:hover { color: #ede8dd; background: #ffffff08; }
+  .frame-picker button[aria-pressed="true"] { color: #ede8dd; border-bottom-color: #ede8dd; }
   .mock-note { display: flex; gap: 24px; justify-content: space-between; align-items: center; padding: 36px 32px; border-bottom: 1px solid #686660; }
   .mock-note h3 { font-size: 28px; font-weight: 500; letter-spacing: -.03em; margin: 0 0 8px; }
   .mock-note p { font-size: 15px; margin: 0; }
@@ -396,13 +380,8 @@ const references = [
     .mock-nav > div { gap: 12px 18px; font-size: 12px; }
     .feature-frame { height: 480px; padding: 32px 22px; }
     .feature-heading p { font-size: 14px; }
-    .perspective-switch { padding: 0 22px 22px; }
-    .frame-picker { gap: 10px; }
-    .frame-picker button { flex-direction: column; align-items: stretch; gap: 10px; padding: 10px; }
-    .frame-picker img { width: 100%; height: 60px; }
-    .perspective-copy strong { font-size: 22px; }
-    .perspective-copy small { font-size: 12px; min-height: 38px; }
-    .perspective-action { margin: auto 0 0; padding: 7px 5px; text-align: center; font-size: 12px; }
+    .perspective-switch { padding: 0 22px 18px; gap: 16px; }
+    .frame-picker button { padding-inline: 16px; font-size: 16px; }
     .mock-note, .mock-footer { flex-direction: column; align-items: start; padding: 24px 22px; gap: 18px; }
     .mock-note h3 { font-size: 25px; }
     .pair-intro { padding: 28px 22px; }
