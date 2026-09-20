@@ -7,7 +7,7 @@ import treatment from "../assets/references/treatment.webp";
 import uva from "../assets/references/uva.webp";
 import fray from "../assets/references/fray.webp";
 import rob from "../assets/references/rob.webp";
-import filmImg from "../assets/films/skin/3.jpg";
+import filmImg from "../assets/films/feeble/5.jpg";
 import { lightingStudies } from "../data/lightingStudies";
 
 const film = await getImage({src:filmImg, width:1200, format:"webp"});
@@ -133,17 +133,32 @@ const references = [
       </div>
 
       <article class="study" id="study-feature">
-        <div class="study-explanation"><h3>A. One opening image</h3><p>My starting point: a single image establishes the eye. Film and Live are direct links; the notebook follows below. Studio lives in the footer.</p></div>
+        <div class="study-explanation"><h3>A. One opening image</h3><p>A single image establishes the eye. Choose Live or Film to change perspective, then explore that body of work. The notebook follows below; Studio lives in the footer.</p></div>
         <div class="mockup feature-mockup">
-          <nav class="mock-nav" aria-label="Featured landing study"><strong>Ross Imlach</strong><div><a href="/cinematography/">Film</a><a href="/live/">Live</a><a href="/engineering/">In the weeds</a><a href="mailto:ross@imla.ch">Contact</a></div></nav>
-          <div class="feature-frame" style={`--frame:url('${live.src}'); --frame-position:50% 55%`}>
-            <div class="feature-heading"><p>Lighting, image &amp; live performance.</p><h2>Something<br />you can feel.</h2><a href="/live/">Explore live work</a></div>
-            <div class="frame-picker" role="group" aria-label="Featured image"><button type="button" data-frame={live.src} data-position="50% 55%" data-href="/live/" data-label="Explore live work" aria-pressed="true">Live</button><button type="button" data-frame={film.src} data-position="center" data-href="/cinematography/" data-label="Explore cinematography" aria-pressed="false">Film</button></div>
+          <nav class="mock-nav" aria-label="Featured landing study"><strong>Ross Imlach</strong><div><a href="/about/">About</a><a href="/engineering/">In the weeds</a><a href="mailto:ross@imla.ch">Contact</a></div></nav>
+          <div class="perspective-switch">
+            <p id="perspective-label">Choose a perspective</p>
+            <div class="frame-picker" role="group" aria-labelledby="perspective-label">
+              <button type="button" data-frame={live.src} data-position="50% 55%" data-href="/live/" data-label="Explore live work" data-description="Lighting, video & live performance." data-perspective="Live" aria-label="Show Live perspective" aria-controls="featured-perspective" aria-pressed="true">
+                <img src={live.src} alt="" width="100" height="70" />
+                <span class="perspective-copy"><strong>Live</strong><small>Lighting, video &amp; production</small></span>
+                <span class="perspective-action">Viewing</span>
+              </button>
+              <button type="button" data-frame={film.src} data-position="60% center" data-href="/cinematography/" data-label="Explore cinematography" data-description="Cinematography. Light, framing & story." data-perspective="Film" aria-label="Show Film perspective" aria-controls="featured-perspective" aria-pressed="false">
+                <img src={film.src} alt="" width="100" height="70" />
+                <span class="perspective-copy"><strong>Film</strong><small>Cinematography</small></span>
+                <span class="perspective-action">Switch to Film</span>
+              </button>
+            </div>
+          </div>
+          <div class="feature-frame" id="featured-perspective" style={`--frame:url('${live.src}'); --frame-position:50% 55%`}>
+            <div class="feature-heading"><p aria-live="polite" aria-atomic="true">Lighting, video &amp; live performance.</p><h2>Something<br />you can feel.</h2><a href="/live/">Explore live work</a></div>
+
           </div>
           <div class="mock-note"><div><h3>In the weeds.</h3><p>Experiments, tools and things I’m working through.</p></div><a href="/engineering/cora-why/">Building a reviewer for my own code</a></div>
           <footer class="mock-footer"><span>Scotland. Working wherever the project takes me.</span><a href="https://studio.imla.ch/">The Studio</a></footer>
         </div>
-        <p class="tradeoff">Best when a small, strong selection can carry the introduction. A still works today; a short reel could follow once the footage is chosen. The film/live switch above is manual.</p>
+        <p class="tradeoff">Best when a small, strong selection can carry the introduction. A still works today; a short reel could follow once the footage is chosen. The perspective switch changes the image, introduction and work link. Film uses a still from Declan Welsh: FEEBLE.</p>
       </article>
 
       <article class="study" id="study-pair" hidden>
@@ -200,7 +215,12 @@ const references = [
     frame.style.setProperty("--frame-position", button.dataset.position || "center");
     link.href = button.dataset.href!;
     link.textContent = button.dataset.label!;
-    frameButtons.forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+    frame.querySelector<HTMLParagraphElement>(".feature-heading p")!.textContent = button.dataset.description!;
+    frameButtons.forEach(item => {
+      const selected = item === button;
+      item.setAttribute("aria-pressed", String(selected));
+      item.querySelector<HTMLElement>(".perspective-action")!.textContent = selected ? "Viewing" : `Switch to ${item.dataset.perspective}`;
+    });
   }));
 
   const imageChoice = document.querySelector<HTMLSelectElement>("#lighting-choice");
@@ -220,6 +240,7 @@ const references = [
     const position = reset ? suggested.position : option.dataset.position!;
     liveButton.dataset.frame = src;
     liveButton.dataset.position = position;
+    liveButton.querySelector<HTMLImageElement>("img")!.src = src;
     liveButton.click();
     pairLive.style.backgroundImage = reset ? suggested.pair : `url('${src}')`;
     pairLive.style.backgroundPosition = reset ? suggested.pairPosition : position;
@@ -298,9 +319,22 @@ const references = [
   .feature-heading p { margin: 0 0 18px; font-size: 17px; }
   .feature-heading h2 { font-size: clamp(48px, 7vw, 96px); line-height: .95; letter-spacing: -.055em; font-weight: 500; margin: 0 0 28px; }
   .feature-heading a { font-size: 16px; border-bottom: 1px solid #ede8dd; padding-bottom: 4px; }
-  .frame-picker { position: absolute; right: 32px; bottom: 32px; display: flex; gap: 8px; }
-  .frame-picker button { background: #171819; border: 1px solid #a8a7a2; color: #ede8dd; padding: 10px 14px; font: inherit; font-size: 14px; cursor: pointer; }
-  .frame-picker button[aria-pressed="true"] { background: #ede8dd; color: #101112; }
+  .perspective-switch { padding: 8px 32px 24px; }
+  .perspective-switch > p { margin: 0 0 12px; font-size: 14px; color: #c5ccda; }
+  .frame-picker { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+  .frame-picker button { display: flex; align-items: center; gap: 16px; text-align: left; background: #202124; border: 1px solid #66686d; color: #ede8dd; padding: 12px; font: inherit; cursor: pointer; min-width: 0; }
+  .frame-picker button:hover { border-color: #ede8dd; background: #2a2c30; }
+  .frame-picker button[aria-pressed="true"] { border-color: #ede8dd; box-shadow: inset 0 -3px #ede8dd; }
+  .frame-picker img { display: block; width: 92px; height: 64px; object-fit: cover; flex-shrink: 0; }
+  .perspective-copy { min-width: 0; }
+  .perspective-copy strong { display: block; font-size: 26px; line-height: 1.1; font-weight: 500; letter-spacing: -.03em; }
+  .perspective-copy small { display: block; font-size: 13px; color: #c5ccda; margin-top: 5px; }
+  .perspective-action { margin-left: auto; font-size: 13px; white-space: nowrap; padding: 7px 10px; background: #ede8dd; color: #101112; }
+  [aria-pressed="true"] .perspective-action { background: transparent; color: #c5ccda; }
+  @media (min-width: 701px) and (max-width: 1100px) {
+    .frame-picker button { flex-wrap: wrap; }
+    .perspective-action { margin-left: 108px; }
+  }
   .mock-note { display: flex; gap: 24px; justify-content: space-between; align-items: center; padding: 36px 32px; border-bottom: 1px solid #686660; }
   .mock-note h3 { font-size: 28px; font-weight: 500; letter-spacing: -.03em; margin: 0 0 8px; }
   .mock-note p { font-size: 15px; margin: 0; }
@@ -360,9 +394,15 @@ const references = [
     .study-picker button { text-align: left; }
     .mock-nav { padding: 22px; gap: 18px; }
     .mock-nav > div { gap: 12px 18px; font-size: 12px; }
-    .feature-frame { height: 500px; padding: 24px 22px 100px; }
+    .feature-frame { height: 480px; padding: 32px 22px; }
     .feature-heading p { font-size: 14px; }
-    .frame-picker { right: auto; left: 22px; bottom: 24px; }
+    .perspective-switch { padding: 0 22px 22px; }
+    .frame-picker { gap: 10px; }
+    .frame-picker button { flex-direction: column; align-items: stretch; gap: 10px; padding: 10px; }
+    .frame-picker img { width: 100%; height: 60px; }
+    .perspective-copy strong { font-size: 22px; }
+    .perspective-copy small { font-size: 12px; min-height: 38px; }
+    .perspective-action { margin: auto 0 0; padding: 7px 5px; text-align: center; font-size: 12px; }
     .mock-note, .mock-footer { flex-direction: column; align-items: start; padding: 24px 22px; gap: 18px; }
     .mock-note h3 { font-size: 25px; }
     .pair-intro { padding: 28px 22px; }

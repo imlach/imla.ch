@@ -21,7 +21,7 @@ The sketches are proposals, not final claims about availability or a finished st
 
 ## Landing studies
 
-- **A. One opening image**: suggested starting point. Lead with a whole image and a personal creative statement; Film and Live remain direct links. The notebook sits below and Studio is in the footer. Film/live image switching is manual.
+- **A. One opening image**: suggested starting point. Lead with a whole image and a personal creative statement. A visible perspective selector previews Live and Film with explicit “Switch to…” labels and a selected state. Switching changes the image, introduction and work link. The notebook sits below and Studio is in the footer. Film uses `films/feeble/5.jpg`, also used in B.
 - **B. Film & live**: two creative directions visible together, with the technical notebook below. Clearest if both should receive equal emphasis.
 - **C. A personal index**: type and an image sit alongside a short index of work. Flexible as the practice develops and less dependent on having a reel ready.
 
