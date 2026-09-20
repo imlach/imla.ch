@@ -7,10 +7,17 @@ import treatment from "../assets/references/treatment.webp";
 import uva from "../assets/references/uva.webp";
 import fray from "../assets/references/fray.webp";
 import rob from "../assets/references/rob.webp";
-import liveImg from "../../../images/liveevents.jpg";
 import filmImg from "../assets/films/skin/3.jpg";
+import { lightingStudies } from "../data/lightingStudies";
 
-const [live, film] = await Promise.all([liveImg, filmImg].map(src => getImage({src, width:1200, format:"webp"})));
+const film = await getImage({src:filmImg, width:1200, format:"webp"});
+const lighting = await Promise.all(lightingStudies.map(async item => ({
+  ...item,
+  optimized: await getImage({src:item.image, width:Math.min(1600,item.image.width), format:"webp"}),
+})));
+const live = lighting[0].optimized;
+const blue = lighting[1];
+const crossed = lighting[3];
 const references = [
   {name:"Tobias Rylander", href:"https://tobiasrylander.com/", image:tobias, title:"The image makes the introduction.", note:"A whole stage fills the opening frame. Quiet navigation and generous project titles leave the atmosphere intact.", take:"Give a show the whole width. Let the work introduce Ross before a list of services.", caption:"The 1975 • image from Tobias Rylander’s portfolio", class:"wide"},
   {name:"Luke Halls Studio", href:"https://lukehalls.com/", image:luke, title:"One visual practice, many settings.", note:"Overlapping images lead into a portfolio organised by context: music, theatre, fashion and live events.", take:"Film and live can feel like the same eye at work, with clear routes into each.", caption:"Homepage imagery • Luke Halls Studio", class:"wide"},
@@ -40,11 +47,28 @@ const references = [
     </section>
 
     <nav class="board-nav" aria-label="Mood board sections">
+      <a href="#your-images">Your lighting images</a>
       <a href="#references">Peer references</a>
       <a href="#language">Visual language</a>
       <a href="#studies">Three landing studies</a>
       <a href="#positioning">Voice &amp; structure</a>
     </nav>
+
+    <section id="your-images" aria-labelledby="images-title">
+      <div class="section-heading">
+        <h2 id="images-title">The feeling in the room.</h2>
+        <p>Your six supplied images. The warm crowd leads study A, the blue room anchors B, and the crossed beams give C its vertical composition.</p>
+      </div>
+      <div class="lighting-grid">
+        {lighting.map(item => (
+          <figure class:list={["lighting-image", {landscape:item.landscape}]}>
+            <Image src={item.image} alt={item.alt} widths={[320,640]} sizes="(max-width: 700px) 100vw, 50vw" loading="lazy" />
+            <figcaption><h3>{item.name}</h3><p>{item.note}</p></figcaption>
+          </figure>
+        ))}
+      </div>
+      <p class="credits">Supplied by Ross for these sketches. Descriptive working titles; project names, roles and photographer credits can follow with the final selection.</p>
+    </section>
 
     <section id="references" aria-labelledby="references-title">
       <div class="section-heading">
@@ -92,7 +116,15 @@ const references = [
     <section id="studies" aria-labelledby="studies-title">
       <div class="section-heading">
         <h2 id="studies-title">Three ways in.</h2>
-        <p>Same direction, different structure. These studies use Ross’s existing images; project selections and copy are still a draft.</p>
+        <p>Same direction, different structure. Try your lighting images in each layout. Project selections and copy are still a draft.</p>
+      </div>
+      <div class="image-choice">
+        <label for="lighting-choice">Lighting image</label>
+        <select id="lighting-choice">
+          <option value="suggested">Suggested for each layout</option>
+          {lighting.map(item => <option value={item.id} data-src={item.optimized.src} data-position={item.position} data-alt={item.alt} data-width={item.image.width} data-height={item.image.height}>{item.name}</option>)}
+        </select>
+        <span>Compare one image across A, B and C.</span>
       </div>
       <div class="study-picker" role="group" aria-label="Choose a landing study">
         <button type="button" data-study="feature" aria-pressed="true" aria-controls="study-feature">A. One opening image</button>
@@ -104,9 +136,9 @@ const references = [
         <div class="study-explanation"><h3>A. One opening image</h3><p>My starting point: a single image establishes the eye. Film and Live are direct links; the notebook follows below. Studio lives in the footer.</p></div>
         <div class="mockup feature-mockup">
           <nav class="mock-nav" aria-label="Featured landing study"><strong>Ross Imlach</strong><div><a href="/cinematography/">Film</a><a href="/live/">Live</a><a href="/engineering/">In the weeds</a><a href="mailto:ross@imla.ch">Contact</a></div></nav>
-          <div class="feature-frame" style={`--frame:url('${live.src}')`}>
+          <div class="feature-frame" style={`--frame:url('${live.src}'); --frame-position:50% 55%`}>
             <div class="feature-heading"><p>Lighting, image &amp; live performance.</p><h2>Something<br />you can feel.</h2><a href="/live/">Explore live work</a></div>
-            <div class="frame-picker" role="group" aria-label="Featured image"><button type="button" data-frame={live.src} data-href="/live/" data-label="Explore live work" aria-pressed="true">Live</button><button type="button" data-frame={film.src} data-href="/cinematography/" data-label="Explore cinematography" aria-pressed="false">Film</button></div>
+            <div class="frame-picker" role="group" aria-label="Featured image"><button type="button" data-frame={live.src} data-position="50% 55%" data-href="/live/" data-label="Explore live work" aria-pressed="true">Live</button><button type="button" data-frame={film.src} data-position="center" data-href="/cinematography/" data-label="Explore cinematography" aria-pressed="false">Film</button></div>
           </div>
           <div class="mock-note"><div><h3>In the weeds.</h3><p>Experiments, tools and things I’m working through.</p></div><a href="/engineering/cora-why/">Building a reviewer for my own code</a></div>
           <footer class="mock-footer"><span>Scotland. Working wherever the project takes me.</span><a href="https://studio.imla.ch/">The Studio</a></footer>
@@ -119,7 +151,7 @@ const references = [
         <div class="mockup pair-mockup">
           <nav class="mock-nav" aria-label="Paired landing study"><strong>Ross Imlach</strong><div><a href="/engineering/">In the weeds</a><a href="/about/">About</a><a href="mailto:ross@imla.ch">Contact</a></div></nav>
           <header class="pair-intro"><h2>Images for the screen.<br />Light for the room.</h2><p>Cinematography, lighting and live production.<br />A creative practice based in Scotland.</p></header>
-          <div class="pair-images"><a href="/cinematography/" style={`background-image:url('${film.src}')`}><h3>Film.</h3><span>Cinematography</span></a><a href="/live/" style={`background-image:url('${live.src}')`}><h3>Live.</h3><span>Lighting, video &amp; production</span></a></div>
+          <div class="pair-images"><a href="/cinematography/" style={`background-image:url('${film.src}')`}><h3>Film.</h3><span>Cinematography</span></a><a class="pair-live" href="/live/" style={`background-image:url('${blue.optimized.src}');background-position:${blue.position}`}><h3>Live.</h3><span>Lighting, video &amp; production</span></a></div>
           <div class="mock-note"><div><h3>In the weeds.</h3><p>What happens behind the image and under the hood.</p></div><a href="/engineering/">Read the notebook</a></div>
           <footer class="mock-footer"><span>Design, post and ongoing experiments.</span><a href="https://studio.imla.ch/">The Studio</a></footer>
         </div>
@@ -130,7 +162,7 @@ const references = [
         <div class="study-explanation"><h3>C. A personal index</h3><p>Your name and the work form one composition. A large image sits beside a short index. This leaves the most room for the practice to evolve.</p></div>
         <div class="mockup index-mockup">
           <nav class="mock-nav" aria-label="Index landing study"><strong>Ross Imlach</strong><div><a href="/about/">About</a><a href="mailto:ross@imla.ch">Contact</a></div></nav>
-          <div class="index-body"><div class="index-copy"><p>I work with light,<br />images and the systems<br />behind them.</p><div class="index-links"><a href="/cinematography/">Cinematography<span>Films, music videos &amp; shorts</span></a><a href="/live/">Live<span>Lighting, video &amp; production</span></a><a href="/engineering/">In the weeds<span>Notes from making things work</span></a></div></div><img src={film.src} alt="A frame from SKIN, from Ross’s cinematography portfolio" width="1200" height="800" loading="lazy" /></div>
+          <div class="index-body"><div class="index-copy"><p>I work with light,<br />images and the systems<br />behind them.</p><div class="index-links"><a href="/cinematography/">Cinematography<span>Films, music videos &amp; shorts</span></a><a href="/live/">Live<span>Lighting, video &amp; production</span></a><a href="/engineering/">In the weeds<span>Notes from making things work</span></a></div></div><img src={crossed.optimized.src} alt={crossed.alt} width={crossed.image.width} height={crossed.image.height} loading="lazy" style={`object-position:${crossed.position}`} /></div>
           <footer class="mock-footer"><span>A practice in progress. Scotland.</span><a href="https://studio.imla.ch/">The Studio</a></footer>
         </div>
         <p class="tradeoff">The most flexible structure, and the least dependent on a reel. It keeps every route visible with different emphasis through type and placement.</p>
@@ -165,10 +197,38 @@ const references = [
     const link = frame?.querySelector<HTMLAnchorElement>(".feature-heading a");
     if (!frame || !link) return;
     frame.style.setProperty("--frame", `url('${button.dataset.frame}')`);
+    frame.style.setProperty("--frame-position", button.dataset.position || "center");
     link.href = button.dataset.href!;
     link.textContent = button.dataset.label!;
     frameButtons.forEach(item => item.setAttribute("aria-pressed", String(item === button)));
   }));
+
+  const imageChoice = document.querySelector<HTMLSelectElement>("#lighting-choice");
+  const pairLive = document.querySelector<HTMLElement>(".pair-live")!;
+  const indexImage = document.querySelector<HTMLImageElement>(".index-body img")!;
+  const liveButton = document.querySelector<HTMLButtonElement>('[data-frame][data-href="/live/"]')!;
+  const suggested = {
+    frame: liveButton.dataset.frame!, position: liveButton.dataset.position!,
+    pair: pairLive.style.backgroundImage, pairPosition: pairLive.style.backgroundPosition,
+    index: indexImage.src, indexPosition: indexImage.style.objectPosition,
+    alt: indexImage.alt, width: indexImage.width, height: indexImage.height,
+  };
+  imageChoice?.addEventListener("change", () => {
+    const option = imageChoice.selectedOptions[0];
+    const reset = option.value === "suggested";
+    const src = reset ? suggested.frame : option.dataset.src!;
+    const position = reset ? suggested.position : option.dataset.position!;
+    liveButton.dataset.frame = src;
+    liveButton.dataset.position = position;
+    liveButton.click();
+    pairLive.style.backgroundImage = reset ? suggested.pair : `url('${src}')`;
+    pairLive.style.backgroundPosition = reset ? suggested.pairPosition : position;
+    indexImage.src = reset ? suggested.index : src;
+    indexImage.alt = reset ? suggested.alt : option.dataset.alt!;
+    indexImage.width = reset ? suggested.width : Number(option.dataset.width);
+    indexImage.height = reset ? suggested.height : Number(option.dataset.height);
+    indexImage.style.objectPosition = reset ? suggested.indexPosition : position;
+  });
 </script>
 
 <style>
@@ -201,6 +261,12 @@ const references = [
   .reference .take { color: #ede8dd; }
   .reference small { font-size: 12px; color: #aaa69f; display: block; margin-top: 20px; }
   .credits { color: #aaa69f; font-size: 13px; margin: 32px 0 0; max-width: 100ch !important; }
+  .lighting-grid { display: grid; grid-template-columns: repeat(12,1fr); gap: 32px 24px; align-items: start; }
+  .lighting-image { grid-column: span 3; margin: 0; min-width: 0; }
+  .lighting-image.landscape { grid-column: span 6; }
+  .lighting-image img { width: 100%; height: auto; display: block; }
+  .lighting-image h3 { font-size: 20px; font-weight: 500; margin: 16px 0 8px; }
+  .lighting-image p { font-size: 14px; color: #aaa69f; margin: 0; }
   .language { margin-top: 88px; padding-block: 48px; border-block: 1px solid #343438; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
   .language p { color: #aaa69f; }
   .swatches { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-top: 32px; }
@@ -212,6 +278,9 @@ const references = [
   .study-picker { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
   .study-picker button { font: inherit; font-size: 15px; padding: 12px 18px; cursor: pointer; border: 1px solid #55545a; color: #ede8dd; background: transparent; }
   .study-picker button[aria-pressed="true"] { color: #0a0a0b; background: #ede8dd; border-color: #ede8dd; }
+  .image-choice { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 15px; margin-bottom: 28px; }
+  .image-choice select { font: inherit; font-size: 16px; background: #18181b; color: #ede8dd; padding: 10px 12px; border: 1px solid #55545a; max-width: 100%; }
+  .image-choice span { font-size: 13px; color: #aaa69f; }
   .study[hidden] { display: none; }
   #studies { overflow-anchor: none; }
   .study-explanation { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; margin: 24px 0; }
@@ -224,7 +293,7 @@ const references = [
   .mock-nav > div { display: flex; gap: 24px; flex-wrap: wrap; align-items: center; }
   .mockup a:hover { text-decoration: underline; text-underline-offset: 4px; }
   .feature-mockup { background: #101112; color: #ede8dd; }
-  .feature-frame { position: relative; height: 570px; background-image: linear-gradient(90deg,rgba(0,0,0,.58),rgba(0,0,0,.03)),var(--frame); background-size: cover; background-position: center; display: flex; align-items: end; padding: 40px; }
+  .feature-frame { position: relative; height: 570px; background-image: linear-gradient(0deg,rgba(0,0,0,.76),transparent 75%),linear-gradient(90deg,rgba(0,0,0,.2),transparent),var(--frame); background-size: cover; background-position: var(--frame-position,center); display: flex; align-items: end; padding: 40px; }
   .feature-heading { position: relative; z-index: 1; }
   .feature-heading p { margin: 0 0 18px; font-size: 17px; }
   .feature-heading h2 { font-size: clamp(48px, 7vw, 96px); line-height: .95; letter-spacing: -.055em; font-weight: 500; margin: 0 0 28px; }
@@ -282,6 +351,9 @@ const references = [
     .section-heading p { margin-top: 18px; }
     .reference-grid { display: block; }
     .reference { margin-bottom: 40px; }
+    .lighting-image { grid-column: span 6; }
+    .lighting-image.landscape { grid-column: span 12; }
+    .lighting-grid { gap: 28px 16px; }
     .language, .positioning-grid, .study-explanation { grid-template-columns: 1fr; gap: 24px; }
     .type-study { padding: 24px 0 0; border-left: 0; border-top: 1px solid #343438; }
     .study-picker { flex-direction: column; }

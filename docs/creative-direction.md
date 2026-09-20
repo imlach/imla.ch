@@ -52,4 +52,6 @@ Production remains `master` → GitHub Pages. No production merge is part of thi
 
 ## Next iteration
 
-Choose a landing structure. Select a small set of live photographs with show names, dates, exact roles and photographer credits. Shape one case study around the initial idea, the creative choices and what the audience saw. Keep the notebook personal and concrete; let the longer studio identity work follow later.
+Ross supplied six lighting photographs during the first pass. Web-sized copies are in `astro/src/assets/live/`; original files are untouched. The board now shows the six images before the peer references. Suggested compositions use the warm crowd for A, blue room for B and crossed white beams for C. A shared image selector lets Ross compare any of the six across all three structures. The desk photograph is proposed for process/notebook context.
+
+Choose a landing structure and image. Add show names, dates, exact roles and photographer credits to the selected work. Shape one case study around the initial idea, the creative choices and what the audience saw. Keep the notebook personal and concrete; let the longer studio identity work follow later.
