@@ -7,12 +7,14 @@ interface Props {
   title: string;
   description?: string;
   palette?: "dark" | "cream";
+  noindex?: boolean;
 }
 
 const {
   title,
-  description = "Ross Imlach - director of photography & platform engineer, based in Scotland.",
+  description = "Ross Imlach - cinematography, live lighting, video, design and production, and platform engineering. Based in Scotland.",
   palette = "dark",
+  noindex = false,
 } = Astro.props;
 
 // Social preview - a graded still. JPEG, not WebP: some scrapers
@@ -28,6 +30,7 @@ const ogImageUrl = new URL(og.src, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" type="image/svg+xml" href="/favicons/04-r-period-dark.svg" media="(prefers-color-scheme: light)" />
     <link rel="icon" type="image/svg+xml" href="/favicons/04-r-period-light.svg" media="(prefers-color-scheme: dark)" />
     <link rel="apple-touch-icon" href="/favicons/04-r-period-dark.svg" />

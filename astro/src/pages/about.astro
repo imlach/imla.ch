@@ -18,7 +18,8 @@ const elsewhere = [
     </div>
     <div class="nav-links">
       <a href="/cinematography">Cinematography</a>
-      <a href="/engineering">Engineering</a>
+      <a href="/live/">Live</a>
+      <a href="/engineering">In the weeds</a>
       <a href="mailto:ross@imla.ch">ross@imla.ch</a>
     </div>
   </nav>
@@ -31,16 +32,20 @@ const elsewhere = [
       <div class="body">
         <p>Ross Imlach. Born and raised in Scotland.</p>
         <p>
-          I do two kinds of work. By day I'm a staff platform engineer - thirteen
-          years across SaaS, distributed systems, and (more recently) ML
-          infrastructure. On nights, weekends, and increasingly the days in
-          between, I'm a director of photography on features, commercials, short
-          films and music videos.
+          I work across cinematography, live production and platform engineering.
+          That means features, commercials, short films and music videos behind
+          the camera; lighting, video, design and production for live shows;
+          and the tools and systems that sit behind the work.
         </p>
         <p>
-          The two halves are starting to talk to each other. The most interesting
-          work I can imagine doing next is at the seam - tooling that augments
-          creative craft without flattening it.
+          More of my work now moves between these disciplines. I like being
+          involved in both the creative decisions and the practical systems
+          that make them possible.
+        </p>
+        <p>
+          I also keep <a href="/engineering/">a notebook</a> about the things
+          I’m building and figuring out. Colour and sound work lives over at
+          <a href="https://studio.imla.ch/">The Studio</a>, which is still taking shape.
         </p>
       </div>
     </section>
@@ -49,12 +54,13 @@ const elsewhere = [
       <div class="label">Availability</div>
       <div class="body">
         <p class="availability-note">
-          Booking DP work from Q3 2026 onward. Considering new staff platform &amp;
-          ML platform roles, UK-remote.
+          Get in touch about cinematography, live lighting, video and production.
         </p>
         <p class="contacts">
           For cinematography enquiries - <a href="mailto:dp@imla.ch">dp@imla.ch</a>.<br />
-          For engineering &amp; everything else - <a href="mailto:ross@imla.ch">ross@imla.ch</a>.
+          For live shows &amp; production - <a href="mailto:ross@imla.ch">ross@imla.ch</a>.<br />
+          For colour &amp; sound - <a href="mailto:studio@imla.ch">studio@imla.ch</a>.<br />
+          For everything else - <a href="mailto:ross@imla.ch">ross@imla.ch</a>.
         </p>
       </div>
     </section>
@@ -132,7 +138,8 @@ const elsewhere = [
   .folio { margin-top: 28px; border-top: none; }
 
   @media (max-width: 800px) {
-    section.entry { grid-template-columns: 1fr; gap: 12px; }
+    section.entry { grid-template-columns: minmax(0, 1fr); gap: 12px; }
     .elsewhere-list { grid-template-columns: 1fr; }
+    .site-table { grid-template-columns: 80px minmax(0, 1fr); gap: 8px 16px; overflow-wrap: anywhere; }
   }
 </style>

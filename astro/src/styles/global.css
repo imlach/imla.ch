@@ -122,5 +122,5 @@ main.stage {
      rather than stranding mobile visitors with no navigation. */
   .nav { padding: 16px 24px; font-size: 13px; flex-wrap: wrap; row-gap: 4px; }
   main.stage { padding: 100px 24px 0; }
-  .nav-links { gap: 18px; }
+  .nav-links { gap: 8px 18px; flex-wrap: wrap; }
 }

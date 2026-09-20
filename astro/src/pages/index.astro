@@ -3,18 +3,18 @@ import Base from "../layouts/Base.astro";
 import type { ImageMetadata } from "astro";
 import { getImage } from "astro:assets";
 import cineImg from "../assets/films/skin/3.jpg";
-import studioImg from "../assets/landing/sound-room.png";
+import liveImg from "../../../images/liveevents.jpg";
 import engImg from "../assets/landing/rack-still.jpeg";
 
 // Card backgrounds are CSS background-images, so optimise via getImage()
 // (a ~900px WebP) rather than shipping the multi-MB originals.
 const opt = (src: ImageMetadata) => getImage({ src, width: 900, format: "webp" });
-const [cine, studio, eng] = await Promise.all([opt(cineImg), opt(studioImg), opt(engImg)]);
+const [cine, live, eng] = await Promise.all([opt(cineImg), opt(liveImg), opt(engImg)]);
 
 const cards = [
-  { cls: "eng", href: "/engineering/", bg: eng.src, pos: "center 30%", title: "Engineering.", hook: "Notes from a platform engineer who'd rather write boring infrastructure than clever code.", role: "Staff platform engineer", cta: "Read & dig in" },
-  { cls: "cine", href: "/cinematography/", bg: cine.src, pos: "center", title: "Cinematography.", hook: "Features. Commercials, music videos, shorts. Booking from Q3.", role: "Director of photography", cta: "See the work" },
-  { cls: "studio", href: "https://studio.imla.ch/", bg: studio.src, pos: "center", title: "The Studio.", hook: "Post-production for filmmakers. Colour, sound, and the tools we build for the work.", role: "Dunkeld · sibling project", cta: "Step inside", preview: true },
+  { cls: "cine", href: "/cinematography/", bg: cine.src, pos: "center", title: "Cinematography.", hook: "Features. Commercials, music videos, shorts. Light, framing and a feeling for the story.", role: "Director of photography", cta: "See the work" },
+  { cls: "live", href: "/live/", bg: live.src, pos: "center", title: "Live.", hook: "Lighting, video, design and production. From the first idea to the last cue.", role: "Live shows & events", cta: "Explore live" },
+  { cls: "eng", href: "/engineering/", bg: eng.src, pos: "center 30%", title: "In the weeds.", hook: "Things I’m building, breaking and figuring out. Notes from behind the work.", role: "The notebook", cta: "Read the notes" },
 ];
 ---
 
@@ -23,7 +23,8 @@ const cards = [
     <span class="name">Ross Imlach</span>
     <div class="nav-links">
       <a href="/cinematography">Cinematography</a>
-      <a href="/engineering">Engineering</a>
+      <a href="/live/">Live</a>
+      <a href="/engineering">In the weeds</a>
       <a href="/about">About</a>
     </div>
   </nav>
@@ -36,7 +37,6 @@ const cards = [
             <div class="media">
               <div class="media-fill" style={`background-image: url('${c.bg}'); background-position: ${c.pos};`} />
             </div>
-            {c.preview && <span class="preview-chip">In development</span>}
             <div class="body">
               <h2 class="title">{c.title}</h2>
               <p class="hook">{c.hook}</p>
@@ -51,24 +51,23 @@ const cards = [
     </section>
 
     <section class="intro">
-      <h2>A director of photography, a platform engineer, and a small studio.</h2>
+      <h1>On camera, on stage,<br />and behind the systems.</h1>
       <div class="body">
         <p>
-          They share a person, occasionally a project, and this website. Pick whichever
-          of the three's most useful to you, in whatever order.
+          I'm Ross. I work with light and images, on screen and in live performance.
+          Cinematography, lighting, video, design and production, based in Scotland.
         </p>
         <p>
-          If you came to hire a DP, <a href="/cinematography">cinematography</a> is the
-          place. If you came for technical writing - platform, infrastructure, ML - that
-          lives under <a href="/engineering">engineering</a>. There's also a quiet
-          <a href="/about">about</a> page.
+          The notebook is where I get into the systems, experiments and tools behind
+          the work, and the things I’m still figuring out.
+          <a href="/about">More about me</a>.
         </p>
       </div>
     </section>
 
     <footer class="folio">
-      <span>imla.ch · Ross Imlach</span>
-      <span>Booking DP work, open to platform &amp; ML platform roles · UK-remote</span>
+      <span>imla.ch · Ross Imlach · <a href="https://studio.imla.ch/">The Studio</a></span>
+      <span>Cinematography &amp; live enquiries · <a href="mailto:ross@imla.ch">ross@imla.ch</a></span>
     </footer>
   </main>
 </Base>
@@ -97,7 +96,6 @@ const cards = [
     cursor: pointer;
     isolation: isolate;
   }
-  .card.studio { background: var(--bg); }
 
   .media {
     position: absolute; inset: 0; z-index: 0; overflow: hidden;
@@ -125,7 +123,7 @@ const cards = [
       rgba(10,10,11,0.5) 100%);
   }
 
-  .body {
+  .card .body {
     position: relative; z-index: 2;
     padding: 40px 36px 32px;
     display: flex; flex-direction: column; justify-content: flex-end;
@@ -141,7 +139,7 @@ const cards = [
   }
   .hook {
     font-size: 17px; line-height: 1.5;
-    color: var(--ink-dim);
+    color: #b8b3aa;
     max-width: 34ch;
     margin: 0 0 28px;
   }
@@ -149,7 +147,7 @@ const cards = [
     display: flex; justify-content: space-between; align-items: baseline;
     gap: 16px; padding-top: 18px;
     border-top: 1px solid var(--rule);
-    font-size: 14px; color: var(--ink-faint);
+    font-size: 14px; color: #b8b3aa;
   }
   .foot .role {
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
@@ -163,20 +161,8 @@ const cards = [
   .card:hover .foot .href { color: var(--accent); }
   .card:hover .foot .href .arrow { transform: translateX(4px); }
 
-  /* Honest label for cards whose destination is still iterating. */
-  .preview-chip {
-    position: absolute; top: 20px; right: 20px; z-index: 3;
-    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--ink-dim);
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(4px);
-    padding: 5px 10px;
-    border: 1px solid var(--rule);
-    pointer-events: none;
-  }
-
   .intro {
-    margin-top: 160px;
+    margin-top: 80px;
     padding-top: 36px;
     border-top: 1px solid var(--rule);
     display: grid;
@@ -184,7 +170,7 @@ const cards = [
     gap: 56px;
     max-width: 1100px;
   }
-  .intro h2 {
+  .intro h1 {
     font-weight: 500;
     font-size: clamp(24px, 2.4vw, 36px);
     line-height: 1.2;
@@ -202,6 +188,11 @@ const cards = [
     transition: border-color 0.2s, color 0.2s;
   }
   .intro .body a:hover { border-color: var(--accent); color: var(--accent); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .media-fill, .foot .href .arrow { transition: none; transform: none; }
+    .card:hover .media-fill { transform: none; }
+  }
 
   /* One orchestrated entrance: the three doors rise in sequence,
      the intro follows. Nothing animates after that - the cards'
@@ -224,5 +215,9 @@ const cards = [
     .grid { grid-template-columns: 1fr; min-height: auto; }
     .card { min-height: 360px; }
     .intro { grid-template-columns: 1fr; gap: 24px; }
+  }
+  @media (max-width: 480px) {
+    .card .body { padding: 28px 24px; }
+    .title { font-size: 28px; }
   }
 </style>

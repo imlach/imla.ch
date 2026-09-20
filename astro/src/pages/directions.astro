@@ -1,0 +1,306 @@
+---
+import Base from "../layouts/Base.astro";
+import { Image, getImage } from "astro:assets";
+import tobias from "../assets/references/tobias.webp";
+import luke from "../assets/references/luke.webp";
+import treatment from "../assets/references/treatment.webp";
+import uva from "../assets/references/uva.webp";
+import fray from "../assets/references/fray.webp";
+import rob from "../assets/references/rob.webp";
+import liveImg from "../../../images/liveevents.jpg";
+import filmImg from "../assets/films/skin/3.jpg";
+
+const [live, film] = await Promise.all([liveImg, filmImg].map(src => getImage({src, width:1200, format:"webp"})));
+const references = [
+  {name:"Tobias Rylander", href:"https://tobiasrylander.com/", image:tobias, title:"The image makes the introduction.", note:"A whole stage fills the opening frame. Quiet navigation and generous project titles leave the atmosphere intact.", take:"Give a show the whole width. Let the work introduce Ross before a list of services.", caption:"The 1975 • image from Tobias Rylander’s portfolio", class:"wide"},
+  {name:"Luke Halls Studio", href:"https://lukehalls.com/", image:luke, title:"One visual practice, many settings.", note:"Overlapping images lead into a portfolio organised by context: music, theatre, fashion and live events.", take:"Film and live can feel like the same eye at work, with clear routes into each.", caption:"Homepage imagery • Luke Halls Studio", class:"wide"},
+  {name:"United Visual Artists", href:"https://www.uva.co.uk/", image:uva, title:"Space is part of the identity.", note:"The landing uses offset images and unusually large areas of white space. Light, objects and systems sit within one body of work.", take:"Let image proportions and placement carry the character. The grid can be quieter.", caption:"Seven Suns • United Visual Artists", class:"small"},
+  {name:"Treatment Studio", href:"https://www.treatmentstudio.com/work/", image:treatment, title:"A portfolio with rhythm.", note:"A clean, light gallery varies the size and orientation of projects. The work supplies the colour and energy.", take:"Use a few carefully chosen projects in different sizes, with precise role credits.", caption:"Jay Z • image from Treatment Studio’s work index", class:"small"},
+  {name:"FRAY Studio", href:"https://fraystudio.com/", image:fray, title:"Design is felt at show scale.", note:"The opening is an image-led live-performance statement. Their positioning connects video design directly to the audience’s experience.", take:"Show the intended feeling and the resulting performance before naming the tools.", caption:"Joji • homepage imagery from FRAY Studio", class:"small"},
+  {name:"Rob Sinclair", href:"https://www.robsinclair.com/", image:rob, title:"The person can be the identity.", note:"Large project photographs and a compact archive sit under the designer’s own name. The About page has a distinct personal voice.", take:"A confident Ross Imlach identity can carry this. A finished studio brand can come later.", caption:"My Chemical Romance • image from Rob Sinclair’s portfolio", class:"small"},
+];
+---
+
+<Base title="Creative direction studies - Ross Imlach" description="A working mood board and three landing-page studies for Ross Imlach." noindex>
+  <main class="research">
+    <header class="board-header">
+      <a href="/">Ross Imlach</a>
+      <span>Working direction • September 2026</span>
+      <a href="#studies">Explore the landings</a>
+    </header>
+
+    <section class="opening">
+      <h1>A point of view.<br />Then, the work.</h1>
+      <div class="opening-copy">
+        <p>Lead with the creative eye. Film and live show what it looks like.
+          The notebook shows how it gets made.</p>
+        <p class="quiet">A working mood board for a personal creative practice.
+          Studio stays a quiet link while its identity develops.</p>
+      </div>
+    </section>
+
+    <nav class="board-nav" aria-label="Mood board sections">
+      <a href="#references">Peer references</a>
+      <a href="#language">Visual language</a>
+      <a href="#studies">Three landing studies</a>
+      <a href="#positioning">Voice &amp; structure</a>
+    </nav>
+
+    <section id="references" aria-labelledby="references-title">
+      <div class="section-heading">
+        <h2 id="references-title">What to draw from.</h2>
+        <p>Personal portfolios and larger studios: references for presentation and positioning, rather than a comparison of scale.</p>
+      </div>
+      <div class="reference-grid">
+        {references.map(ref => (
+          <figure class={`reference ${ref.class}`}>
+            <a class="reference-image" href={ref.href} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${ref.name}`}>
+              <Image src={ref.image} alt={ref.caption} widths={[480,1000]} sizes="(max-width: 700px) 100vw, (max-width: 1000px) 50vw, 50vw" loading="lazy" />
+            </a>
+            <figcaption>
+              <a class="source-name" href={ref.href} target="_blank" rel="noopener noreferrer">{ref.name} <span aria-hidden="true">↗</span></a>
+              <h3>{ref.title}</h3>
+              <p>{ref.note}</p>
+              <p class="take">For Ross: {ref.take}</p>
+              <small>{ref.caption}</small>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+      <p class="credits">Reference photographs belong to their respective creators. Sources are linked above; these are peer projects, not Ross’s work. Website observations made 20 September 2026. The interpretations are ours.</p>
+    </section>
+
+    <section id="language" class="language" aria-labelledby="language-title">
+      <div>
+        <h2 id="language-title">Let light supply the colour.</h2>
+        <p>Keep Schibsted Grotesk and the warmth already in the site. Give the images
+          space, preserve their colour, and use type with more confidence.</p>
+        <div class="swatches" aria-label="Proposed palette">
+          <span style="--swatch:#0a0a0b">Stage<br />#0A0A0B</span>
+          <span style="--swatch:#ede8dd">Projection<br />#EDE8DD</span>
+          <span style="--swatch:#c5ccda">Daylight<br />#C5CCDA</span>
+          <span style="--swatch:#c87a3a">Tungsten<br />#C87A3A</span>
+        </div>
+      </div>
+      <div class="type-study">
+        <span>Schibsted Grotesk / 500</span>
+        <p>Light.<br />Image.<br />Feeling.</p>
+        <small>One large statement. Quiet labels. Specific credits.</small>
+      </div>
+    </section>
+
+    <section id="studies" aria-labelledby="studies-title">
+      <div class="section-heading">
+        <h2 id="studies-title">Three ways in.</h2>
+        <p>Same direction, different structure. These studies use Ross’s existing images; project selections and copy are still a draft.</p>
+      </div>
+      <div class="study-picker" role="group" aria-label="Choose a landing study">
+        <button type="button" data-study="feature" aria-pressed="true" aria-controls="study-feature">A. One opening image</button>
+        <button type="button" data-study="pair" aria-pressed="false" aria-controls="study-pair">B. Film &amp; live</button>
+        <button type="button" data-study="index" aria-pressed="false" aria-controls="study-index">C. A personal index</button>
+      </div>
+
+      <article class="study" id="study-feature">
+        <div class="study-explanation"><h3>A. One opening image</h3><p>My starting point: a single image establishes the eye. Film and Live are direct links; the notebook follows below. Studio lives in the footer.</p></div>
+        <div class="mockup feature-mockup">
+          <nav class="mock-nav" aria-label="Featured landing study"><strong>Ross Imlach</strong><div><a href="/cinematography/">Film</a><a href="/live/">Live</a><a href="/engineering/">In the weeds</a><a href="mailto:ross@imla.ch">Contact</a></div></nav>
+          <div class="feature-frame" style={`--frame:url('${live.src}')`}>
+            <div class="feature-heading"><p>Lighting, image &amp; live performance.</p><h2>Something<br />you can feel.</h2><a href="/live/">Explore live work</a></div>
+            <div class="frame-picker" role="group" aria-label="Featured image"><button type="button" data-frame={live.src} data-href="/live/" data-label="Explore live work" aria-pressed="true">Live</button><button type="button" data-frame={film.src} data-href="/cinematography/" data-label="Explore cinematography" aria-pressed="false">Film</button></div>
+          </div>
+          <div class="mock-note"><div><h3>In the weeds.</h3><p>Experiments, tools and things I’m working through.</p></div><a href="/engineering/cora-why/">Building a reviewer for my own code</a></div>
+          <footer class="mock-footer"><span>Scotland. Working wherever the project takes me.</span><a href="https://studio.imla.ch/">The Studio</a></footer>
+        </div>
+        <p class="tradeoff">Best when a small, strong selection can carry the introduction. A still works today; a short reel could follow once the footage is chosen. The film/live switch above is manual.</p>
+      </article>
+
+      <article class="study" id="study-pair" hidden>
+        <div class="study-explanation"><h3>B. Film &amp; live</h3><p>Two creative directions remain visible together. They share a name, a point of view and a notebook. Studio is a secondary destination.</p></div>
+        <div class="mockup pair-mockup">
+          <nav class="mock-nav" aria-label="Paired landing study"><strong>Ross Imlach</strong><div><a href="/engineering/">In the weeds</a><a href="/about/">About</a><a href="mailto:ross@imla.ch">Contact</a></div></nav>
+          <header class="pair-intro"><h2>Images for the screen.<br />Light for the room.</h2><p>Cinematography, lighting and live production.<br />A creative practice based in Scotland.</p></header>
+          <div class="pair-images"><a href="/cinematography/" style={`background-image:url('${film.src}')`}><h3>Film.</h3><span>Cinematography</span></a><a href="/live/" style={`background-image:url('${live.src}')`}><h3>Live.</h3><span>Lighting, video &amp; production</span></a></div>
+          <div class="mock-note"><div><h3>In the weeds.</h3><p>What happens behind the image and under the hood.</p></div><a href="/engineering/">Read the notebook</a></div>
+          <footer class="mock-footer"><span>Design, post and ongoing experiments.</span><a href="https://studio.imla.ch/">The Studio</a></footer>
+        </div>
+        <p class="tradeoff">The clearest choice if both film and live should be equally easy to enter. It keeps two entrances without putting engineering into a third promotional panel.</p>
+      </article>
+
+      <article class="study" id="study-index" hidden>
+        <div class="study-explanation"><h3>C. A personal index</h3><p>Your name and the work form one composition. A large image sits beside a short index. This leaves the most room for the practice to evolve.</p></div>
+        <div class="mockup index-mockup">
+          <nav class="mock-nav" aria-label="Index landing study"><strong>Ross Imlach</strong><div><a href="/about/">About</a><a href="mailto:ross@imla.ch">Contact</a></div></nav>
+          <div class="index-body"><div class="index-copy"><p>I work with light,<br />images and the systems<br />behind them.</p><div class="index-links"><a href="/cinematography/">Cinematography<span>Films, music videos &amp; shorts</span></a><a href="/live/">Live<span>Lighting, video &amp; production</span></a><a href="/engineering/">In the weeds<span>Notes from making things work</span></a></div></div><img src={film.src} alt="A frame from SKIN, from Ross’s cinematography portfolio" width="1200" height="800" loading="lazy" /></div>
+          <footer class="mock-footer"><span>A practice in progress. Scotland.</span><a href="https://studio.imla.ch/">The Studio</a></footer>
+        </div>
+        <p class="tradeoff">The most flexible structure, and the least dependent on a reel. It keeps every route visible with different emphasis through type and placement.</p>
+      </article>
+      <noscript><p>The first study is shown above. Enable JavaScript to compare the other two.</p></noscript>
+    </section>
+
+    <section id="positioning" class="positioning" aria-labelledby="positioning-title">
+      <h2 id="positioning-title">A personal practice.<br />Room to go deeper.</h2>
+      <div class="positioning-grid">
+        <div><h3>The front door</h3><p><strong>Ross Imlach.</strong> A clear creative point of view, expressed through film, lighting and live performance. Describe what the work feels like, then show the choices that made it happen.</p></div>
+        <div><h3>The notebook</h3><p><strong>In the weeds.</strong> Experiments, working notes, tools and the systems behind them. Keep the engineering URLs; change the invitation and the voice.</p></div>
+        <div><h3>The Studio</h3><p><strong>A quiet link, for now.</strong> Existing colour, sound and post work stays accessible. Its wider design and creative-direction identity can develop without holding up the personal site.</p></div>
+      </div>
+      <div class="voice-sample"><span>A possible notebook introduction</span><p>Things I’m building, breaking and figuring out. Sometimes for a show, sometimes for a film, sometimes because I wanted to see if I could make it work.</p></div>
+      <p class="next-step">For the next pass: choose a landing structure, then pick a handful of live images with project names and your exact role. The most useful case study will connect the initial idea, a design decision, and what the audience saw.</p>
+    </section>
+
+    <footer class="board-footer"><span>Draft for discussion. A is the suggested starting point; B keeps the creative split clearest.</span><a href="/live/">Open the first Live page draft</a></footer>
+  </main>
+</Base>
+
+<script>
+  const studyButtons = document.querySelectorAll<HTMLButtonElement>("[data-study]");
+  studyButtons.forEach(button => button.addEventListener("click", () => {
+    studyButtons.forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+    document.querySelectorAll<HTMLElement>(".study").forEach(study => { study.hidden = study.id !== `study-${button.dataset.study}`; });
+  }));
+  const frameButtons = document.querySelectorAll<HTMLButtonElement>("[data-frame]");
+  frameButtons.forEach(button => button.addEventListener("click", () => {
+    const frame = document.querySelector<HTMLElement>(".feature-frame");
+    const link = frame?.querySelector<HTMLAnchorElement>(".feature-heading a");
+    if (!frame || !link) return;
+    frame.style.setProperty("--frame", `url('${button.dataset.frame}')`);
+    link.href = button.dataset.href!;
+    link.textContent = button.dataset.label!;
+    frameButtons.forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+  }));
+</script>
+
+<style>
+  .research { max-width: 1480px; padding: 32px 48px; margin: auto; color: #ede8dd; }
+  .research p { max-width: 65ch; }
+  .board-header, .board-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; font-size: 14px; }
+  .board-header span, .quiet { color: #aaa69f; }
+  .board-header a:last-child, .board-footer a { border-bottom: 1px solid #c87a3a; padding-bottom: 4px; }
+  .opening { display: grid; grid-template-columns: 1.3fr 1fr; gap: 60px; align-items: end; margin: 110px 0 60px; }
+  .opening h1 { font-size: clamp(48px, 6.5vw, 96px); font-weight: 500; line-height: .98; letter-spacing: -.055em; margin: 0; }
+  .opening-copy p { font-size: 22px; line-height: 1.45; margin: 0 0 18px; }
+  .opening-copy .quiet { font-size: 16px; margin: 0; }
+  .board-nav { display: flex; gap: 28px; flex-wrap: wrap; padding: 24px 0; border-block: 1px solid #343438; font-size: 15px; }
+  .board-nav a:hover { color: #c87a3a; }
+  section[id] { scroll-margin-top: 30px; }
+  .section-heading { display: flex; gap: 40px; justify-content: space-between; align-items: end; margin: 80px 0 32px; }
+  .section-heading h2, .language h2, .positioning > h2 { font-size: clamp(30px, 3.5vw, 48px); line-height: 1.08; letter-spacing: -.03em; font-weight: 500; margin: 0; }
+  .section-heading > p { max-width: 48ch; font-size: 16px; color: #aaa69f; margin: 0; }
+  .reference-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 48px 28px; }
+  .reference { margin: 0; grid-column: span 2; min-width: 0; }
+  .reference.wide { grid-column: span 3; }
+  .reference:nth-child(6) { grid-column: span 6; display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: center; }
+  .reference-image { display: block; }
+  .reference img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
+  .reference.wide img { aspect-ratio: 16 / 10; }
+  .reference figcaption { padding-top: 20px; }
+  .reference .source-name { color: #c5ccda; font-size: 14px; display: flex; justify-content: space-between; }
+  .reference h3 { font-size: 24px; line-height: 1.15; font-weight: 500; letter-spacing: -.025em; margin: 16px 0; }
+  .reference p { color: #aaa69f; font-size: 15px; line-height: 1.6; margin: 0 0 12px; }
+  .reference .take { color: #ede8dd; }
+  .reference small { font-size: 12px; color: #aaa69f; display: block; margin-top: 20px; }
+  .credits { color: #aaa69f; font-size: 13px; margin: 32px 0 0; max-width: 100ch !important; }
+  .language { margin-top: 88px; padding-block: 48px; border-block: 1px solid #343438; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+  .language p { color: #aaa69f; }
+  .swatches { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-top: 32px; }
+  .swatches span { font-size: 12px; color: #aaa69f; }
+  .swatches span::before { content: ""; display: block; height: 55px; margin-bottom: 10px; background: var(--swatch); border: 1px solid #343438; }
+  .type-study { padding-left: 40px; border-left: 1px solid #343438; }
+  .type-study > span, .type-study small { color: #aaa69f; font-size: 13px; }
+  .type-study p { font-size: 64px; line-height: .95; letter-spacing: -.055em; font-weight: 500; color: #ede8dd; margin: 22px 0; }
+  .study-picker { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+  .study-picker button { font: inherit; font-size: 15px; padding: 12px 18px; cursor: pointer; border: 1px solid #55545a; color: #ede8dd; background: transparent; }
+  .study-picker button[aria-pressed="true"] { color: #0a0a0b; background: #ede8dd; border-color: #ede8dd; }
+  .study[hidden] { display: none; }
+  #studies { overflow-anchor: none; }
+  .study-explanation { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; margin: 24px 0; }
+  .study-explanation h3 { font-size: 22px; margin: 0; font-weight: 500; }
+  .study-explanation p, .tradeoff { color: #aaa69f; font-size: 16px; margin: 0; }
+  .tradeoff { padding-top: 22px; max-width: 85ch !important; }
+  .mockup { background: #ede8dd; color: #161617; overflow: hidden; }
+  .mock-nav { display: flex; justify-content: space-between; gap: 24px; padding: 26px 32px; flex-wrap: wrap; font-size: 14px; }
+  .mock-nav strong { font-size: 18px; font-weight: 600; }
+  .mock-nav > div { display: flex; gap: 24px; flex-wrap: wrap; align-items: center; }
+  .mockup a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .feature-mockup { background: #101112; color: #ede8dd; }
+  .feature-frame { position: relative; height: 570px; background-image: linear-gradient(90deg,rgba(0,0,0,.58),rgba(0,0,0,.03)),var(--frame); background-size: cover; background-position: center; display: flex; align-items: end; padding: 40px; }
+  .feature-heading { position: relative; z-index: 1; }
+  .feature-heading p { margin: 0 0 18px; font-size: 17px; }
+  .feature-heading h2 { font-size: clamp(48px, 7vw, 96px); line-height: .95; letter-spacing: -.055em; font-weight: 500; margin: 0 0 28px; }
+  .feature-heading a { font-size: 16px; border-bottom: 1px solid #ede8dd; padding-bottom: 4px; }
+  .frame-picker { position: absolute; right: 32px; bottom: 32px; display: flex; gap: 8px; }
+  .frame-picker button { background: #171819; border: 1px solid #a8a7a2; color: #ede8dd; padding: 10px 14px; font: inherit; font-size: 14px; cursor: pointer; }
+  .frame-picker button[aria-pressed="true"] { background: #ede8dd; color: #101112; }
+  .mock-note { display: flex; gap: 24px; justify-content: space-between; align-items: center; padding: 36px 32px; border-bottom: 1px solid #686660; }
+  .mock-note h3 { font-size: 28px; font-weight: 500; letter-spacing: -.03em; margin: 0 0 8px; }
+  .mock-note p { font-size: 15px; margin: 0; }
+  .mock-note > a { max-width: 25ch; font-size: 16px; text-decoration: underline; text-underline-offset: 4px; }
+  .mock-footer { display: flex; gap: 24px; justify-content: space-between; padding: 24px 32px; font-size: 13px; }
+  .pair-intro { padding: 36px 32px; display: flex; gap: 40px; align-items: end; justify-content: space-between; }
+  .pair-intro h2 { font-size: clamp(32px, 4.5vw, 60px); line-height: 1; letter-spacing: -.045em; font-weight: 500; margin: 0; }
+  .pair-intro p { font-size: 15px; max-width: 34ch; margin: 0; }
+  .pair-images { display: grid; grid-template-columns: 1.15fr 1fr; gap: 8px; padding: 0 8px; }
+  .pair-images > a { background-size: cover; background-position: center; height: 420px; position: relative; display: flex; flex-direction: column; justify-content: end; color: #fff; padding: 32px; isolation: isolate; }
+  .pair-images > a::before { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg,rgba(0,0,0,.8),transparent 70%); z-index: -1; }
+  .pair-images h3 { font-size: 64px; font-weight: 500; line-height: 1; letter-spacing: -.045em; margin: 0 0 8px; }
+  .pair-images span { font-size: 15px; }
+  .index-mockup { background: #e3e7ec; }
+  .index-body { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; padding: 30px 32px 48px; align-items: start; }
+  .index-copy > p { font-size: clamp(30px, 4.3vw, 58px); font-weight: 500; letter-spacing: -.04em; line-height: 1.05; margin: 0 0 44px; }
+  .index-body img { width: 100%; height: 550px; object-fit: cover; margin-top: 70px; }
+  .index-links a { display: flex; flex-direction: column; font-size: 30px; line-height: 1.2; padding: 16px 0; border-top: 1px solid #92969c; letter-spacing: -.025em; }
+  .index-links span { font-size: 14px; letter-spacing: 0; margin-top: 8px; color: #51565d; }
+  .index-links a:last-child { font-size: 24px; }
+  .positioning { margin-top: 90px; padding-top: 44px; border-top: 1px solid #343438; }
+  .positioning-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 40px; margin: 36px 0; }
+  .positioning-grid h3 { font-size: 16px; color: #c5ccda; font-weight: 500; }
+  .positioning-grid p { color: #aaa69f; font-size: 16px; }
+  .positioning-grid strong { color: #ede8dd; font-weight: 500; }
+  .voice-sample { padding: 32px; border-left: 2px solid #c87a3a; background: #18181b; }
+  .voice-sample span { font-size: 14px; color: #aaa69f; }
+  .voice-sample p { font-size: 25px; line-height: 1.4; margin: 16px 0 0; letter-spacing: -.02em; }
+  .next-step { color: #aaa69f; margin-top: 30px; }
+  .board-footer { margin-top: 70px; padding: 26px 0; border-top: 1px solid #343438; color: #aaa69f; }
+  @media (max-width: 1000px) {
+    .research { padding: 24px; }
+    .opening { grid-template-columns: 1fr; gap: 28px; margin-top: 70px; }
+    .reference, .reference.wide { grid-column: span 3; }
+    .reference:nth-child(6) { grid-column: span 3; display: block; }
+    .language { gap: 40px; }
+    .pair-intro { flex-direction: column; align-items: start; gap: 22px; }
+    .index-body { gap: 24px; }
+  }
+  @media (max-width: 700px) {
+    .research { padding: 20px; }
+    .board-header { font-size: 12px; gap: 12px; }
+    .board-header span { order: 3; width: 100%; }
+    .opening { margin: 54px 0 36px; }
+    .opening-copy p { font-size: 20px; }
+    .board-nav { gap: 16px 24px; }
+    .section-heading { display: block; margin-top: 52px; }
+    .section-heading p { margin-top: 18px; }
+    .reference-grid { display: block; }
+    .reference { margin-bottom: 40px; }
+    .language, .positioning-grid, .study-explanation { grid-template-columns: 1fr; gap: 24px; }
+    .type-study { padding: 24px 0 0; border-left: 0; border-top: 1px solid #343438; }
+    .study-picker { flex-direction: column; }
+    .study-picker button { text-align: left; }
+    .mock-nav { padding: 22px; gap: 18px; }
+    .mock-nav > div { gap: 12px 18px; font-size: 12px; }
+    .feature-frame { height: 500px; padding: 24px 22px 100px; }
+    .feature-heading p { font-size: 14px; }
+    .frame-picker { right: auto; left: 22px; bottom: 24px; }
+    .mock-note, .mock-footer { flex-direction: column; align-items: start; padding: 24px 22px; gap: 18px; }
+    .mock-note h3 { font-size: 25px; }
+    .pair-intro { padding: 28px 22px; }
+    .pair-images { grid-template-columns: 1fr; }
+    .pair-images > a { height: 330px; padding: 24px; }
+    .index-body { grid-template-columns: 1fr; padding: 24px 22px; }
+    .index-copy > p { font-size: 36px; }
+    .index-body img { height: 300px; margin: 0; }
+    .index-links a { font-size: 26px; }
+    .voice-sample { padding: 24px; }
+    .voice-sample p { font-size: 21px; }
+  }
+</style>

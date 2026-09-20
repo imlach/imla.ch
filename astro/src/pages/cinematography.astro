@@ -11,7 +11,8 @@ import { films } from "../data/films.ts";
       <span class="crumb"><span class="here">Cinematography</span></span>
     </div>
     <div class="nav-links">
-      <a href="/engineering">Engineering</a>
+      <a href="/live/">Live</a>
+      <a href="/engineering">In the weeds</a>
       <a href="https://www.imdb.com/name/nm11700036/" target="_blank" rel="noopener">IMDb</a>
       <a href="mailto:dp@imla.ch">dp@imla.ch</a>
     </div>
@@ -148,5 +149,8 @@ import { films } from "../data/films.ts";
 
   @media (max-width: 1100px) {
     .reel .item { grid-column: span 12 !important; }
+  }
+  @media (max-width: 600px) {
+    .masthead h1 { font-size: clamp(32px, 8.3vw, 50px); }
   }
 </style>
