@@ -59,3 +59,7 @@ Choose a landing structure and image. Add show names, dates, exact roles and pho
 ## Live page iteration, 22 September 2026
 
 Ross confirmed Lighting Design as the role on all six supplied images. Photography is partly Ross and partly Michael Roddy; the exact mapping is not yet confirmed. Ross is unsure about using these stills as the portfolio selection. Keep them on the mood board for now, and do not invent show titles or individual photo credits. The first Live revision develops structure and copy using the existing live-events image; project case studies and final photography remain open.
+
+## Live workshop
+
+Continue Live copy and layout exploration at `/directions/#live-workshop`. Two switchable concepts compare performance-led imagery with a more explicit creative-collaboration introduction. Both use the existing photograph as a stand-in. Keep `/live/` as the current draft until a workshop direction is selected. The landing notebook CTA is now “Read”, linking to `/engineering/`; its experience role line specifies live music and performance.

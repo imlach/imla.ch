@@ -14,14 +14,14 @@ const NoteHeading = Heading === "h1" ? "h2" : "h3";
             <div class="frame-picker" role="group" aria-label="Explore image or experience">
               <button type="button" data-frame={film} data-position="60% center" data-href="/cinematography/" data-label="Explore cinematography" data-description="Ross Imlach, Director of Photography" data-word="image" data-perspective="Film" aria-label="Image, show Film perspective" aria-controls="featured-perspective" aria-pressed="false">image</button>
               <span class="perspective-divider" aria-hidden="true">|</span>
-              <button type="button" data-frame={live} data-position="50% 55%" data-href="/live/" data-label="Explore live work" data-description="Lighting, video & creative direction." data-word="experience" data-perspective="Live" aria-label="Experience, show Live perspective" aria-controls="featured-perspective" aria-pressed="true">experience</button>
+              <button type="button" data-frame={live} data-position="50% 55%" data-href="/live/" data-label="Explore live work" data-description="Lighting, video & creative direction for live music and performance." data-word="experience" data-perspective="Live" aria-label="Experience, show Live perspective" aria-controls="featured-perspective" aria-pressed="true">experience</button>
             </div>
           </div>
           <div class="feature-frame" id="featured-perspective" style={`--frame:url('${live}'); --frame-position:50% 55%`}>
-            <div class="feature-heading"><div aria-live="polite" aria-atomic="true"><Heading>Shaping the<br /><span class="perspective-word">experience</span>.</Heading><p>Lighting, video &amp; creative direction.</p></div><a href="/live/">Explore live work</a></div>
+            <div class="feature-heading"><div aria-live="polite" aria-atomic="true"><Heading>Shaping the<br /><span class="perspective-word">experience</span>.</Heading><p>Lighting, video &amp; creative direction for live music and performance.</p></div><a href="/live/">Explore live work</a></div>
 
           </div>
-          <div class="mock-note"><div><NoteHeading>In the weeds.</NoteHeading><p>Experiments, tools and things I’m working through.</p></div><a href="/engineering/cora-why/">Building a reviewer for my own code</a></div>
+          <div class="mock-note"><div><NoteHeading>In the weeds.</NoteHeading><p>Experiments, tools and things I’m working through.</p></div><a href="/engineering/">Read</a></div>
           <footer class="mock-footer"><span>Scotland. Working wherever the project takes me.</span><a href="https://studio.imla.ch/">The Studio</a></footer>
         </div>
 

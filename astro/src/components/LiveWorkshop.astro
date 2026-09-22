@@ -1,0 +1,117 @@
+---
+import { Image } from "astro:assets";
+import liveImage from "../../../images/liveevents.jpg";
+---
+<section id="live-workshop" aria-labelledby="live-workshop-title">
+  <header class="workshop-intro">
+    <h2 id="live-workshop-title">Live, in development.</h2>
+    <p>Two ways to introduce the practice. Compare the emphasis, copy and page structure. The existing photograph is a stand-in while the portfolio selection stays open.</p>
+  </header>
+  <div class="workshop-picker" role="group" aria-label="Choose a Live direction">
+    <button type="button" data-live-study="performance" aria-controls="live-performance" aria-pressed="true">A. Performance first</button>
+    <button type="button" data-live-study="collaboration" aria-controls="live-collaboration" aria-pressed="false">B. Creative collaboration</button>
+  </div>
+
+  <article id="live-performance" data-live-panel>
+    <div class="direction-note"><h3>Let the room make the introduction.</h3><p>Lead with a show image and a short statement. Follow with your approach, then selected work with precise Lighting Design credits once the projects are chosen.</p></div>
+    <div class="live-sketch">
+      <header class="sketch-nav"><span>Ross Imlach</span><span>Live</span></header>
+      <div class="performance-hero">
+        <Image src={liveImage} alt="A lighting desk and audience beneath white beams at a live show." width={1400} loading="lazy" />
+        <div class="performance-heading"><h3>For the music.<br />For the room.</h3><p>Lighting, video &amp; creative direction<br class="desktop-break" /> for live music and performance.</p></div>
+      </div>
+      <div class="sketch-body">
+        <h4>Start with the performance.</h4>
+        <div><p>The music, the people on stage and the space around them. I design lighting that gives each show its own visual character, with video considered as part of the same picture.</p><p>From the first idea to programming and operating, I work with artists and crews to bring that direction into the room.</p><a href="mailto:ross@imla.ch?subject=Live%20enquiry">Talk about a show</a></div>
+      </div>
+    </div>
+    <p class="discussion">This direction makes the music and audience central. It needs a strong final photograph or reel, followed by a small selection of shows that demonstrates the range of the work.</p>
+  </article>
+
+  <article id="live-collaboration" data-live-panel hidden>
+    <div class="direction-note"><h3>Lead with what you bring to the artist.</h3><p>A more direct invitation to develop the show together. Put the idea and your authorship first, then show how lighting, video and production carry it through.</p></div>
+    <div class="live-sketch collaboration">
+      <header class="sketch-nav"><span>Ross Imlach</span><span>Live</span></header>
+      <div class="collaboration-hero">
+        <div><h3>A visual world<br />for the show.</h3><p>Lighting, video &amp; creative direction for live music and performance.</p><p>I work with artists to develop a visual language for their performance, and with the crew to bring it to life.</p><a href="mailto:ross@imla.ch?subject=Live%20enquiry">Tell me what you’re planning</a></div>
+        <Image src={liveImage} alt="White stage lighting seen from behind the lighting desk and audience." width={1000} loading="lazy" />
+      </div>
+      <div class="practice-notes">
+        <div><h4>Find the direction.</h4><p>Talk through the music, references and ambitions for the show.</p></div>
+        <div><h4>Develop the design.</h4><p>Give lighting and video a shared purpose, shaped around the space.</p></div>
+        <div><h4>Take it into the room.</h4><p>Programme, rehearse and refine the choices with the performance.</p></div>
+      </div>
+    </div>
+    <p class="discussion">This direction puts more weight on creative collaboration. A case study should connect the initial idea to the finished show, making your specific contribution clear.</p>
+  </article>
+  <div class="workshop-next"><p>Copy and structure studies. Project selection and photography credits are still to be resolved; the supplied stills remain reference material.</p><a href="/live/">Compare the current Live page</a></div>
+</section>
+
+<script>
+  const workshop = document.querySelector<HTMLElement>("#live-workshop")!;
+  const choices = workshop.querySelectorAll<HTMLButtonElement>("[data-live-study]");
+  choices.forEach(button => button.addEventListener("click", () => {
+    choices.forEach(choice => choice.setAttribute("aria-pressed", String(choice === button)));
+    workshop.querySelectorAll<HTMLElement>("[data-live-panel]").forEach(panel => {
+      panel.hidden = panel.id !== `live-${button.dataset.liveStudy}`;
+    });
+  }));
+</script>
+
+<style>
+  section { margin-top: 88px; padding-top: 48px; border-top: 1px solid #343438; }
+  .workshop-intro, .direction-note { display: grid; grid-template-columns: 1fr 1.3fr; gap: 48px; }
+  .workshop-intro { margin-bottom: 32px; }
+  h2 { font-size: clamp(30px, 3.5vw, 48px); line-height: 1.08; letter-spacing: -.03em; font-weight: 500; margin: 0; }
+  p { line-height: 1.6; max-width: 60ch; margin: 0; }
+  .workshop-intro p, .direction-note p, .discussion, .workshop-next { color: #aaa69f; font-size: 16px; }
+  .workshop-picker { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+  .workshop-picker button { font: inherit; font-size: 15px; padding: 12px 18px; cursor: pointer; border: 1px solid #55545a; color: #ede8dd; background: transparent; }
+  .workshop-picker button[aria-pressed="true"] { color: #0a0a0b; background: #ede8dd; border-color: #ede8dd; }
+  [hidden] { display: none; }
+  .direction-note { margin-bottom: 24px; }
+  .direction-note h3 { font-size: 23px; line-height: 1.25; font-weight: 500; margin: 0; letter-spacing: -.02em; }
+  .live-sketch { background: #101112; color: #ede8dd; }
+  .sketch-nav { display: flex; justify-content: space-between; padding: 26px 32px; gap: 24px; font-size: 14px; }
+  .sketch-nav span:first-child { font-weight: 600; font-size: 18px; }
+  .performance-hero { position: relative; height: 570px; isolation: isolate; }
+  .performance-hero img { width: 100%; height: 100%; object-fit: cover; }
+  .performance-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg,rgba(0,0,0,.85),transparent 85%); }
+  .performance-heading { position: absolute; inset: auto 40px 36px; z-index: 1; }
+  .performance-heading h3, .collaboration-hero h3 { font-size: clamp(40px,6.4vw,84px); font-weight: 500; line-height: 1; letter-spacing: -.045em; margin: 0 0 24px; }
+  .performance-heading p { font-size: 20px; line-height: 1.4; }
+  .sketch-body { display: grid; grid-template-columns: 1fr 1.3fr; gap: 48px; padding: 48px 40px; }
+  h4 { font-size: 28px; font-weight: 500; line-height: 1.15; letter-spacing: -.025em; margin: 0 0 16px; }
+  .sketch-body p, .collaboration-hero p { margin: 0 0 20px; color: #c5ccda; font-size: 17px; }
+  .live-sketch a, .workshop-next a { display: inline-block; border-bottom: 1px solid currentColor; padding-bottom: 3px; }
+  a:hover { color: #c87a3a; }
+  .collaboration { background: #e3e7ec; color: #161617; }
+  .collaboration-hero { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; padding: 30px 32px 48px; align-items: center; }
+  .collaboration-hero h3 { font-size: clamp(36px, 4.5vw, 64px); }
+  .collaboration-hero p { color: #51565d; }
+  .collaboration-hero img { width: 100%; height: 510px; object-fit: cover; object-position: 55% center; }
+  .practice-notes { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; padding: 0 32px 40px; }
+  .practice-notes > div { border-top: 1px solid #92969c; padding-top: 22px; }
+  .practice-notes h4 { font-size: 22px; }
+  .practice-notes p { color: #51565d; font-size: 15px; }
+  .discussion { margin-top: 22px; max-width: 85ch; }
+  .workshop-next { margin-top: 32px; display: flex; justify-content: space-between; align-items: start; gap: 32px; font-size: 14px; }
+  .workshop-next a { color: #ede8dd; flex-shrink: 0; }
+  @media (max-width:700px) {
+    section { margin-top: 56px; padding-top: 32px; }
+    .workshop-intro, .direction-note, .sketch-body, .collaboration-hero, .practice-notes { grid-template-columns: 1fr; gap: 24px; }
+    .workshop-picker { flex-direction: column; }
+    .workshop-picker button { text-align: left; }
+    .sketch-nav { padding: 22px; }
+    .performance-hero { height: 480px; }
+    .performance-heading { inset: auto 22px 28px; }
+    .performance-heading h3 { font-size: clamp(34px, 7.8vw, 50px); }
+    .performance-heading p { font-size: 16px; }
+    .desktop-break { display: none; }
+    .sketch-body, .collaboration-hero { padding: 28px 22px; }
+    .collaboration-hero h3 { font-size: clamp(32px, 7.5vw, 48px); }
+    .collaboration-hero img { height: 280px; }
+    .practice-notes { padding: 0 22px 28px; }
+    .workshop-next { flex-direction: column; gap: 16px; }
+  }
+</style>

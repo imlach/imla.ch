@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import CreativeLanding from "../components/CreativeLanding.astro";
+import LiveWorkshop from "../components/LiveWorkshop.astro";
 import { Image, getImage } from "astro:assets";
 import tobias from "../assets/references/tobias.webp";
 import luke from "../assets/references/luke.webp";
@@ -52,6 +53,7 @@ const references = [
       <a href="#references">Peer references</a>
       <a href="#language">Visual language</a>
       <a href="#studies">Three landing studies</a>
+      <a href="#live-workshop">Live workshop</a>
       <a href="#positioning">Voice &amp; structure</a>
     </nav>
 
@@ -163,6 +165,8 @@ const references = [
       <noscript><p>The first study is shown above. Enable JavaScript to compare the other two.</p></noscript>
     </section>
 
+    <LiveWorkshop />
+
     <section id="positioning" class="positioning" aria-labelledby="positioning-title">
       <h2 id="positioning-title">A personal practice.<br />Room to go deeper.</h2>
       <div class="positioning-grid">
@@ -171,10 +175,10 @@ const references = [
         <div><h3>The Studio</h3><p><strong>A quiet link, for now.</strong> Existing colour, sound and post work stays accessible. Its wider design and creative-direction identity can develop without holding up the personal site.</p></div>
       </div>
       <div class="voice-sample"><span>A possible notebook introduction</span><p>Things I’m building, breaking and figuring out. Sometimes for a show, sometimes for a film, sometimes because I wanted to see if I could make it work.</p></div>
-      <p class="next-step">For the next pass: choose a landing structure, then pick a handful of live images with project names and your exact role. The most useful case study will connect the initial idea, a design decision, and what the audience saw.</p>
+      <p class="next-step">The A landing is now at the preview root. Next, develop the Live direction above and choose the work that supports it. The most useful case study will connect the initial idea, a design decision, and what the audience saw.</p>
     </section>
 
-    <footer class="board-footer"><span>Draft for discussion. A is the suggested starting point; B keeps the creative split clearest.</span><a href="/live/">Open the first Live page draft</a></footer>
+    <footer class="board-footer"><span>The landing is selected. Live copy and structure are in development.</span><a href="/live/">Open the first Live page draft</a></footer>
   </main>
 </Base>
 
