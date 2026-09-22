@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import CreativeLanding from "../components/CreativeLanding.astro";
 import { Image, getImage } from "astro:assets";
 import tobias from "../assets/references/tobias.webp";
 import luke from "../assets/references/luke.webp";
@@ -134,22 +135,7 @@ const references = [
 
       <article class="study" id="study-feature">
         <div class="study-explanation"><h3>A. One opening image</h3><p>A single image establishes the eye. The image | experience wordmark doubles as the perspective switch: cinematography and live creative direction. The notebook follows below; Studio lives in the footer.</p></div>
-        <div class="mockup feature-mockup">
-          <nav class="mock-nav" aria-label="Featured landing study"><strong>Ross Imlach</strong><div><a href="/about/">About</a><a href="/engineering/">In the weeds</a><a href="mailto:ross@imla.ch">Contact</a></div></nav>
-          <div class="perspective-switch">
-            <div class="frame-picker" role="group" aria-label="Explore image or experience">
-              <button type="button" data-frame={film.src} data-position="60% center" data-href="/cinematography/" data-label="Explore cinematography" data-description="Ross Imlach, Director of Photography" data-word="image" data-perspective="Film" aria-label="Image — show Film perspective" aria-controls="featured-perspective" aria-pressed="false">image</button>
-              <span class="perspective-divider" aria-hidden="true">|</span>
-              <button type="button" data-frame={live.src} data-position="50% 55%" data-href="/live/" data-label="Explore live work" data-description="Lighting, video & creative direction." data-word="experience" data-perspective="Live" aria-label="Experience — show Live perspective" aria-controls="featured-perspective" aria-pressed="true">experience</button>
-            </div>
-          </div>
-          <div class="feature-frame" id="featured-perspective" style={`--frame:url('${live.src}'); --frame-position:50% 55%`}>
-            <div class="feature-heading"><div aria-live="polite" aria-atomic="true"><h2>Shaping the<br /><span class="perspective-word">experience</span>.</h2><p>Lighting, video &amp; creative direction.</p></div><a href="/live/">Explore live work</a></div>
-
-          </div>
-          <div class="mock-note"><div><h3>In the weeds.</h3><p>Experiments, tools and things I’m working through.</p></div><a href="/engineering/cora-why/">Building a reviewer for my own code</a></div>
-          <footer class="mock-footer"><span>Scotland. Working wherever the project takes me.</span><a href="https://studio.imla.ch/">The Studio</a></footer>
-        </div>
+        <CreativeLanding film={film.src} live={live.src} />
         <p class="tradeoff">Best when a small, strong selection can carry the introduction. A still works today; a short reel could follow once the footage is chosen. The wordmark changes the image, headline, role line and work link. “Image” opens Film; “experience” opens Live. Film uses a still from Declan Welsh: FEEBLE.</p>
       </article>
 
@@ -198,23 +184,6 @@ const references = [
     studyButtons.forEach(item => item.setAttribute("aria-pressed", String(item === button)));
     document.querySelectorAll<HTMLElement>(".study").forEach(study => { study.hidden = study.id !== `study-${button.dataset.study}`; });
   }));
-  const frameButtons = document.querySelectorAll<HTMLButtonElement>("[data-frame]");
-  frameButtons.forEach(button => button.addEventListener("click", () => {
-    const frame = document.querySelector<HTMLElement>(".feature-frame");
-    const link = frame?.querySelector<HTMLAnchorElement>(".feature-heading a");
-    if (!frame || !link) return;
-    frame.style.setProperty("--frame", `url('${button.dataset.frame}')`);
-    frame.style.setProperty("--frame-position", button.dataset.position || "center");
-    link.href = button.dataset.href!;
-    link.textContent = button.dataset.label!;
-    frame.querySelector<HTMLParagraphElement>(".feature-heading p")!.textContent = button.dataset.description!;
-    frame.querySelector<HTMLElement>(".perspective-word")!.textContent = button.dataset.word!;
-    frameButtons.forEach(item => {
-      const selected = item === button;
-      item.setAttribute("aria-pressed", String(selected));
-    });
-  }));
-
   const imageChoice = document.querySelector<HTMLSelectElement>("#lighting-choice");
   const pairLive = document.querySelector<HTMLElement>(".pair-live")!;
   const indexImage = document.querySelector<HTMLImageElement>(".index-body img")!;
@@ -304,18 +273,6 @@ const references = [
   .mock-nav strong { font-size: 18px; font-weight: 600; }
   .mock-nav > div { display: flex; gap: 24px; flex-wrap: wrap; align-items: center; }
   .mockup a:hover { text-decoration: underline; text-underline-offset: 4px; }
-  .feature-mockup { background: #101112; color: #ede8dd; }
-  .feature-frame { position: relative; height: 570px; background-image: linear-gradient(0deg,rgba(0,0,0,.76),transparent 75%),linear-gradient(90deg,rgba(0,0,0,.2),transparent),var(--frame); background-size: cover; background-position: var(--frame-position,center); display: flex; align-items: end; padding: 40px; }
-  .feature-heading { position: relative; z-index: 1; }
-  .feature-heading p { margin: 0 0 18px; font-size: 17px; }
-  .feature-heading h2 { font-size: clamp(48px, 7vw, 96px); line-height: .95; letter-spacing: -.055em; font-weight: 500; margin: 0 0 28px; }
-  .feature-heading a { font-size: 16px; border-bottom: 1px solid #ede8dd; padding-bottom: 4px; }
-  .perspective-switch { padding: 0 32px 24px; }
-  .frame-picker { display: inline-flex; align-items: center; gap: 14px; }
-  .frame-picker button { min-height: 48px; padding: 4px 0 8px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: #a5a39e; font: inherit; font-size: 32px; font-weight: 500; line-height: 1.1; letter-spacing: -.04em; cursor: pointer; }
-  .frame-picker button:hover { color: #ede8dd; border-bottom-color: #777771; }
-  .frame-picker button[aria-pressed="true"] { color: #ede8dd; border-bottom-color: #ede8dd; }
-  .perspective-divider { color: #777771; font-size: 30px; font-weight: 400; align-self: start; line-height: 1.4; }
   .mock-note { display: flex; gap: 24px; justify-content: space-between; align-items: center; padding: 36px 32px; border-bottom: 1px solid #686660; }
   .mock-note h3 { font-size: 28px; font-weight: 500; letter-spacing: -.03em; margin: 0 0 8px; }
   .mock-note p { font-size: 15px; margin: 0; }
@@ -375,13 +332,6 @@ const references = [
     .study-picker button { text-align: left; }
     .mock-nav { padding: 22px; gap: 18px; }
     .mock-nav > div { gap: 12px 18px; font-size: 12px; }
-    .feature-frame { height: 480px; padding: 32px 22px; }
-    .feature-heading p { font-size: 14px; }
-    .perspective-switch { padding: 0 22px 18px; }
-    .frame-picker { gap: 10px; }
-    .frame-picker button { font-size: 25px; }
-    .perspective-divider { font-size: 25px; line-height: 1.5; }
-    .feature-heading h2 { font-size: clamp(40px, 8vw, 56px); margin-bottom: 22px; }
     .mock-note, .mock-footer { flex-direction: column; align-items: start; padding: 24px 22px; gap: 18px; }
     .mock-note h3 { font-size: 25px; }
     .pair-intro { padding: 28px 22px; }

@@ -1,0 +1,82 @@
+---
+import { getImage } from "astro:assets";
+import filmImage from "../assets/films/feeble/5.jpg";
+import liveImage from "../assets/live/warm-crowd.webp";
+interface Props { film?: string; live?: string; heading?: "h1" | "h2"; }
+const { film = (await getImage({src: filmImage, width: 1600, format: "webp"})).src,
+  live = (await getImage({src: liveImage, width: 1600, format: "webp"})).src,
+  heading: Heading = "h2" } = Astro.props;
+const NoteHeading = Heading === "h1" ? "h2" : "h3";
+---
+        <div class="mockup feature-mockup" data-creative-landing>
+          <nav class="mock-nav" aria-label="Main navigation"><a class="name" href="/">Ross Imlach</a><div><a href="/about/">About</a><a href="/engineering/">In the weeds</a><a href="mailto:ross@imla.ch">Contact</a></div></nav>
+          <div class="perspective-switch">
+            <div class="frame-picker" role="group" aria-label="Explore image or experience">
+              <button type="button" data-frame={film} data-position="60% center" data-href="/cinematography/" data-label="Explore cinematography" data-description="Ross Imlach, Director of Photography" data-word="image" data-perspective="Film" aria-label="Image, show Film perspective" aria-controls="featured-perspective" aria-pressed="false">image</button>
+              <span class="perspective-divider" aria-hidden="true">|</span>
+              <button type="button" data-frame={live} data-position="50% 55%" data-href="/live/" data-label="Explore live work" data-description="Lighting, video & creative direction." data-word="experience" data-perspective="Live" aria-label="Experience, show Live perspective" aria-controls="featured-perspective" aria-pressed="true">experience</button>
+            </div>
+          </div>
+          <div class="feature-frame" id="featured-perspective" style={`--frame:url('${live}'); --frame-position:50% 55%`}>
+            <div class="feature-heading"><div aria-live="polite" aria-atomic="true"><Heading>Shaping the<br /><span class="perspective-word">experience</span>.</Heading><p>Lighting, video &amp; creative direction.</p></div><a href="/live/">Explore live work</a></div>
+
+          </div>
+          <div class="mock-note"><div><NoteHeading>In the weeds.</NoteHeading><p>Experiments, tools and things I’m working through.</p></div><a href="/engineering/cora-why/">Building a reviewer for my own code</a></div>
+          <footer class="mock-footer"><span>Scotland. Working wherever the project takes me.</span><a href="https://studio.imla.ch/">The Studio</a></footer>
+        </div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-creative-landing]").forEach(landing => {
+    const buttons = landing.querySelectorAll<HTMLButtonElement>("[data-frame]");
+    const frame = landing.querySelector<HTMLElement>(".feature-frame")!;
+    const link = landing.querySelector<HTMLAnchorElement>(".feature-heading a")!;
+    buttons.forEach(button => button.addEventListener("click", () => {
+      frame.style.setProperty("--frame", `url('${button.dataset.frame}')`);
+      frame.style.setProperty("--frame-position", button.dataset.position || "center");
+      link.href = button.dataset.href!;
+      link.textContent = button.dataset.label!;
+      landing.querySelector<HTMLElement>(".feature-heading p")!.textContent = button.dataset.description!;
+      landing.querySelector<HTMLElement>(".perspective-word")!.textContent = button.dataset.word!;
+      buttons.forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+    }));
+  });
+</script>
+
+<style>
+
+  .mockup { background: #101112; color: #ede8dd; }
+  .mock-nav { display: flex; justify-content: space-between; gap: 24px; padding: 26px 32px; flex-wrap: wrap; font-size: 14px; }
+  .mock-nav .name { font-size: 18px; font-weight: 600; }
+  .mock-nav > div { display: flex; gap: 24px; flex-wrap: wrap; align-items: center; }
+  .mockup a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .feature-frame { position: relative; height: 570px; background-image: linear-gradient(0deg,rgba(0,0,0,.76),transparent 75%),linear-gradient(90deg,rgba(0,0,0,.2),transparent),var(--frame); background-size: cover; background-position: var(--frame-position,center); display: flex; align-items: end; padding: 40px; }
+  .feature-heading { position: relative; z-index: 1; }
+  .feature-heading p { margin: 0 0 18px; font-size: 17px; }
+  .feature-heading :is(h1,h2) { font-size: clamp(48px, 7vw, 96px); line-height: .95; letter-spacing: -.055em; font-weight: 500; margin: 0 0 28px; }
+  .feature-heading a { font-size: 16px; border-bottom: 1px solid #ede8dd; padding-bottom: 4px; }
+  .perspective-switch { padding: 0 32px 24px; }
+  .frame-picker { display: inline-flex; align-items: center; gap: 14px; }
+  .frame-picker button { min-height: 48px; padding: 4px 0 8px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: #a5a39e; font: inherit; font-size: 32px; font-weight: 500; line-height: 1.1; letter-spacing: -.04em; cursor: pointer; }
+  .frame-picker button:hover { color: #ede8dd; border-bottom-color: #777771; }
+  .frame-picker button[aria-pressed="true"] { color: #ede8dd; border-bottom-color: #ede8dd; }
+  .perspective-divider { color: #777771; font-size: 30px; font-weight: 400; align-self: start; line-height: 1.4; }
+  .mock-note { display: flex; gap: 24px; justify-content: space-between; align-items: center; padding: 36px 32px; border-bottom: 1px solid #686660; }
+  .mock-note :is(h2,h3) { font-size: 28px; font-weight: 500; letter-spacing: -.03em; margin: 0 0 8px; }
+  .mock-note p { font-size: 15px; margin: 0; }
+  .mock-note > a { max-width: 25ch; font-size: 16px; text-decoration: underline; text-underline-offset: 4px; }
+  .mock-footer { display: flex; gap: 24px; justify-content: space-between; padding: 24px 32px; font-size: 13px; }
+
+  @media (max-width: 700px) {
+    .mock-nav { padding: 22px; gap: 18px; }
+    .mock-nav > div { gap: 12px 18px; font-size: 12px; }
+    .feature-frame { height: 480px; padding: 32px 22px; }
+    .feature-heading p { font-size: 14px; max-width: 32ch; }
+    .perspective-switch { padding: 0 22px 18px; }
+    .frame-picker { gap: 10px; }
+    .frame-picker button { font-size: 25px; }
+    .perspective-divider { font-size: 25px; line-height: 1.5; }
+    .feature-heading :is(h1,h2) { font-size: clamp(40px, 8vw, 56px); margin-bottom: 22px; }
+    .mock-note, .mock-footer { flex-direction: column; align-items: start; padding: 24px 22px; gap: 18px; }
+    .mock-note :is(h2,h3) { font-size: 25px; }
+  }
+</style>
