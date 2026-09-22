@@ -133,28 +133,24 @@ const references = [
       </div>
 
       <article class="study" id="study-feature">
-        <div class="study-explanation"><h3>A. One opening image</h3><p>A single image establishes the eye. Choose Live or Film to change perspective, then explore that body of work. The notebook follows below; Studio lives in the footer.</p></div>
+        <div class="study-explanation"><h3>A. One opening image</h3><p>A single image establishes the eye. The image | experience wordmark doubles as the perspective switch: cinematography and live creative direction. The notebook follows below; Studio lives in the footer.</p></div>
         <div class="mockup feature-mockup">
           <nav class="mock-nav" aria-label="Featured landing study"><strong>Ross Imlach</strong><div><a href="/about/">About</a><a href="/engineering/">In the weeds</a><a href="mailto:ross@imla.ch">Contact</a></div></nav>
           <div class="perspective-switch">
-            <p id="perspective-label">Perspective</p>
-            <div class="frame-picker" role="group" aria-labelledby="perspective-label">
-              <button type="button" data-frame={live.src} data-position="50% 55%" data-href="/live/" data-label="Explore live work" data-description="Lighting, video & live performance." data-perspective="Live" aria-label="Show Live perspective" aria-controls="featured-perspective" aria-pressed="true">
-                Live
-              </button>
-              <button type="button" data-frame={film.src} data-position="60% center" data-href="/cinematography/" data-label="Explore cinematography" data-description="Cinematography. Light, framing & story." data-perspective="Film" aria-label="Show Film perspective" aria-controls="featured-perspective" aria-pressed="false">
-                Film
-              </button>
+            <div class="frame-picker" role="group" aria-label="Explore image or experience">
+              <button type="button" data-frame={film.src} data-position="60% center" data-href="/cinematography/" data-label="Explore cinematography" data-description="Ross Imlach — Director of Photography" data-word="image" data-perspective="Film" aria-label="Image — show Film perspective" aria-controls="featured-perspective" aria-pressed="false">image</button>
+              <span class="perspective-divider" aria-hidden="true">|</span>
+              <button type="button" data-frame={live.src} data-position="50% 55%" data-href="/live/" data-label="Explore live work" data-description="Lighting, video & creative direction." data-word="experience" data-perspective="Live" aria-label="Experience — show Live perspective" aria-controls="featured-perspective" aria-pressed="true">experience</button>
             </div>
           </div>
           <div class="feature-frame" id="featured-perspective" style={`--frame:url('${live.src}'); --frame-position:50% 55%`}>
-            <div class="feature-heading"><p aria-live="polite" aria-atomic="true">Lighting, video &amp; live performance.</p><h2>Something<br />you can feel.</h2><a href="/live/">Explore live work</a></div>
+            <div class="feature-heading"><div aria-live="polite" aria-atomic="true"><h2>Shaping the<br /><span class="perspective-word">experience</span>.</h2><p>Lighting, video &amp; creative direction.</p></div><a href="/live/">Explore live work</a></div>
 
           </div>
           <div class="mock-note"><div><h3>In the weeds.</h3><p>Experiments, tools and things I’m working through.</p></div><a href="/engineering/cora-why/">Building a reviewer for my own code</a></div>
           <footer class="mock-footer"><span>Scotland. Working wherever the project takes me.</span><a href="https://studio.imla.ch/">The Studio</a></footer>
         </div>
-        <p class="tradeoff">Best when a small, strong selection can carry the introduction. A still works today; a short reel could follow once the footage is chosen. The perspective switch changes the image, introduction and work link. Film uses a still from Declan Welsh: FEEBLE.</p>
+        <p class="tradeoff">Best when a small, strong selection can carry the introduction. A still works today; a short reel could follow once the footage is chosen. The wordmark changes the image, headline, role line and work link. “Image” opens Film; “experience” opens Live. Film uses a still from Declan Welsh: FEEBLE.</p>
       </article>
 
       <article class="study" id="study-pair" hidden>
@@ -212,6 +208,7 @@ const references = [
     link.href = button.dataset.href!;
     link.textContent = button.dataset.label!;
     frame.querySelector<HTMLParagraphElement>(".feature-heading p")!.textContent = button.dataset.description!;
+    frame.querySelector<HTMLElement>(".perspective-word")!.textContent = button.dataset.word!;
     frameButtons.forEach(item => {
       const selected = item === button;
       item.setAttribute("aria-pressed", String(selected));
@@ -313,12 +310,12 @@ const references = [
   .feature-heading p { margin: 0 0 18px; font-size: 17px; }
   .feature-heading h2 { font-size: clamp(48px, 7vw, 96px); line-height: .95; letter-spacing: -.055em; font-weight: 500; margin: 0 0 28px; }
   .feature-heading a { font-size: 16px; border-bottom: 1px solid #ede8dd; padding-bottom: 4px; }
-  .perspective-switch { display: flex; align-items: center; gap: 24px; padding: 0 32px 22px; }
-  .perspective-switch > p { margin: 0; font-size: 13px; color: #aaa69f; }
-  .frame-picker { display: inline-flex; border-bottom: 1px solid #55545a; }
-  .frame-picker button { min-height: 44px; padding: 10px 20px; margin-bottom: -1px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: #aaa69f; font: inherit; font-size: 17px; cursor: pointer; }
-  .frame-picker button:hover { color: #ede8dd; background: #ffffff08; }
+  .perspective-switch { padding: 0 32px 24px; }
+  .frame-picker { display: inline-flex; align-items: center; gap: 14px; }
+  .frame-picker button { min-height: 48px; padding: 4px 0 8px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: #a5a39e; font: inherit; font-size: 32px; font-weight: 500; line-height: 1.1; letter-spacing: -.04em; cursor: pointer; }
+  .frame-picker button:hover { color: #ede8dd; border-bottom-color: #777771; }
   .frame-picker button[aria-pressed="true"] { color: #ede8dd; border-bottom-color: #ede8dd; }
+  .perspective-divider { color: #777771; font-size: 30px; font-weight: 400; align-self: start; line-height: 1.4; }
   .mock-note { display: flex; gap: 24px; justify-content: space-between; align-items: center; padding: 36px 32px; border-bottom: 1px solid #686660; }
   .mock-note h3 { font-size: 28px; font-weight: 500; letter-spacing: -.03em; margin: 0 0 8px; }
   .mock-note p { font-size: 15px; margin: 0; }
@@ -380,8 +377,11 @@ const references = [
     .mock-nav > div { gap: 12px 18px; font-size: 12px; }
     .feature-frame { height: 480px; padding: 32px 22px; }
     .feature-heading p { font-size: 14px; }
-    .perspective-switch { padding: 0 22px 18px; gap: 16px; }
-    .frame-picker button { padding-inline: 16px; font-size: 16px; }
+    .perspective-switch { padding: 0 22px 18px; }
+    .frame-picker { gap: 10px; }
+    .frame-picker button { font-size: 25px; }
+    .perspective-divider { font-size: 25px; line-height: 1.5; }
+    .feature-heading h2 { font-size: clamp(40px, 8vw, 56px); margin-bottom: 22px; }
     .mock-note, .mock-footer { flex-direction: column; align-items: start; padding: 24px 22px; gap: 18px; }
     .mock-note h3 { font-size: 25px; }
     .pair-intro { padding: 28px 22px; }

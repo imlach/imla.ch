@@ -21,7 +21,7 @@ The sketches are proposals, not final claims about availability or a finished st
 
 ## Landing studies
 
-- **A. One opening image**: suggested starting point. Lead with a whole image and a personal creative statement. A compact Live / Film control sits above the image, with a quiet “Perspective” label and an underline marking the selected view. This keeps the invitation visible without thumbnail cards or repeated switching instructions. Switching changes the image, introduction and work link. The notebook sits below and Studio is in the footer. Film uses `films/feeble/5.jpg`, also used in B.
+- **A. One opening image**: suggested starting point. Lead with a whole image and a personal creative statement. The `image | experience` wordmark is the switch, with an underline and brighter text marking the selected view. Image selects Film and “Shaping the image.” with an explicit Director of Photography role line; experience selects Live and “Shaping the experience.” with lighting, video and creative direction. Switching also updates the photograph and work link. The notebook sits below and Studio is in the footer. Film uses `films/feeble/5.jpg`, also used in B.
 - **B. Film & live**: two creative directions visible together, with the technical notebook below. Clearest if both should receive equal emphasis.
 - **C. A personal index**: type and an image sit alongside a short index of work. Flexible as the practice develops and less dependent on having a reel ready.
 
