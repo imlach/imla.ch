@@ -9,12 +9,6 @@ const posts = (await getCollection("engineering", ({ data }) => !data.draft)).so
 const fmt = (d: Date) =>
   d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
 
-// "Currently" rail - Now spotlights the latest post; the rest are standing links.
-const currently = [
-  { verb: "Now", title: "Breadcrumbs for the human in the loop", hook: "A self-hosted agent reviewing every PR on my own GPUs, so agent-written code still gets a second pair of eyes.", meta: "Write-up · 3 min", href: "/engineering/cora-why" },
-  { verb: "Before", title: "Losing the hypervisor for Talos", hook: "Wiped a 7-node GPU cluster and rebuilt it from k3s-on-Proxmox to bare-metal Talos - a full rebuild on your own metal, no cloud provider.", meta: "Build-log · 5 min", href: "/engineering/k3s-to-bare-metal-talos" },
-  { verb: "Elsewhere", title: "Code and tools on GitHub", hook: "Projects and open-source work live at github.com/imlach.", meta: "GitHub ↗", href: "https://github.com/imlach" },
-];
 ---
 
 <Base title="In the weeds - Ross Imlach" description="Things I’m building, breaking and figuring out. Notes on tools, systems and experiments." palette="cream">
@@ -37,33 +31,11 @@ const currently = [
       <p class="intro">
         Things I’m building, breaking and figuring out. Sometimes for a show,
         sometimes for a film, sometimes because I wanted to see if I could
-        make it work. Tools, systems, experiments, and what happened along the way.
+        make it work.
       </p>
     </section>
 
-    <section class="currently">
-      <h2>Currently</h2>
-      <div class="cards">
-        {
-          currently.map((c) => (
-            <a href={c.href} class="card">
-              <div>
-                <div class="verb">{c.verb}</div>
-                <h3 class="title">{c.title}</h3>
-                <p class="hook">{c.hook}</p>
-              </div>
-              <div class="foot"><span>{c.meta}</span><span class="arrow">→</span></div>
-            </a>
-          ))
-        }
-      </div>
-    </section>
-
-    <section class="index">
-      <div class="heading">
-        <h2>Writing</h2>
-        <div class="rhs">{posts.length} {posts.length === 1 ? "entry" : "entries"}</div>
-      </div>
+    <section class="index" aria-label="Writing">
       {
         posts.map((p) => (
           <a href={`/engineering/${p.id}`} class="post">
@@ -80,6 +52,8 @@ const currently = [
       }
     </section>
 
+    <p class="code-link"><a href="https://github.com/imlach">Code and projects on GitHub <span aria-hidden="true">↗</span></a></p>
+
     <footer class="folio">
       <span>imla.ch / engineering</span>
       <span>Write - <a href="mailto:eng@imla.ch">eng@imla.ch</a> · <a href="/about">About</a></span>
@@ -88,7 +62,7 @@ const currently = [
 </Base>
 
 <style>
-  .masthead { padding-bottom: 40px; border-bottom: 1px solid var(--rule); max-width: 920px; }
+  .masthead { max-width: 920px; }
   .masthead h1 {
     font-weight: 600; font-size: clamp(56px, 8vw, 128px);
     line-height: 0.9; letter-spacing: -0.04em; margin: 0 0 28px;
@@ -97,25 +71,11 @@ const currently = [
   .masthead .intro a { color: var(--ink); border-bottom: 1px solid var(--rule); padding-bottom: 1px; }
   .masthead .intro a:hover { border-color: var(--accent); color: var(--accent); }
 
-  section.currently, section.index { margin-top: 64px; }
-  h2 { font-weight: 500; font-size: 22px; letter-spacing: -0.01em; margin: 0 0 28px; color: var(--ink-dim); }
+  section.index { margin-top: 48px; }
+  .code-link { margin: 32px 0 0; font-size: 16px; }
+  .code-link a { text-decoration: underline; text-underline-offset: 4px; }
+  .code-link a:hover { color: var(--accent); }
 
-  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .card {
-    display: flex; flex-direction: column; justify-content: space-between;
-    min-height: 240px; padding: 28px 26px;
-    background: var(--bg-2); border: 1px solid var(--rule);
-    transition: border-color 0.2s;
-  }
-  .card:hover { border-color: var(--ink-faint); }
-  .card .verb { font-size: 12px; letter-spacing: 0.04em; color: var(--ink-faint); margin-bottom: 16px; }
-  .card .title { font-weight: 500; font-size: 22px; line-height: 1.15; letter-spacing: -0.015em; margin: 0 0 12px; color: var(--ink); }
-  .card .hook { font-size: 15px; line-height: 1.5; color: var(--ink-dim); margin: 0; }
-  .card .foot { display: flex; justify-content: space-between; align-items: baseline; margin-top: 24px; font-size: 13px; color: var(--ink-faint); }
-  .card:hover .foot .arrow { color: var(--accent); }
-
-  .index .heading { display: flex; justify-content: space-between; align-items: baseline; }
-  .index .heading .rhs { font-size: 13px; color: var(--ink-faint); }
   .post {
     display: grid; grid-template-columns: 1fr auto; gap: 32px;
     padding: 24px 0; border-top: 1px solid var(--rule);
@@ -129,7 +89,6 @@ const currently = [
   .folio { margin-top: 80px; }
 
   @media (max-width: 900px) {
-    .cards { grid-template-columns: 1fr; }
     .post { grid-template-columns: 1fr; gap: 8px; }
     .post .right-meta { flex-direction: row; gap: 16px; }
   }

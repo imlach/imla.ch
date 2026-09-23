@@ -83,12 +83,7 @@ const elsewhere = [
     <section class="entry">
       <div class="label">This site</div>
       <div class="body">
-        <div class="site-table">
-          <span class="k">Built with</span><span class="v">Astro · static SSG</span>
-          <span class="k">Typeface</span><span class="v">Schibsted Grotesk</span>
-          <span class="k">Palettes</span><span class="v">Cream on near-black, per section</span>
-          <span class="k">Source</span><span class="v"><a class="src" href="https://github.com/imlach/imla.ch">github.com/imlach/imla.ch</a></span>
-        </div>
+        <p>Built with Astro, set in Schibsted Grotesk. <a href="https://github.com/imlach/imla.ch">Source on GitHub ↗</a></p>
         <p class="privacy">No tracking. No cookies. No analytics beyond aggregate logs from the host.</p>
       </div>
     </section>
@@ -129,10 +124,6 @@ const elsewhere = [
   .elsewhere-list a .arrow { color: var(--ink-faint); }
   .elsewhere-list a:hover .arrow { color: var(--accent); }
 
-  .site-table { font-size: 15px; display: grid; grid-template-columns: 110px 1fr; gap: 8px 24px; }
-  .site-table .k { color: var(--ink-faint); }
-  .site-table .v { color: var(--ink); }
-  .site-table .v .src { border-bottom: 1px solid var(--rule); padding-bottom: 1px; }
   .privacy { font-size: 14px; color: var(--ink-dim); margin-top: 20px; }
 
   .folio { margin-top: 28px; border-top: none; }
@@ -140,6 +131,5 @@ const elsewhere = [
   @media (max-width: 800px) {
     section.entry { grid-template-columns: minmax(0, 1fr); gap: 12px; }
     .elsewhere-list { grid-template-columns: 1fr; }
-    .site-table { grid-template-columns: 80px minmax(0, 1fr); gap: 8px 16px; overflow-wrap: anywhere; }
   }
 </style>
