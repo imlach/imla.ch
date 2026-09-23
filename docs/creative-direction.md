@@ -58,8 +58,14 @@ Choose a landing structure and image. Add show names, dates, exact roles and pho
 
 ## Live page iteration, 22 September 2026
 
-Ross confirmed Lighting Design as the role on all six supplied images. Photography is partly Ross and partly Michael Roddy; the exact mapping is not yet confirmed. Ross is unsure about using these stills as the portfolio selection. Keep them on the mood board for now, and do not invent show titles or individual photo credits. The first Live revision develops structure and copy using the existing live-events image; project case studies and final photography remain open.
+Ross confirmed Lighting Design as the role on all six supplied images. Confirmed on 23 September: orange/warm crowd and blue room photography is Ross Imlach; supplied white-haze and crossed-beams black-and-white photographs are Michael Roddy. Credits for the other images remain open. Ross is unsure about using these stills as the portfolio selection. Keep them on the mood board for now, and do not invent show titles or individual photo credits. The first Live revision develops structure and copy using the existing live-events image; project case studies and final photography remain open.
 
 ## Live workshop
 
-Continue Live copy and layout exploration at `/directions/#live-workshop`. Two switchable concepts compare performance-led imagery with a more explicit creative-collaboration introduction. Both use the existing photograph as a stand-in. Keep `/live/` as the current draft until a workshop direction is selected. The landing notebook CTA is now “Read”, linking to `/engineering/`; its experience role line specifies live music and performance.
+Continue Live copy and layout exploration at `/directions/#live-workshop`. Two switchable concepts compare performance-led imagery with a more explicit creative-collaboration introduction. Both use the existing photograph as a stand-in. Performance first was selected on 23 September and promoted to `/live/`, with the approved artist-and-crew sentence from the collaboration study. The landing notebook CTA is now “Read”, linking to `/engineering/`; its experience role line specifies live music and performance.
+
+## Pre-launch refinement, 23 September 2026
+
+The entire landing photograph is one link to the active discipline page, including its visible CTA. The notebook has more space, a divider, quieter type and a separate dark background. Root URLs `/#image` and `/#experience` (also `/#live`) select the matching perspective, including on reload and browser Back; the root without a marker still starts on experience. The workshop retains its own section anchors.
+
+Ross still needs to choose the first Live project. Selected work before the journal is a sensible next addition, but remains pending that choice and a real detail page with the date, idea, media and credits. Do not fill this gap with invented or unselected projects. Production has not been deployed; all refinements remain on imla-preview.
