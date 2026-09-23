@@ -13,8 +13,8 @@
   --bg-2: #131314;
   --bg-3: #18181b;
   --ink: #ede8dd;
-  --ink-dim: #8e8a82;
-  --ink-faint: #4a4844;
+  --ink-dim: #aaa69f;
+  --ink-faint: #96928a;
   --rule: #1f1f22;
   --accent: #c87a3a;
 }
@@ -25,7 +25,7 @@
   --bg-3: #ddd5bf;
   --ink: #15130f;
   --ink-dim: #5a4f3e;
-  --ink-faint: #8a7c63;
+  --ink-faint: #70634f;
   --rule: #c4b698;
   --accent: #7a4a2e;
 }
@@ -120,7 +120,13 @@ main.stage {
 @media (max-width: 900px) {
   /* Keep the links - wrap to a second row under the wordmark
      rather than stranding mobile visitors with no navigation. */
-  .nav { padding: 16px 24px; font-size: 13px; flex-wrap: wrap; row-gap: 4px; }
-  main.stage { padding: 100px 24px 0; }
+  .nav { position: static; padding: 16px 24px; font-size: 13px; flex-wrap: wrap; row-gap: 12px; background: var(--bg); backdrop-filter: none; }
+  .nav-wordmark { flex-wrap: wrap; gap: 4px 16px; min-width: 0; }
+  .nav-wordmark .crumb { overflow-wrap: anywhere; }
+  main.stage { padding: 32px 24px 0; }
   .nav-links { gap: 8px 18px; flex-wrap: wrap; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }

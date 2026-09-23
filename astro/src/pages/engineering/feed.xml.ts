@@ -7,9 +7,9 @@ export async function GET(context: APIContext) {
     (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
   );
   return rss({
-    title: "Ross Imlach - Engineering",
+    title: "In the weeds - Ross Imlach",
     description:
-      "Notes from building and running a small ML platform - inference serving, agentic tooling, Kubernetes operations, and the occasional post-mortem.",
+      "Things I’m building, breaking and figuring out. Notes on tools, systems and experiments.",
     site: context.site!,
     items: posts.map((p) => ({
       title: p.data.title,

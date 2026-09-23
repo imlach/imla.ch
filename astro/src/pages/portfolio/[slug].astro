@@ -23,10 +23,10 @@ const lbUrls = film.stills
   : [];
 ---
 
-<Base title={`${film.title} - Ross Imlach`} description={film.synopsis ?? `${film.title} (${film.year}) - cinematography by Ross Imlach.`}>
+<Base socialImage={film.hero} socialImageAlt={`A still from ${film.title}.`} title={`${film.title} - Ross Imlach`} description={film.synopsis ?? `${film.title} (${film.year}) - cinematography by Ross Imlach.`}>
   <nav class="nav">
     <div class="nav-wordmark">
-      <a href="/" class="name">Ross Imlach</a>
+      <a href="/#image" class="name">Ross Imlach</a>
       <span class="crumb">
         <a href="/cinematography">Cinematography</a>
         <span class="sep">/</span>
@@ -54,7 +54,7 @@ const lbUrls = film.stills
       film.stills && film.stills.length > 0 ? (
         <section class="stills">
           {film.stills.map((s, i) => (
-            <button class="still" data-index={i} aria-label="Open still">
+            <button class="still" data-index={i} aria-label={`Open still ${i + 1} of ${film.stills.length}`}>
               <Image src={s} alt="" widths={[600, 1200]} sizes="(max-width: 900px) 100vw, 50vw" loading="lazy" />
             </button>
           ))}
@@ -107,33 +107,45 @@ const lbUrls = film.stills
 
   {
     film.stills && film.stills.length > 0 && (
-      <div class="lightbox" id="lightbox" hidden>
+      <dialog class="lightbox" id="lightbox" aria-label={`${film.title} stills`}>
         <button class="lb-close" aria-label="Close">✕</button>
         <button class="lb-prev" aria-label="Previous">←</button>
-        <img id="lb-img" src="" alt="" />
+        <img id="lb-img" alt="" />
         <button class="lb-next" aria-label="Next">→</button>
-      </div>
-      <script is:inline define:vars={{ stills: lbUrls }}>
+      </dialog>
+      <script is:inline define:vars={{ stills: lbUrls, filmTitle: film.title }}>
         const box = document.getElementById("lightbox");
         const img = document.getElementById("lb-img");
         let cur = 0;
+        let opener;
+        let previousOverflow = "";
         const show = (i) => {
           cur = (i + stills.length) % stills.length;
           img.src = stills[cur];
-          box.hidden = false;
+          img.alt = `${filmTitle}, still ${cur + 1} of ${stills.length}`;
+          if (!box.open) {
+            opener = document.activeElement;
+            previousOverflow = document.body.style.overflow;
+            box.showModal();
+            document.body.style.overflow = "hidden";
+          }
         };
         document.querySelectorAll(".still").forEach((b) =>
           b.addEventListener("click", () => show(Number(b.dataset.index))),
         );
-        box.querySelector(".lb-close").addEventListener("click", () => (box.hidden = true));
-        box.querySelector(".lb-prev").addEventListener("click", (e) => { e.stopPropagation(); show(cur - 1); });
-        box.querySelector(".lb-next").addEventListener("click", (e) => { e.stopPropagation(); show(cur + 1); });
-        box.addEventListener("click", (e) => { if (e.target === box || e.target === img) box.hidden = true; });
-        document.addEventListener("keydown", (e) => {
-          if (box.hidden) return;
-          if (e.key === "Escape") box.hidden = true;
-          if (e.key === "ArrowLeft") show(cur - 1);
-          if (e.key === "ArrowRight") show(cur + 1);
+        box.querySelector(".lb-close").addEventListener("click", () => box.close());
+        box.querySelector(".lb-prev").addEventListener("click", () => show(cur - 1));
+        box.querySelector(".lb-next").addEventListener("click", () => show(cur + 1));
+        box.addEventListener("click", (e) => { if (e.target === box || e.target === img) box.close(); });
+        box.addEventListener("close", () => {
+          document.body.style.overflow = previousOverflow;
+          opener?.focus({ preventScroll: true });
+        });
+        box.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+            e.preventDefault();
+            show(cur + (e.key === "ArrowLeft" ? -1 : 1));
+          }
         });
       </script>
     )
@@ -213,10 +225,12 @@ const lbUrls = film.stills
 
   .lightbox {
     position: fixed; inset: 0; z-index: 200;
+    width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0;
     background: rgba(6,6,7,0.94);
-    display: flex; align-items: center; justify-content: center;
+    display: none; align-items: center; justify-content: center;
   }
-  .lightbox[hidden] { display: none; }
+  .lightbox[open] { display: flex; }
+  .lightbox::backdrop { background: rgba(6,6,7,.94); }
   .lightbox #lb-img { max-width: 92vw; max-height: 88vh; object-fit: contain; }
   .lightbox button {
     position: absolute; background: transparent; border: 1px solid var(--rule);

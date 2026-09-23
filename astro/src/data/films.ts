@@ -45,8 +45,6 @@ export const films: Film[] = [
     credits: [
       { role: "Director", name: "Sarah Grant" },
       { role: "Director of photography", name: "Ross Imlach" },
-      { role: "Focus puller", name: "-" },
-      { role: "Gaffer", name: "-" },
     ],
     tech: [
       { label: "Camera", value: "Sony Venice" },

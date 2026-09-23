@@ -1,13 +1,14 @@
 ---
 import Base from "../layouts/Base.astro";
 import { Image } from "astro:assets";
+import filmShare from "../assets/films/feeble/5.jpg";
 import { films } from "../data/films.ts";
 ---
 
-<Base title="Cinematography - Ross Imlach" description="Ross Imlach - director of photography on features, commercials, music videos and shorts. Based in Scotland, working UK-wide.">
+<Base socialImage={filmShare} socialImageAlt="A still from Declan Welsh: FEEBLE." title="Cinematography - Ross Imlach" description="Ross Imlach - director of photography on features, commercials, music videos and shorts. Based in Scotland, working UK-wide.">
   <nav class="nav">
     <div class="nav-wordmark">
-      <a href="/" class="name">Ross Imlach</a>
+      <a href="/#image" class="name">Ross Imlach</a>
       <span class="crumb"><span class="here">Cinematography</span></span>
     </div>
     <div class="nav-links">

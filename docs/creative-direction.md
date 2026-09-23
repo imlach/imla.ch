@@ -46,7 +46,7 @@ Low-resolution reference images and their exact source URLs are in `astro/src/as
 
 Review URL: <https://imla-preview.x.imla.ch/directions/> (internal LAN ingress).
 
-Local development: `cd astro && npm run dev`. Build: `cd astro && npm run build`.
+Local development: `cd astro && npm run dev`. Production build: `cd astro && npm run build`. Preview build: `cd astro && SITE_PREVIEW=true npm run build`. The research board now lives in `astro/src/review/directions.astro` and is included only in development and preview builds; production omits the route and its peer reference assets. See `docs/prelaunch-review.md` for the shakeout findings and verification.
 
 Production remains `master` → GitHub Pages. No production merge is part of this draft.
 
