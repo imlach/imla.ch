@@ -2,12 +2,6 @@
 import Base from "../layouts/Base.astro";
 import { Image } from "astro:assets";
 import liveImg from "../../../images/liveevents.jpg";
-
-const practice = [
-  { title: "Lighting design", description: "A visual approach built around the music, the performers and the space. Shape, colour and movement, with room for darkness too." },
-  { title: "Video", description: "Live visuals and playback considered alongside the lighting. Developing and preparing images that belong in the same show." },
-  { title: "Production", description: "Taking the idea into the room. Planning, programming and operating, with the creative intent carried through to the performance." },
-];
 ---
 
 <Base socialImage={liveImg} socialImageAlt="Lighting over a live stage, seen from the control desk." title="Live | Ross Imlach" description="Lighting design, video and creative direction for live performance. Ross Imlach, based in Scotland.">
@@ -26,13 +20,9 @@ const practice = [
       <h2 id="approach-title">Start with<br />the performance.</h2>
       <div>
         <p class="lead">I work with artists to develop a visual language for their performance, and with the crew to bring it to life.</p>
-        <p>The music, the people on stage and the space around them. I design lighting that gives each show its own visual character, with video considered as part of the same picture.</p>
-        <p>I can help develop the visual direction from the start, or join an existing team to design, programme and operate the lighting.</p>
+        <p>I try to be involved while a show is still being worked out, there might be a strong idea already, or just a few references and a sense of where it should go. This means we can develop that into lighting and video that work for the overall piece.</p>
+        <p>I prefer to stay involved through rehearsals and operate the performance if possible - there’s a lot you only find out once everyone is in the room.</p>
       </div>
-    </section>
-
-    <section class="practice" aria-label="Areas of practice">
-      {practice.map(item => <article><h2>{item.title}</h2><p>{item.description}</p></article>)}
     </section>
 
     <section class="background" aria-labelledby="background-title">
@@ -85,10 +75,6 @@ const practice = [
   .approach h2 { font-size: clamp(36px, 4.6vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -.04em; margin: 0; }
   .approach p { max-width: 52ch; color: #aaa69f; margin: 0 0 22px; }
   .approach .lead { color: #ede8dd; font-size: 25px; line-height: 1.4; letter-spacing: -.025em; }
-  .practice { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
-  .practice article { padding-top: 24px; border-top: 1px solid #55545a; }
-  .practice h2 { font-size: 26px; line-height: 1.2; font-weight: 500; letter-spacing: -.025em; margin: 0 0 18px; }
-  .practice p { color: #aaa69f; max-width: 40ch; margin: 0; }
   .background, .tools { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; margin-top: 72px; padding-top: 32px; border-top: 1px solid #343438; }
   .background h2, .tools h2 { font-size: 26px; line-height: 1.2; font-weight: 500; letter-spacing: -.025em; margin: 0; }
   .background p, .tools p { color: #aaa69f; max-width: 52ch; margin: 0 0 20px; }
@@ -106,13 +92,12 @@ const practice = [
   .live-footer > div { display: flex; gap: 24px; }
   @media (max-width: 1000px) {
     .approach, .background, .tools { gap: 40px; }
-    .practice { gap: 24px; }
   }
   @media (max-width: 700px) {
     .live-page { padding: 0 22px; }
     .live-nav { padding: 22px 0; }
     .live-nav > div { gap: 16px; font-size: 12px; }
-    .approach, .practice, .background, .tools { grid-template-columns: 1fr; gap: 28px; }
+    .approach, .background, .tools { grid-template-columns: 1fr; gap: 28px; }
     h1 { font-size: clamp(42px, 9.5vw, 66px); }
     .performance-hero { margin: 16px -22px 0; height: 68svh; min-height: 480px; }
     .performance-heading { inset: auto 22px 28px; }
