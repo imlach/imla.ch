@@ -35,6 +35,14 @@ const practice = [
       {practice.map(item => <article><h2>{item.title}</h2><p>{item.description}</p></article>)}
     </section>
 
+    <section class="background" aria-labelledby="background-title">
+      <h2 id="background-title">Across stage and screen.</h2>
+      <div>
+        <p>I began working in live events in the mid-2000s. My early work spanned theatres, touring and rental and production houses, from hands-on crew roles to lighting design and project management.</p>
+        <p>I later moved into software engineering and cinematography, while continuing to take on live projects. Since 2025, live performance has become a renewed focus, alongside work in virtual production. I bring that mix of visual and technical experience to the shows I work on today.</p>
+      </div>
+    </section>
+
     <section class="tools" aria-labelledby="tools-title">
       <h2 id="tools-title">Tools &amp; production</h2>
       <div>
@@ -81,9 +89,9 @@ const practice = [
   .practice article { padding-top: 24px; border-top: 1px solid #55545a; }
   .practice h2 { font-size: 26px; line-height: 1.2; font-weight: 500; letter-spacing: -.025em; margin: 0 0 18px; }
   .practice p { color: #aaa69f; max-width: 40ch; margin: 0; }
-  .tools { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; margin-top: 72px; padding-top: 32px; border-top: 1px solid #343438; }
-  .tools h2 { font-size: 26px; line-height: 1.2; font-weight: 500; letter-spacing: -.025em; margin: 0; }
-  .tools p { color: #aaa69f; max-width: 52ch; margin: 0 0 20px; }
+  .background, .tools { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; margin-top: 72px; padding-top: 32px; border-top: 1px solid #343438; }
+  .background h2, .tools h2 { font-size: 26px; line-height: 1.2; font-weight: 500; letter-spacing: -.025em; margin: 0; }
+  .background p, .tools p { color: #aaa69f; max-width: 52ch; margin: 0 0 20px; }
   .tools summary { cursor: pointer; padding: 10px 0; font-size: 16px; width: fit-content; }
   .tools summary:hover { color: #fff; }
   .tools dl { margin: 12px 0 0; }
@@ -97,14 +105,14 @@ const practice = [
   .live-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px; color: #aaa69f; font-size: 13px; padding: 28px 0 40px; }
   .live-footer > div { display: flex; gap: 24px; }
   @media (max-width: 1000px) {
-    .approach, .tools { gap: 40px; }
+    .approach, .background, .tools { gap: 40px; }
     .practice { gap: 24px; }
   }
   @media (max-width: 700px) {
     .live-page { padding: 0 22px; }
     .live-nav { padding: 22px 0; }
     .live-nav > div { gap: 16px; font-size: 12px; }
-    .approach, .practice, .tools { grid-template-columns: 1fr; gap: 28px; }
+    .approach, .practice, .background, .tools { grid-template-columns: 1fr; gap: 28px; }
     h1 { font-size: clamp(42px, 9.5vw, 66px); }
     .performance-hero { margin: 16px -22px 0; height: 68svh; min-height: 480px; }
     .performance-heading { inset: auto 22px 28px; }
@@ -112,7 +120,7 @@ const practice = [
     .desktop-break { display: none; }
     .approach { margin: 56px 0 40px; }
     .approach .lead { font-size: 23px; }
-    .tools { margin-top: 40px; padding-top: 24px; }
+    .background, .tools { margin-top: 40px; padding-top: 24px; }
     .tools dl > div { grid-template-columns: 1fr; gap: 6px; }
     .contact { margin-top: 56px; flex-direction: column; align-items: start; }
   }

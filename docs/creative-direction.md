@@ -73,3 +73,7 @@ Ross still needs to choose the first Live project. Selected work before the jour
 ## Tools and production
 
 Live includes a secondary Tools & production section after the creative approach and areas of practice. The introduction names grandMA3, Resolume Arena, TouchDesigner and Blender. A native disclosure lists the self-contained grandMA3 onPC case, a dedicated Resolume Arena system, MacBook Pro and Mac Studio available for TouchDesigner, a render farm for complex content builds, previsualisation options, two Christie WU14K-M projectors and supporting Art-Net/control/networking equipment. Ross also owns sound equipment, but it is not part of the intended positioning; leave sound and inexpensive fixtures out of the public offering.
+
+## Live background
+
+Ross supplied a history beginning with school events in 2005/06, production-house work experience from 2007, theatre work from 2009/10, production-house work from 2010–16 and freelance work from 2012–16. Software engineering became the focus in 2016, with an ongoing events footprint; filmmaking grew from 2019. Live work gained renewed focus from 2025 alongside virtual production. Earlier experience includes crew, lighting design and project management, small tours and larger theatre venues. The public Live page summarises this in “Across stage and screen” without presenting the older larger-venue experience as recent or implying uninterrupted full-time live work. Specific broadcaster credits and project names are left for properly detailed film and Live case studies.
