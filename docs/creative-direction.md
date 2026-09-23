@@ -69,3 +69,7 @@ Continue Live copy and layout exploration at `/directions/#live-workshop`. Two s
 The entire landing photograph is one link to the active discipline page, including its visible CTA. The notebook has more space, a divider, quieter type and a separate dark background. Root URLs `/#image` and `/#experience` (also `/#live`) select the matching perspective, including on reload and browser Back; the root without a marker still starts on experience. The workshop retains its own section anchors.
 
 Ross still needs to choose the first Live project. Selected work before the journal is a sensible next addition, but remains pending that choice and a real detail page with the date, idea, media and credits. Do not fill this gap with invented or unselected projects. Production has not been deployed; all refinements remain on imla-preview.
+
+## Tools and production
+
+Live includes a secondary Tools & production section after the creative approach and areas of practice. The introduction names grandMA3, Resolume Arena, TouchDesigner and Blender. A native disclosure lists the self-contained grandMA3 onPC case, two Christie WU14K-M projectors and supporting Art-Net/control/networking equipment. Ross also owns sound equipment, but it is not part of the intended positioning; leave sound and inexpensive fixtures out of the public offering.
