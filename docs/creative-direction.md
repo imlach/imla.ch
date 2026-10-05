@@ -15,7 +15,7 @@ Working brief, 20 September 2026. Source branch: `preview`.
 - `/directions/`: attributed peer mood board, palette/type study, and three interactive landing sketches. Uses Ross's images within the sketches and peer images only in the clearly marked references. Marked noindex.
 - `/`: the selected A landing, using the shared `CreativeLanding` component also shown in the mood board. Image / experience switches the photograph, headline, role and destination.
 - `/live/`: first editorial iteration, led by lighting design and the overall visual approach, followed by video and production. Keeps the existing live-events photograph while portfolio selection remains open.
-- `/engineering/`: the existing writing, introduced as **In the weeds**. URLs and feed remain stable.
+- `/notebook/`: the existing writing, introduced as **Notebook**. The former `/engineering/` pages redirect to the matching notebook pages, and both feed URLs remain available.
 
 The sketches are proposals, not final claims about availability or a finished studio identity. The sibling studio repository and cluster configuration have not been edited.
 

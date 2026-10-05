@@ -9,7 +9,7 @@ const { film = (await getImage({src: filmImage, width: 1600, format: "webp"})).s
 const NoteHeading = Heading === "h1" ? "h2" : "h3";
 ---
         <div class="mockup feature-mockup" data-creative-landing data-sync-url={syncUrl ? "true" : undefined}>
-          <nav class="mock-nav" aria-label="Main navigation"><a class="name" href="/">Ross Imlach</a><div><a href="/about/">About</a><a href="/engineering/">In the weeds</a><a href="mailto:ross@imla.ch">Contact</a></div></nav>
+          <nav class="mock-nav" aria-label="Main navigation"><a class="name" href="/">Ross Imlach</a><div><a href="/about/">About</a><a href="/notebook/">Notebook</a><a href="mailto:ross@imla.ch">Contact</a></div></nav>
           <div class="perspective-switch">
             <div class="frame-picker" role="group" aria-label="Explore image or experience">
               <button type="button" data-frame={film} data-position="60% center" data-href="/cinematography/" data-label="Explore cinematography" data-description="Ross Imlach, Director of Photography" data-word="image" data-perspective="Film" aria-label="Image, show Film perspective" aria-controls="featured-perspective" aria-pressed="false">image</button>
@@ -20,7 +20,7 @@ const NoteHeading = Heading === "h1" ? "h2" : "h3";
           <a class="feature-frame" href="/live/" aria-label="Explore live work" id="featured-perspective" style={`--frame:url('${live}'); --frame-position:50% 55%`}>
             <div class="feature-heading"><div aria-live="polite" aria-atomic="true"><Heading>Shaping the<br /><span class="perspective-word">experience</span>.</Heading><p>Lighting, video &amp; creative direction for live music and performance.</p></div><span class="feature-cta">Explore live work</span></div>
           </a>
-          <div class="mock-note"><div><NoteHeading>In the weeds.</NoteHeading><p>Experiments, tools and things I’m working through.</p></div><a href="/engineering/">Read</a></div>
+          <div class="mock-note"><div><NoteHeading>Notebook.</NoteHeading><p>Experiments, tools and things I’m working through.</p></div><a href="/notebook/">Read</a></div>
           <footer class="mock-footer"><span>Scotland. Working wherever the project takes me.</span><a href="https://studio.imla.ch/">The Studio</a></footer>
         </div>
 

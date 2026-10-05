@@ -23,6 +23,6 @@ function reviewRoutes() {
 export default defineConfig({
   site: preview ? "https://imla-preview.x.imla.ch" : "https://imla.ch",
   integrations: [mdx(), reviewRoutes(), sitemap({
-    filter: (page) => !["/directions/", "/404/", "/404.html"].includes(new URL(page).pathname),
+    filter: (page) => !new URL(page).pathname.startsWith("/engineering/") && !["/directions/", "/404/", "/404.html"].includes(new URL(page).pathname),
   })],
 });
